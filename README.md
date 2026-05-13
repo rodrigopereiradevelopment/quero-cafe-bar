@@ -218,4 +218,5 @@ A página inicial (Home) serve como visualização da cozinha:
 
 ---
 
-*Projeto desenvolvido para fins educacionais - ETEC e FATEC .*
+*Projeto desenvolvido para fins educacionais - ETEC e FATEC 
+.*
