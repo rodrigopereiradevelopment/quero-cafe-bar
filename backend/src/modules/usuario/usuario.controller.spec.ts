@@ -219,7 +219,10 @@ describe('UsuarioController', () => {
       });
 
       expect(result).toHaveProperty('token');
-      const decoded = jwt.verify(result.token, 'dev-secret-change-in-production') as any;
+      const decoded = jwt.verify(
+        result.token,
+        'dev-secret-change-in-production',
+      ) as any;
       expect(decoded.id).toBe(2);
       expect(decoded.perfil).toBe(1);
 

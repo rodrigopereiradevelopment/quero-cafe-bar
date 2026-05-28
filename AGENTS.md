@@ -19,6 +19,8 @@ yarn run test           # Jest unit tests
 yarn make:migration <name>  # Generate migration
 yarn migrate             # Run migrations
 yarn migrate:rollback     # Revert last migration
+yarn seed                # Seed DB with initial users (admin/admin, garcom/garcom)
+yarn seed:run            # Run migrations + seed
 ```
 
 ### Frontend (Ionic + Vite)
