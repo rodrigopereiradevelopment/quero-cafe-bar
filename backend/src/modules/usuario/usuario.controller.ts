@@ -8,14 +8,15 @@ import {
   Delete,
   Query,
 } from '@nestjs/common';
-import * as jwt from 'jsonwebtoken';
 import { UsuarioService } from './usuario.service';
-import { IUsuarioOutput } from './interfaces/usuario.interface';
+import {
+  IUsuarioOutput,
+  IUsuarioLoginInput,
+} from './interfaces/usuario.interface';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { ListUsuarioDto } from './dto/list-usuario.dto';
 import { DeleteUsuarioDto } from './dto/delete-usuario.dto';
-import { LoginUsuarioDto } from './dto/login-usuario.dto';
 
 @Controller('usuario')
 export class UsuarioController {
@@ -53,16 +54,8 @@ export class UsuarioController {
   }
 
   @Post('login')
-  async login(@Body() loginDto: LoginUsuarioDto): Promise<{ token: string }> {
-    const user = await this.usuarioService.login(
-      loginDto.username,
-      loginDto.password,
-    );
-    const secret = process.env.JWT_SECRET || 'dev-secret-change-in-production';
-    const token = jwt.sign({ id: user.id, perfil: user.perfil }, secret, {
-      expiresIn: '24h',
-    });
-    return { token };
+  async login(@Body() loginDto: IUsuarioLoginInput): Promise<IUsuarioOutput> {
+    return await this.usuarioService.login(loginDto.usuario, loginDto.senha);
   }
 
   @Patch(':id')

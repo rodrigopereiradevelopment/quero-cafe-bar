@@ -204,22 +204,22 @@ describe('Api Service', () => {
     it('deve chamar login com credenciais corretas (Happy Path)', async () => {
       const mockResponse = {
         ok: true,
-        json: jest.fn().mockResolvedValue({ token: 'jwt-token', user: { id: 1 } }),
+        json: jest.fn().mockResolvedValue({ access_token: 'jwt-token', user: { id: 1, nome: 'Admin', usuario: 'admin', perfil: 0 } }),
       };
       fetch.mockResolvedValue(mockResponse);
 
       const result = await api.login('admin', 'senha123');
 
-      expect(fetch).toHaveBeenCalledWith('http://localhost:3001/usuario/login', {
+      expect(fetch).toHaveBeenCalledWith('http://localhost:3001/auth/login', {
         method: 'POST',
-        body: JSON.stringify({ username: 'admin', password: 'senha123' }),
+        body: JSON.stringify({ usuario: 'admin', senha: 'senha123' }),
         headers: {
           'Content-Type': 'application/json',
           'ngrok-skip-browser-warning': 'true',
         },
         signal: expect.any(AbortSignal),
       });
-      expect(result).toEqual({ token: 'jwt-token', user: { id: 1 } });
+      expect(result).toEqual({ access_token: 'jwt-token', user: { id: 1, nome: 'Admin', usuario: 'admin', perfil: 0 } });
     });
 
     it('deve lançar erro específico para status 401 (Edge Case)', async () => {
@@ -235,7 +235,7 @@ describe('Api Service', () => {
       );
     });
 
-    it('deve lançar erro quando resposta não tem token (Edge Case)', async () => {
+    it('deve lançar erro quando resposta não tem access_token (Edge Case)', async () => {
       const mockResponse = {
         ok: true,
         status: 200,

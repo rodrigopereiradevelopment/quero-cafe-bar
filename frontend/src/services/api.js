@@ -82,7 +82,7 @@ class Api {
      * @param {string} username - Nome de usuário.
      * @param {string} password - Senha.
      */
-    async login(username, password) {
+    async login(usuario, senha) {
         const headers = {
             'Content-Type': 'application/json',
             'ngrok-skip-browser-warning': 'true',
@@ -92,10 +92,10 @@ class Api {
         const timeoutId = setTimeout(() => controller.abort(), 15000);
 
         try {
-            const response = await fetch(`${this.apiUrl}/usuario/login`, {
+            const response = await fetch(`${this.apiUrl}/auth/login`, {
                 method: 'POST',
                 headers,
-                body: JSON.stringify({ username, password }),
+                body: JSON.stringify({ usuario, senha }),
                 signal: controller.signal,
             });
 
@@ -115,7 +115,7 @@ class Api {
 
             const data = await response.json();
 
-            if (!data || !data.token) {
+            if (!data || !data.access_token) {
                 throw new Error(
                     'Resposta inválida do servidor. Token não recebido.',
                 );

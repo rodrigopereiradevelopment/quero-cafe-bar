@@ -12,6 +12,7 @@ describe('Util - logout (simplificado)', () => {
 
     localStorageMock = {
       clear: jest.fn(),
+      removeItem: jest.fn(),
     };
 
     Object.defineProperty(window, 'localStorage', {
@@ -36,12 +37,13 @@ describe('Util - logout (simplificado)', () => {
     }
   });
 
-  it('deve chamar localStorage.clear (Happy Path)', () => {
+  it('deve remover token e user do localStorage (Happy Path)', () => {
     const { logout } = require('./util.js');
 
     logout();
 
-    expect(localStorageMock.clear).toHaveBeenCalled();
+    expect(localStorageMock.removeItem).toHaveBeenCalledWith('token');
+    expect(localStorageMock.removeItem).toHaveBeenCalledWith('user');
   });
 
   it('deve executar sem erros (teste básico)', () => {

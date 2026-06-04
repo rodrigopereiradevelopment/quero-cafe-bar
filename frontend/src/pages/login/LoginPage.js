@@ -1,6 +1,7 @@
 import './LoginPage.css'
 import { createHeader } from '../../shared/Header.js';
 import { api } from '../../services/api.js';
+import { login as authLogin } from '../../shared/auth.js';
 
 const pageName = 'Login';
 
@@ -44,16 +45,14 @@ class LoginPage extends HTMLElement {
     const loginBtn = this.querySelector('#login-btn');
 
     loginBtn.addEventListener('click', async () => {
-      const user = userInput.value?.trim();
-      const password = passwordInput.value?.trim();
+      const usuario = userInput.value?.trim();
+      const senha = passwordInput.value?.trim();
 
-      // Validação no frontend antes de chamar a API
-      if (!user || !password) {
+      if (!usuario || !senha) {
         await presentToast('Informe usuário e senha para acessar.', 'warning');
         return;
       }
 
-      // Cria e exibe o Loading
       const loading = document.createElement('ion-loading');
       loading.message = 'Autenticando...';
       
@@ -61,8 +60,8 @@ class LoginPage extends HTMLElement {
       await loading.present();
 
       try {
-        const response = await api.login(user, password);
-        api.setToken(response.token);
+        const response = await api.login(usuario, senha);
+        authLogin(response.access_token, response.user);
 
         await presentToast('Login realizado com sucesso!', 'success');        
         document.querySelector('ion-router').push('/home', 'forward', 'replace');

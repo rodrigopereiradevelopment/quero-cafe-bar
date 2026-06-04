@@ -2,11 +2,16 @@ import './ListUsuarioPage.css'
 import { createHeader } from '../../shared/Header.js';
 import { logout } from '../../shared/util.js';
 import { api } from '../../services/api.js';
+import { isAuthenticated } from '../../shared/auth.js';
 
 const pageName = 'Usuários';
 
 class ListUsuarioPage extends HTMLElement {
   async connectedCallback() {
+    if (!isAuthenticated()) {
+      document.querySelector('ion-router').push('/login', 'root');
+      return;
+    }
     this.classList.add('ion-page');
     this.innerHTML = `
       ${createHeader(pageName)}

@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import * as jwt from 'jsonwebtoken';
 import { UsuarioController } from './usuario.controller';
 import { UsuarioService } from './usuario.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
@@ -172,7 +171,7 @@ describe('UsuarioController', () => {
   });
 
   describe('POST /usuario/login - Login', () => {
-    it('deve realizar login com sucesso e retornar JWT válido (Happy Path)', async () => {
+    it('deve autenticar e retornar dados do usuário (Happy Path)', async () => {
       // Arrange
       const usuarioMock = {
         id: 1,
@@ -182,51 +181,28 @@ describe('UsuarioController', () => {
         perfil: 0,
       };
 
-      process.env.JWT_SECRET = 'test-secret';
       service.login.mockResolvedValue(usuarioMock);
 
       // Act
       const result = await controller.login({
-        username: 'admin',
-        password: 'senha123',
+        usuario: 'admin',
+        senha: 'senha123',
       });
 
       // Assert
       expect(service.login).toHaveBeenCalledWith('admin', 'senha123');
-      expect(result).toHaveProperty('token');
-
-      const decoded = jwt.verify(result.token, 'test-secret') as any;
-      expect(decoded.id).toBe(1);
-      expect(decoded.perfil).toBe(0);
-      expect(decoded.exp).toBeDefined();
+      expect(result.id).toBe(1);
+      expect(result.nome).toBe('Admin');
+      expect(result.usuario).toBe('admin');
+      expect(result.perfil).toBe(0);
     });
 
-    it('deve usar fallback dev-secret quando JWT_SECRET não está definido', async () => {
-      delete process.env.JWT_SECRET;
+    it('deve lançar erro quando credenciais inválidas', async () => {
+      service.login.mockRejectedValue(new Error('Usuário ou senha inválidos'));
 
-      const usuarioMock = {
-        id: 2,
-        nome: 'Garçom',
-        usuario: 'garcom',
-        senha: 'senha456',
-        perfil: 1,
-      };
-      service.login.mockResolvedValue(usuarioMock);
-
-      const result = await controller.login({
-        username: 'garcom',
-        password: 'senha456',
-      });
-
-      expect(result).toHaveProperty('token');
-      const decoded = jwt.verify(
-        result.token,
-        'dev-secret-change-in-production',
-      ) as any;
-      expect(decoded.id).toBe(2);
-      expect(decoded.perfil).toBe(1);
-
-      process.env.JWT_SECRET = 'test-secret';
+      await expect(
+        controller.login({ usuario: 'admin', senha: 'wrong' }),
+      ).rejects.toThrow('Usuário ou senha inválidos');
     });
   });
 
