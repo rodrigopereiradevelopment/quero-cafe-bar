@@ -9,7 +9,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { UsuarioService } from './usuario.service';
-import {
+import type {
   IUsuarioOutput,
   IUsuarioLoginInput,
 } from './interfaces/usuario.interface';

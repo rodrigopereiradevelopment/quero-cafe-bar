@@ -10,7 +10,7 @@ export interface ICreateMesaInput {
 }
 
 export interface IUpdateMesaInput {
-  id: number;
+  id?: number;
   qtd_cadeiras?: number;
   status?: boolean;
 }

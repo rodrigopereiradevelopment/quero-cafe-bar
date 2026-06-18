@@ -68,7 +68,7 @@ async function seedProdutos(produtoService: ProdutoService) {
     const existente = existing.find((p) => p.dsc_produto === data.dsc_produto);
     if (existente) {
       if (!existente.imagem && data.imagem) {
-        await produtoService.update(existente.id, { id: existente.id, imagem: data.imagem });
+        await produtoService.update(existente.id, { imagem: data.imagem });
         console.log(`Produto ${data.dsc_produto} atualizado com imagem!`);
       } else {
         console.log(`Produto ${data.dsc_produto} já existe. Pulando.`);
