@@ -65,7 +65,10 @@ class HomePage extends HTMLElement {
         const id_comanda = select.dataset.idComanda;
         const id_produto = select.dataset.idProduto;
         const statusEntrega = e.detail.value === 'true';
-        await this.updateItemEntrega(id_comanda, id_produto, statusEntrega, select.closest('ion-card'));
+        const cardElement = select.closest('ion-card');
+        if (cardElement) {
+          await this.updateItemEntrega(id_comanda, id_produto, statusEntrega, cardElement);
+        }
 
         const ionItem = select.closest('ion-item');
         if (ionItem) {
@@ -84,7 +87,7 @@ class HomePage extends HTMLElement {
     const itensHtml = comanda.itens.map(item => `
       <ion-item lines="none" class="item-entrega ${item.statusEntrega ? 'item-delivered' : 'item-pending'}">
         <ion-label>
-          <h3 style="padding: 5px">${item.produto.dsc_produto} <ion-badge color="primary">x${item.qtd_item}</ion-badge></h3>
+          <h3 style="padding: 5px">${item.produto?.dsc_produto || `Produto #${item.id_produto}`} <ion-badge color="primary">x${item.qtd_item}</ion-badge></h3>
         </ion-label>
         <ion-select
           class="item-entrega-select"
@@ -106,7 +109,7 @@ class HomePage extends HTMLElement {
           <ion-card-title>
             <div class="card-header-content">
               <span>Comanda #${comanda.id}</span>
-              <span>Mesa: ${comanda.mesa.id}</span>
+              <span>Mesa: ${comanda.mesa?.id || comanda.id_mesa}</span>
               <ion-icon name="${statusIcon}" color="${statusColor}" class="status-icon"></ion-icon>
             </div>
           </ion-card-title>
@@ -140,6 +143,7 @@ class HomePage extends HTMLElement {
   }
 
   updateCardStatusIcon(cardElement) {
+    if (!cardElement) return;
     const selects = cardElement.querySelectorAll('.item-entrega-select');
     const allEntregues = Array.from(selects).every(select => select.value === 'true');
     const icon = cardElement.querySelector('.status-icon');

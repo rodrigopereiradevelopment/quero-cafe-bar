@@ -94,18 +94,23 @@ class RegProdutoPage extends HTMLElement {
     const searchbar = this.querySelector('#searchbar-imagem');
     const query = this.querySelector('#dsc_produto').value || searchbar.value;
 
+    if (this._buscaHandler) {
+      searchbar.removeEventListener('ionInput', this._buscaHandler);
+    }
+
+    this._buscaHandler = (e) => {
+      if (e.detail.value.length >= 2) {
+        this.pesquisar(e.detail.value);
+      }
+    };
+    searchbar.addEventListener('ionInput', this._buscaHandler);
+
+    modal.present();
+
     if (query) {
       searchbar.value = query;
       this.pesquisar(query);
     }
-
-    modal.present();
-
-    searchbar.addEventListener('ionInput', (e) => {
-      if (e.detail.value.length >= 2) {
-        this.pesquisar(e.detail.value);
-      }
-    });
   }
 
   async pesquisar(query) {

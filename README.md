@@ -16,7 +16,7 @@ O projeto visa simular um cenário real de desenvolvimento de software, abrangen
 ### Backend
 - **Framework:** [NestJS](https://nestjs.com/) 11.x (Node.js)
 - **Linguagem:** TypeScript
-- **Gerenciador de Pacotes:** Yarn
+- **Gerenciador de Pacotes:** npm
 - **Validação:** class-validator, class-transformer
 - **Autenticação:** JWT via `@nestjs/jwt` + `@nestjs/passport` (módulo `auth` dedicado)
 - **Criptografia:** AES-256-CTR via `EncryptionTransformer` (TypeORM column transformer)
@@ -50,6 +50,9 @@ O projeto visa simular um cenário real de desenvolvimento de software, abrangen
 - [x] Criptografia de senhas via ORM transformer
 - [x] **Seed turbinado**: 5 usuários, 5 mesas, 11 produtos + comanda de exemplo
 - [x] **Perfil Cliente (2)** adicionado ao sistema
+- [x] Correção: `ListUsuarioDto` com `@Type(() => Number)` para query params
+- [x] Correção: `POST /usuario/login` não retorna mais a senha
+- [x] Correção: scripts migratórios usam `npx` em vez de `yarn`
 
 ### Frontend
 - [x] Configuração inicial do ambiente Ionic + Vite
@@ -64,6 +67,8 @@ O projeto visa simular um cenário real de desenvolvimento de software, abrangen
 - [x] Integração com a API (Serviço singleton)
 - [x] Feedback visual (toast, alert, loading)
 - [x] Build para Android configurado (Capacitor)
+- [x] Correção: token JWT enviado corretamente após login (`api.setToken`)
+- [x] Correção: roteamento sem hash (`/login` em vez de `#/login`)
 - [ ] Temas personalizados
 - [x] Testes unitários (89 testes, 7 suítes)
 - [x] **Perfil Cliente (2)** nas telas de cadastro/edição/lista

@@ -45,13 +45,13 @@ export class UsuarioService {
   }
 
   async findByPerfil(perfil: number) {
-    const user = await this.usuarioRepository.findOne({ where: { perfil } });
-    if (!user) {
+    const users = await this.usuarioRepository.find({ where: { perfil } });
+    if (users.length === 0) {
       throw new NotFoundException(
-        `Usuário com perfil ${perfil} não encontrado`,
+        `Nenhum usuário com perfil ${perfil} encontrado`,
       );
     }
-    return user;
+    return users;
   }
 
   async login(usuario: string, senha: string) {

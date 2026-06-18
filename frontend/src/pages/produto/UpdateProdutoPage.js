@@ -125,18 +125,23 @@ class UpdateProdutoPage extends HTMLElement {
     const dsc = this.querySelector('#dsc_produto').value || '';
     const query = dsc || this.querySelector('#imagem').value || '';
 
+    if (this._buscaHandler) {
+      searchbar.removeEventListener('ionInput', this._buscaHandler);
+    }
+
+    this._buscaHandler = (e) => {
+      if (e.detail.value.length >= 2) {
+        this.pesquisar(e.detail.value);
+      }
+    };
+    searchbar.addEventListener('ionInput', this._buscaHandler);
+
+    modal.present();
+
     if (query) {
       searchbar.value = query;
       this.pesquisar(query);
     }
-
-    modal.present();
-
-    searchbar.addEventListener('ionInput', (e) => {
-      if (e.detail.value.length >= 2) {
-        this.pesquisar(e.detail.value);
-      }
-    });
   }
 
   async pesquisar(query) {

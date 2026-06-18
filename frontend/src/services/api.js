@@ -52,7 +52,7 @@ class Api {
 
             if (response.status === 401) {
                 localStorage.clear();
-                window.location.href = '#/login';
+                window.location.href = '/login';
                 throw new Error('Sessão expirada. Faça login novamente.');
             }
 

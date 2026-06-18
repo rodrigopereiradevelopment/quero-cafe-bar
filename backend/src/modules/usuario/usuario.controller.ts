@@ -49,13 +49,15 @@ export class UsuarioController {
   }
 
   @Get('perfil/:perfil')
-  async findByPerfil(@Param('perfil') perfil: number): Promise<IUsuarioOutput> {
+  async findByPerfil(@Param('perfil') perfil: number): Promise<IUsuarioOutput[]> {
     return await this.usuarioService.findByPerfil(perfil);
   }
 
   @Post('login')
   async login(@Body() loginDto: IUsuarioLoginInput): Promise<IUsuarioOutput> {
-    return await this.usuarioService.login(loginDto.usuario, loginDto.senha);
+    const user = await this.usuarioService.login(loginDto.usuario, loginDto.senha);
+    const { senha: _, ...userWithoutPassword } = user;
+    return userWithoutPassword;
   }
 
   @Patch(':id')

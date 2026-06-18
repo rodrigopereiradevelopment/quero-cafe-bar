@@ -13,7 +13,7 @@ export interface IUsuarioInput {
 }
 
 export interface IUsuarioUpdateInput {
-  id: number;
+  id?: number;
   nome?: string;
   usuario?: string;
   senha?: string;
