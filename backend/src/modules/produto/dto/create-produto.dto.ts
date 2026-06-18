@@ -18,6 +18,10 @@ export class CreateProdutoDto implements ICreateProdutoInput {
   @IsNotEmpty()
   valor_unit: number;
 
+  @IsString()
+  @IsOptional()
+  imagem?: string;
+
   @IsBoolean()
   @IsOptional()
   status?: boolean;

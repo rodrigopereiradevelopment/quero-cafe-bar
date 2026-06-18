@@ -160,6 +160,10 @@ class Api {
         });
     }
 
+    async searchProdutoImage(query) {
+        return this.request(`/produto/buscar-imagem?q=${encodeURIComponent(query)}`);
+    }
+
     // --- Métodos de Usuarios ---
 
     async getUsuarios() {

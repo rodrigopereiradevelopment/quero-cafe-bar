@@ -11,16 +11,15 @@
 ### Backend (NestJS)
 ```bash
 cd backend
-yarn install
-yarn run start:dev      # dev server with watch (port 3001)
-yarn run build          # production build
-yarn run lint           # ESLint + Prettier
-yarn run test           # Jest unit tests
-yarn make:migration <name>  # Generate migration
-yarn migrate             # Run migrations
-yarn migrate:rollback     # Revert last migration
-yarn seed                # Seed DB with initial users (admin/admin, garcom/garcom)
-yarn seed:run            # Run migrations + seed
+npm install
+npm run start:dev      # dev server with watch (port 3001)
+npm run build          # production build
+npm run lint           # ESLint + Prettier
+npm run test           # Jest unit tests
+npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --dataSource src/config/orm.config.ts migration:generate src/database/migrations/<name>
+npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --dataSource src/config/orm.config.ts migration:run
+npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --dataSource src/config/orm.config.ts migration:revert
+npx ts-node -r tsconfig-paths/register src/database/seed.ts  # Seed: cria usuarios, mesas, produtos, comanda exemplo
 ```
 
 ### Frontend (Ionic + Vite)
@@ -82,9 +81,9 @@ Custom slash commands configured in `.opencode/commands/`:
 
 ## Important Quirks
 
-- **Package managers differ**: Backend uses `yarn`, frontend uses `npm`
-- **Port configuration**: Frontend calls `localhost:3001`, backend defaults to `3000` (set `PORT=3001` in backend `.env`)
-- **DB migrations required**: `synchronize: false` - always use `yarn make:migration` before `yarn migrate`
+- **Package managers**: Both backend and frontend use `npm` (yarn não está disponível)
+- **Port configuration**: Frontend calls `localhost:3001`, backend configured in `PORT=3001` in `.env`
+- **DB migrations required**: `synchronize: false` - always use `migration:generate` before `migration:run`
 - **CORS enabled**: Backend allows all origins (`*`) in `main.ts` - configure for production
 - **ESLint rule**: `prettier/prettier` uses `endOfLine: "auto"` - do not change line endings manually
 - **Ionic loading**: Vite copies Ionic from `node_modules/@ionic/core/dist/ionic/` to `dist/` via `vite-plugin-static-copy`
@@ -94,6 +93,8 @@ Custom slash commands configured in `.opencode/commands/`:
 - **Global validation**: `ValidationPipe` with `whitelist: true`, `forbidNonWhitelisted: true`, `transform: true` — unknown fields rejected with 400.
 - **Global exception filter**: `GlobalExceptionFilter` catches unhandled errors and returns sanitized 500 responses.
 - **Kitchen View**: Home page displays comandas with item delivery status (red = pending, green = delivered).
+- **Perfis**: 0 = Administrador, 1 = Atendente, 2 = Cliente
+- **Seed**: Cria 5 usuários, 5 mesas, 11 produtos, e uma comanda de exemplo (Cliente Rodrigo na Mesa 2)
 
 ## Test Status
 
@@ -109,6 +110,5 @@ cd frontend && npm test
 
 - Node.js >= 18.x
 - MySQL 8.x (or compatible)
-- Yarn >= 1.22 (backend)
-- npm >= 9.x (frontend)
+- npm >= 9.x
 - Java JDK 17+ + Android Studio (for mobile builds)

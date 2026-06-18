@@ -12,6 +12,9 @@ export class Produto {
   @Column({ type: 'float' })
   valor_unit: number;
 
+  @Column({ type: 'varchar', length: 500, nullable: true })
+  imagem: string;
+
   @Column({ type: 'boolean', default: true })
   status: boolean;
 

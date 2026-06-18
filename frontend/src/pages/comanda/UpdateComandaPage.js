@@ -222,9 +222,10 @@ class UpdateComandaPage extends HTMLElement {
     document.body.appendChild(loading);
     await loading.present();
 
+    let produtos, itensAtuais;
     try {
-      const produtos = await api.getProdutos();
-      const itensAtuais = await api.getItensComanda(this.comandaId);
+      produtos = await api.getProdutos();
+      itensAtuais = await api.getItensComanda(this.comandaId);
     } catch (error) {
       await loading.dismiss();
       console.error('Erro ao carregar dados:', error);
@@ -239,18 +240,7 @@ class UpdateComandaPage extends HTMLElement {
 
     await loading.dismiss();
 
-    const idsExistentes = itensAtuais.map(i => i.id_produto);
-    const produtosDisponiveis = produtos.filter(p => p.status && !idsExistentes.includes(p.id));
-
-    if (produtosDisponiveis.length === 0) {
-      const alert = document.createElement('ion-alert');
-      alert.header = 'Aviso';
-      alert.message = 'Não há produtos disponíveis para adicionar.';
-      alert.buttons = ['OK'];
-      document.body.appendChild(alert);
-      await alert.present();
-      return;
-    }
+    const produtosAtivos = produtos.filter(p => p.status);
 
     const modal = document.createElement('ion-modal');
     modal.style.cssText = '--width: 90%; --height: 80%;';
@@ -286,10 +276,12 @@ class UpdateComandaPage extends HTMLElement {
     await modal.present();
 
     const selectProduto = modal.querySelector('#id_produto');
-    produtosDisponiveis.forEach(produto => {
+    produtosAtivos.forEach(produto => {
       const option = document.createElement('ion-select-option');
       option.value = produto.id;
-      option.textContent = `${produto.dsc_produto} - R$ ${produto.valor_unit}`;
+      const existente = itensAtuais.find(i => i.id_produto === produto.id);
+      const label = existente ? `${produto.dsc_produto} - R$ ${produto.valor_unit} (já tem ${existente.qtd_item})` : `${produto.dsc_produto} - R$ ${produto.valor_unit}`;
+      option.textContent = label;
       selectProduto.appendChild(option);
     });
 
@@ -298,20 +290,27 @@ class UpdateComandaPage extends HTMLElement {
       e.preventDefault();
       const formData = new FormData(e.target);
       const id_produto = parseInt(formData.get('id_produto'));
-      const produtoSelecionado = produtosDisponiveis.find(p => p.id === id_produto);
+      const produtoSelecionado = produtosAtivos.find(p => p.id === id_produto);
       const valor_venda = produtoSelecionado ? produtoSelecionado.valor_unit : 0;
-
-      const itemData = {
-        id_comanda: parseInt(this.comandaId),
-        id_produto: id_produto,
-        qtd_item: parseInt(formData.get('qtd_item')),
-        valor_venda: valor_venda,
-        statusPg: false,
-        statusEntrega: false
-      };
+      const qtd = parseInt(formData.get('qtd_item'));
+      const existente = itensAtuais.find(i => i.id_produto === id_produto);
 
       try {
-        await api.addItemComanda(itemData);
+        if (existente) {
+          await api.updateItemComanda(this.comandaId, id_produto, {
+            qtd_item: existente.qtd_item + qtd,
+            valor_venda: valor_venda,
+          });
+        } else {
+          await api.addItemComanda({
+            id_comanda: parseInt(this.comandaId),
+            id_produto: id_produto,
+            qtd_item: qtd,
+            valor_venda: valor_venda,
+            statusPg: false,
+            statusEntrega: false,
+          });
+        }
         await modal.dismiss();
         await this.loadItens();
       } catch (error) {

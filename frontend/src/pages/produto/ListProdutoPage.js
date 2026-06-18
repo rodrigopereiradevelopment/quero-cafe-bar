@@ -98,6 +98,11 @@ class ListProdutoPage extends HTMLElement {
 
     const productItems = produtos.map(produto => `
       <ion-item>
+        ${produto.imagem ? `
+        <ion-thumbnail slot="start">
+          <img src="${produto.imagem}" alt="${produto.dsc_produto}" style="object-fit:cover" />
+        </ion-thumbnail>
+        ` : ''}
         <ion-label>
           <h2 style="display: flex; align-items: center; gap: 8px;">
             <ion-icon

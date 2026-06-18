@@ -36,6 +36,7 @@ class UpdateUsuarioPage extends HTMLElement {
               <ion-select name="perfil" id="perfil" label="Perfil" label-placement="floating">
                 <ion-select-option value="0">Administrador</ion-select-option>
                 <ion-select-option value="1">Atendente</ion-select-option>
+                <ion-select-option value="2">Cliente</ion-select-option>
               </ion-select>
             </ion-item>
           </ion-list>

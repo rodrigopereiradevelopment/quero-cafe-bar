@@ -33,6 +33,11 @@ export class ProdutoController {
     return await this.produtoService.findAll(listProdutoDto);
   }
 
+  @Get('buscar-imagem')
+  async buscarImagem(@Query('q') q: string) {
+    return await this.produtoService.buscarImagemPexels(q);
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: number): Promise<IProdutoOutput> {
     return await this.produtoService.findOne(id);

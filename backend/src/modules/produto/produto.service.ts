@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Produto } from './entities/produto.entity';
@@ -13,6 +14,7 @@ export class ProdutoService {
   constructor(
     @InjectRepository(Produto)
     private readonly produtoRepository: Repository<Produto>,
+    private readonly configService: ConfigService,
   ) {}
 
   async create(createProdutoDto: CreateProdutoDto): Promise<IProdutoOutput> {
@@ -47,5 +49,29 @@ export class ProdutoService {
     await this.findOne(id);
     await this.produtoRepository.delete(id);
     return { id };
+  }
+
+  async buscarImagemPexels(query: string): Promise<{ images: { url: string; alt: string }[] }> {
+    const apiKey = this.configService.get<string>('PEXELS_API_KEY');
+    if (!apiKey) {
+      throw new NotFoundException('PEXELS_API_KEY não configurada no .env');
+    }
+
+    const response = await fetch(
+      `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=12`,
+      { headers: { Authorization: apiKey } },
+    );
+
+    if (!response.ok) {
+      throw new NotFoundException('Erro ao buscar imagens no Pexels');
+    }
+
+    const data = await response.json();
+    const images = data.photos.map((photo: any) => ({
+      url: photo.src.medium,
+      alt: photo.alt || query,
+    }));
+
+    return { images };
   }
 }
