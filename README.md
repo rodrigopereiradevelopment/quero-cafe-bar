@@ -18,8 +18,8 @@ O projeto visa simular um cenário real de desenvolvimento de software, abrangen
 - **Linguagem:** TypeScript
 - **Gerenciador de Pacotes:** npm
 - **Validação:** class-validator, class-transformer
-- **Autenticação:** JWT via `@nestjs/jwt` + `@nestjs/passport` (módulo `auth` dedicado)
-- **Criptografia:** AES-256-CTR via `EncryptionTransformer` (TypeORM column transformer)
+- **Autenticação:** JWT via `@nestjs/jwt` + `@nestjs/passport` (módulo `auth` dedicado, guard global + decorator `@Public()`)
+- **Senhas:** bcrypt hash (substituiu o AES-256-CTR anterior)
 - **Filtro Global de Erros:** `GlobalExceptionFilter` para respostas sanitizadas
 
 ### Frontend
@@ -41,15 +41,19 @@ O projeto visa simular um cenário real de desenvolvimento de software, abrangen
 - [x] Implementação do módulo de Itens de Comanda (CRUD)
 - [x] Integração com Banco de Dados (TypeORM + MySQL)
 - [x] Autenticação JWT implementada (módulo `auth` com `@nestjs/jwt` + Passport)
+- [x] Guard global `JwtAuthGuard` + decorator `@Public()` para rotas abertas
+- [x] Senhas com bcrypt hash (substituiu AES-256-CTR)
 - [x] Route guards no frontend (páginas protegidas por autenticação)
 - [x] Utilitários de autenticação (`shared/auth.js`)
 - [x] Relacionamentos entre entidades configurados
 - [x] Testes unitários completos (146 testes, 19 suítes)
 - [x] Tratamento global de exceções
 - [x] Validação global (whitelist + transform)
-- [x] Criptografia de senhas via ORM transformer
 - [x] **Seed turbinado**: 5 usuários, 5 mesas, 11 produtos + comanda de exemplo
 - [x] **Perfil Cliente (2)** adicionado ao sistema
+- [x] CORS lê `CORS_ORIGIN` do .env (fallback `*` com warning)
+- [x] Warnings para fallback de `JWT_SECRET` e `ENCRYPTION_KEY`
+- [x] `localStorage.removeItem('token')` em vez de `clear()` no 401
 - [x] Correção: `ListUsuarioDto` com `@Type(() => Number)` para query params
 - [x] Correção: `POST /usuario/login` não retorna mais a senha
 - [x] Correção: scripts migratórios usam `npx` em vez de `yarn`
@@ -74,6 +78,8 @@ O projeto visa simular um cenário real de desenvolvimento de software, abrangen
 - [x] **Perfil Cliente (2)** nas telas de cadastro/edição/lista
 - [x] **Busca de imagens Pexels** no cadastro de produtos
 - [x] **Thumbnails** na lista de produtos
+- [x] `localStorage.removeItem` no 401 (em vez de `clear()`)
+- [x] Testes adaptados para jsdom (location + localStorage.assert)
 
 ## 📂 Estrutura de Pastas
 

@@ -6,6 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Usuario } from './entities/usuario.entity';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { ListUsuarioDto } from './dto/list-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
@@ -18,7 +19,11 @@ export class UsuarioService {
   ) {}
 
   async create(createUsuarioDto: CreateUsuarioDto) {
-    const usuario = this.usuarioRepository.create(createUsuarioDto);
+    const senha = await bcrypt.hash(createUsuarioDto.senha, 10);
+    const usuario = this.usuarioRepository.create({
+      ...createUsuarioDto,
+      senha,
+    });
     return await this.usuarioRepository.save(usuario);
   }
 
@@ -63,8 +68,8 @@ export class UsuarioService {
       throw new UnauthorizedException('Usuário ou senha inválidos');
     }
 
-    const senhaDescriptografada = user.senha;
-    if (senhaDescriptografada !== senha) {
+    const senhaValida = await bcrypt.compare(senha, user.senha);
+    if (!senhaValida) {
       throw new UnauthorizedException('Usuário ou senha inválidos');
     }
 
@@ -73,6 +78,9 @@ export class UsuarioService {
 
   async update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
     const usuario = await this.findOne(id);
+    if (updateUsuarioDto.senha) {
+      updateUsuarioDto.senha = await bcrypt.hash(updateUsuarioDto.senha, 10);
+    }
     const updatedUsuario = Object.assign(usuario, updateUsuarioDto);
     return await this.usuarioRepository.save(updatedUsuario);
   }

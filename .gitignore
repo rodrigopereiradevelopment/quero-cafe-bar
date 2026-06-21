@@ -46,3 +46,7 @@ coverage/
 
 # AI Tools
 .claude/
+.gitnexus
+CLAUDE.md
+LOGIN.md
+npx

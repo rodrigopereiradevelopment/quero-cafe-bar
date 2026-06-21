@@ -51,7 +51,9 @@ export class ProdutoService {
     return { id };
   }
 
-  async buscarImagemPexels(query: string): Promise<{ images: { url: string; alt: string }[] }> {
+  async buscarImagemPexels(
+    query: string,
+  ): Promise<{ images: { url: string; alt: string }[] }> {
     const apiKey = this.configService.get<string>('PEXELS_API_KEY');
     if (!apiKey) {
       throw new NotFoundException('PEXELS_API_KEY não configurada no .env');

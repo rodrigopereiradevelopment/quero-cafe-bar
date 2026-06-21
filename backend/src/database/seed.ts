@@ -23,17 +23,72 @@ const mesas = [
 ];
 
 const produtos = [
-  { dsc_produto: 'Café Expresso', valor_unit: 5, imagem: 'https://images.pexels.com/photos/19252265/pexels-photo-19252265.jpeg?auto=compress&cs=tinysrgb&h=350' },
-  { dsc_produto: 'Cappuccino', valor_unit: 8, imagem: 'https://images.pexels.com/photos/6747870/pexels-photo-6747870.jpeg?auto=compress&cs=tinysrgb&h=350' },
-  { dsc_produto: 'Suco de Laranja', valor_unit: 7, imagem: 'https://images.pexels.com/photos/30900665/pexels-photo-30900665.jpeg?auto=compress&cs=tinysrgb&h=350' },
-  { dsc_produto: 'Água Mineral', valor_unit: 3, imagem: 'https://images.pexels.com/photos/1540235/pexels-photo-1540235.jpeg?auto=compress&cs=tinysrgb&h=350' },
-  { dsc_produto: 'Refrigerante', valor_unit: 6, imagem: 'https://images.pexels.com/photos/33469209/pexels-photo-33469209.jpeg?auto=compress&cs=tinysrgb&h=350' },
-  { dsc_produto: 'Pão de Queijo', valor_unit: 4, imagem: 'https://images.pexels.com/photos/33541425/pexels-photo-33541425.jpeg?auto=compress&cs=tinysrgb&h=350' },
-  { dsc_produto: 'Bolo de Cenoura', valor_unit: 6, imagem: 'https://images.pexels.com/photos/5121948/pexels-photo-5121948.jpeg?auto=compress&cs=tinysrgb&h=350' },
-  { dsc_produto: 'Pastel de Carne', valor_unit: 7, imagem: 'https://images.pexels.com/photos/14866635/pexels-photo-14866635.jpeg?auto=compress&cs=tinysrgb&h=350' },
-  { dsc_produto: 'Misto Quente', valor_unit: 9, imagem: 'https://images.pexels.com/photos/29747752/pexels-photo-29747752.jpeg?auto=compress&cs=tinysrgb&h=350' },
-  { dsc_produto: 'Coxinha', valor_unit: 5, imagem: 'https://images.pexels.com/photos/6170473/pexels-photo-6170473.jpeg?auto=compress&cs=tinysrgb&h=350' },
-  { dsc_produto: 'Pão na Chapa', valor_unit: 4, imagem: 'https://images.pexels.com/photos/3997309/pexels-photo-3997309.png?auto=compress&cs=tinysrgb&h=350' },
+  {
+    dsc_produto: 'Café Expresso',
+    valor_unit: 5,
+    imagem:
+      'https://images.pexels.com/photos/19252265/pexels-photo-19252265.jpeg?auto=compress&cs=tinysrgb&h=350',
+  },
+  {
+    dsc_produto: 'Cappuccino',
+    valor_unit: 8,
+    imagem:
+      'https://images.pexels.com/photos/6747870/pexels-photo-6747870.jpeg?auto=compress&cs=tinysrgb&h=350',
+  },
+  {
+    dsc_produto: 'Suco de Laranja',
+    valor_unit: 7,
+    imagem:
+      'https://images.pexels.com/photos/30900665/pexels-photo-30900665.jpeg?auto=compress&cs=tinysrgb&h=350',
+  },
+  {
+    dsc_produto: 'Água Mineral',
+    valor_unit: 3,
+    imagem:
+      'https://images.pexels.com/photos/1540235/pexels-photo-1540235.jpeg?auto=compress&cs=tinysrgb&h=350',
+  },
+  {
+    dsc_produto: 'Refrigerante',
+    valor_unit: 6,
+    imagem:
+      'https://images.pexels.com/photos/33469209/pexels-photo-33469209.jpeg?auto=compress&cs=tinysrgb&h=350',
+  },
+  {
+    dsc_produto: 'Pão de Queijo',
+    valor_unit: 4,
+    imagem:
+      'https://images.pexels.com/photos/33541425/pexels-photo-33541425.jpeg?auto=compress&cs=tinysrgb&h=350',
+  },
+  {
+    dsc_produto: 'Bolo de Cenoura',
+    valor_unit: 6,
+    imagem:
+      'https://images.pexels.com/photos/5121948/pexels-photo-5121948.jpeg?auto=compress&cs=tinysrgb&h=350',
+  },
+  {
+    dsc_produto: 'Pastel de Carne',
+    valor_unit: 7,
+    imagem:
+      'https://images.pexels.com/photos/14866635/pexels-photo-14866635.jpeg?auto=compress&cs=tinysrgb&h=350',
+  },
+  {
+    dsc_produto: 'Misto Quente',
+    valor_unit: 9,
+    imagem:
+      'https://images.pexels.com/photos/29747752/pexels-photo-29747752.jpeg?auto=compress&cs=tinysrgb&h=350',
+  },
+  {
+    dsc_produto: 'Coxinha',
+    valor_unit: 5,
+    imagem:
+      'https://images.pexels.com/photos/6170473/pexels-photo-6170473.jpeg?auto=compress&cs=tinysrgb&h=350',
+  },
+  {
+    dsc_produto: 'Pão na Chapa',
+    valor_unit: 4,
+    imagem:
+      'https://images.pexels.com/photos/3997309/pexels-photo-3997309.png?auto=compress&cs=tinysrgb&h=350',
+  },
 ];
 
 async function seedUsuarios(usuarioService: UsuarioService) {
@@ -156,7 +211,11 @@ async function seed() {
     await seedProdutos(produtoService);
 
     console.log('\n=== Comanda de Exemplo ===');
-    await seedComandaExemplo(comandaService, comandaItemService, produtoService);
+    await seedComandaExemplo(
+      comandaService,
+      comandaItemService,
+      produtoService,
+    );
 
     console.log('\n✅ Seed concluído com sucesso!');
   } catch (err) {

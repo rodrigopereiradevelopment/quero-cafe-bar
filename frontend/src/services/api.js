@@ -51,7 +51,8 @@ class Api {
             clearTimeout(timeoutId);
 
             if (response.status === 401) {
-                localStorage.clear();
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
                 window.location.href = '/login';
                 throw new Error('Sessão expirada. Faça login novamente.');
             }

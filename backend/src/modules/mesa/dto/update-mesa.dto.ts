@@ -4,5 +4,4 @@ import { IUpdateMesaInput } from '../interfaces/mesa.interface';
 
 export class UpdateMesaDto
   extends PartialType(CreateMesaDto)
-  implements IUpdateMesaInput
-{} // id vem da URL, não precisa validar no body
+  implements IUpdateMesaInput {} // id vem da URL, não precisa validar no body

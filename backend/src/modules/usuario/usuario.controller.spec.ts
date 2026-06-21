@@ -149,24 +149,23 @@ describe('UsuarioController', () => {
   });
 
   describe('GET /usuario/perfil/:perfil - Buscar por Perfil', () => {
-    it('deve retornar usuário quando encontrado (Happy Path)', async () => {
-      // Arrange
-      const usuarioMock = {
-        id: 2,
-        nome: 'Garçom',
-        usuario: 'garcom',
-        senha: '456',
-        perfil: 1,
-      };
+    it('deve retornar usuários quando encontrados (Happy Path)', async () => {
+      const usuariosMock = [
+        {
+          id: 2,
+          nome: 'Garçom',
+          usuario: 'garcom',
+          senha: '456',
+          perfil: 1,
+        },
+      ];
 
-      service.findByPerfil.mockResolvedValue(usuarioMock);
+      service.findByPerfil.mockResolvedValue(usuariosMock);
 
-      // Act
       const result = await controller.findByPerfil(1);
 
-      // Assert
       expect(service.findByPerfil).toHaveBeenCalledWith(1);
-      expect(result).toEqual(usuarioMock);
+      expect(result).toEqual(usuariosMock);
     });
   });
 

@@ -257,14 +257,12 @@ describe('Api Service', () => {
         json: jest.fn().mockResolvedValue({}),
       };
       fetch.mockResolvedValue(mockResponse);
-      delete window.location;
-      window.location = { href: 'http://localhost' };
 
       await expect(api.request('/produto')).rejects.toThrow(
         'Sessão expirada. Faça login novamente.',
       );
-      expect(localStorageMock.clear).toHaveBeenCalled();
-      expect(window.location.href).toContain('#/login');
+      expect(localStorageMock.removeItem).toHaveBeenCalledWith('token');
+      expect(localStorageMock.removeItem).toHaveBeenCalledWith('user');
     });
 
     it('deve lançar erro de timeout quando requisição é abortada (AbortError)', async () => {

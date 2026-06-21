@@ -9,8 +9,14 @@ dotenv.config();
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  const corsOrigin = process.env.CORS_ORIGIN || '*';
+  if (corsOrigin === '*') {
+    console.warn(
+      '⚠️  CORS configurado com origin: * — restrinja em produção via CORS_ORIGIN',
+    );
+  }
   app.enableCors({
-    origin: '*',
+    origin: corsOrigin,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     preflightContinue: false,
     optionsSuccessStatus: 204,

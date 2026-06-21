@@ -7,6 +7,7 @@ import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
 import { ListProdutoDto } from './dto/list-produto.dto';
 import { NotFoundException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 describe('ProdutoService', () => {
   let service: ProdutoService;
@@ -20,6 +21,10 @@ describe('ProdutoService', () => {
     delete: jest.fn(),
   };
 
+  const mockConfigService = {
+    get: jest.fn(),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -27,6 +32,10 @@ describe('ProdutoService', () => {
         {
           provide: getRepositoryToken(Produto),
           useValue: mockProdutoRepository,
+        },
+        {
+          provide: ConfigService,
+          useValue: mockConfigService,
         },
       ],
     }).compile();

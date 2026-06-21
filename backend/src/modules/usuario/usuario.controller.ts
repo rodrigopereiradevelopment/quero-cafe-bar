@@ -9,6 +9,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { UsuarioService } from './usuario.service';
+import { Public } from '../auth/public.decorator';
 import type {
   IUsuarioOutput,
   IUsuarioLoginInput,
@@ -49,13 +50,19 @@ export class UsuarioController {
   }
 
   @Get('perfil/:perfil')
-  async findByPerfil(@Param('perfil') perfil: number): Promise<IUsuarioOutput[]> {
+  async findByPerfil(
+    @Param('perfil') perfil: number,
+  ): Promise<IUsuarioOutput[]> {
     return await this.usuarioService.findByPerfil(perfil);
   }
 
+  @Public()
   @Post('login')
   async login(@Body() loginDto: IUsuarioLoginInput): Promise<IUsuarioOutput> {
-    const user = await this.usuarioService.login(loginDto.usuario, loginDto.senha);
+    const user = await this.usuarioService.login(
+      loginDto.usuario,
+      loginDto.senha,
+    );
     const { senha: _, ...userWithoutPassword } = user;
     return userWithoutPassword;
   }

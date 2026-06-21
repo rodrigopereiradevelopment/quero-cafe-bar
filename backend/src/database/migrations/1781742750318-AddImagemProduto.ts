@@ -10,8 +10,6 @@ export class AddImagemProduto1781742750318 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(
-      `ALTER TABLE \`produtos\` DROP COLUMN \`imagem\``,
-    );
+    await queryRunner.query(`ALTER TABLE \`produtos\` DROP COLUMN \`imagem\``);
   }
 }

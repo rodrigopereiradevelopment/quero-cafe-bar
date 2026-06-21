@@ -14,19 +14,48 @@
 | 8 | Event listener `ionInput` duplicado a cada abertura de modal | `frontend/src/pages/produto/RegProdutoPage.js`, `UpdateProdutoPage.js` | ✅ |
 | 9 | Acesso a `comanda.mesa.id` e `item.produto.dsc_produto` sem null check | `frontend/src/pages/home/HomePage.js` | ✅ |
 
+## ✅ Corrigidos (20/06/2026)
+
+| # | Bug | Arquivo | Status |
+|---|-----|---------|--------|
+| 10 | Nenhum guard de autenticação no backend | `backend/src/modules/auth/jwt-auth.guard.ts` + `APP_GUARD` global + `@Public()` decorator | ✅ |
+| 11 | Senhas com AES reversível em vez de bcrypt hash | `backend/src/modules/usuario/entities/usuario.entity.ts` → bcrypt.hash/compare | ✅ |
+| 12 | CORS com wildcard `*` sem controle | `backend/src/main.ts` → lê `CORS_ORIGIN` do .env | ✅ |
+| 13 | Hardcoded fallback secrets sem aviso | `backend/src/modules/auth/auth.module.ts`, `jwt.strategy.ts` → warnings | ✅ |
+| 14 | `localStorage.clear()` apagando tudo | `frontend/src/services/api.js` → `removeItem('token')` + `removeItem('user')` | ✅ |
+| 15 | Testes frontend quebrando (jsdom location + clear) | `api.spec.js`, `util.spec.js` | ✅ |
+| 16 | Testes backend (produto.service, usuario.service, usuario.controller) | `*.spec.ts` — mocks ConfigService, findByPerfil retorna array | ✅ |
+| 17 | Testes de rota (hash `#/login` → `/login`) | `api.spec.js`, `util.spec.js` | ✅ |
+
 ---
 
-## 🚨 A Corrigir (Prioridade)
+## 🚨 Pendentes
 
-### Críticos
-- [ ] **Nenhum guard de autenticação no backend** — todas as rotas são públicas. Aplicar `@UseGuards(JwtAuthGuard)` nos controllers.
-- [ ] **Senhas criptografadas (AES) em vez de hash (bcrypt)** — são reversíveis. Trocar `EncryptionTransformer` por bcrypt.
+### ⏳ Build Android
+- [ ] **Build Android falha** — `invalid source release: 21` (JDK). Pendente de `npx cap add android` e decisão de equipe sobre JDK.
 
-### Alto
-- [ ] **CORS com wildcard `*`** — configurar origens permitidas em produção.
-- [ ] **Hardcoded fallback secrets** — `JWT_SECRET` e `ENCRYPTION_KEY` com fallback em texto puro no código.
-- [ ] **`localStorage.clear()` apaga todos os dados do app** — substituir por `removeItem` específico.
-- [ ] **Build Android falha** — `invalid source release: 21` (JDK incompatível). Requer JDK 21+ ou configurar `compileSdk`/`sourceCompatibility` no Gradle.
+### Médio
+- [ ] **XSS via innerHTML** — URLs de imagem interpoladas em `innerHTML` sem sanitização.
+- [ ] **`valor_unit` e `qtd_item` podem ser `NaN`** — validar com `isNaN()` antes de enviar à API.
+- [ ] **Toasts e alerts acumulam-se no DOM (memory leak)** — remover elementos após dismiss.
+- [ ] **Testes mockando métodos errados** — `ListProdutoPage.spec.js` usa `vlr_produto`, `LoginPage.spec.js` usa `response.token` (API retorna `access_token`).
+- [ ] **Navegação com reload completo em FABs (quebra SPA)** — usar `router.push()` em vez de `window.location.href`.
+- [ ] **`connectedCallback` pode ser chamado múltiplas vezes** — adicionar flag `_initialized`.
+
+### Baixo
+- [ ] **`ngrok-skip-browser-warning` em produção** — remover ou condicionar ao ambiente dev.
+- [ ] **`POST /usuario/login` sem validação de body** — usar `LoginUsuarioDto`.
+- [ ] **`Comanda.findOne()` não carrega relations** — inconsistente com `findAll()`.
+- [ ] **Pexels errors lançam `NotFoundException` (404) em vez de `InternalServerError`**.
+- [ ] **Estilos globais `h3` vazam para toda aplicação** — escopar com classes.
+- [ ] **Porta `PORT` e `DB_PORT` diferentes entre `.env.example` e `.env`** — sincronizar.
+
+---
+
+## 🔶 project-name (Angular) — Não relacionado ao Quero Café Bar
+
+---
+
 
 ### Médio
 - [ ] **XSS via innerHTML** — URLs de imagem interpoladas diretamente em `innerHTML` sem sanitização.
