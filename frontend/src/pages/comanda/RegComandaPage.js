@@ -2,6 +2,7 @@ import './RegComandaPage.css';
 import { createHeader } from '../../shared/Header.js';
 import { api } from '../../services/api.js';
 import { isAuthenticated } from '../../shared/auth.js';
+import { showAlert, showToast, showLoading } from '../../shared/overlay.js';
 
 const pageName = 'Abrir Comanda';
 
@@ -62,12 +63,7 @@ class RegComandaPage extends HTMLElement {
       });
     } catch (error) {
       console.error('Erro ao carregar mesas:', error);
-      const toast = document.createElement('ion-toast');
-      toast.message = 'Erro ao carregar lista de mesas.';
-      toast.duration = 3000;
-      toast.color = 'danger';
-      document.body.appendChild(toast);
-      await toast.present();
+      showToast({ message: 'Erro ao carregar lista de mesas.', color: 'danger' });
     }
   }
 
@@ -85,12 +81,7 @@ class RegComandaPage extends HTMLElement {
       this.navigateBack();
     } catch (error) {
       console.error('Erro ao abrir comanda:', error);
-      const alert = document.createElement('ion-alert');
-      alert.header = 'Erro';
-      alert.message = 'Não foi possível abrir a comanda. Tente novamente mais tarde.';
-      alert.buttons = ['OK'];
-      document.body.appendChild(alert);
-      await alert.present();
+      await showAlert({ header: 'Erro', message: 'Não foi possível abrir a comanda. Tente novamente mais tarde.' });
     }
   }
 

@@ -3,6 +3,7 @@ import { createHeader } from '../../shared/Header.js';
 import { logout } from '../../shared/util.js';
 import { api } from '../../services/api.js';
 import { isAuthenticated } from '../../shared/auth.js';
+import { showLoading, showAlert, showToast } from '../../shared/overlay.js';
 
 const pageName = 'Mesas';
 
@@ -45,22 +46,14 @@ class ListMesaPage extends HTMLElement {
   }
 
   async fetchMesas() {
-    const loading = document.createElement('ion-loading');
-    loading.message = 'Buscando mesas...';
-    document.body.appendChild(loading);
-    await loading.present();
+    const loading = showLoading('Buscando mesas...');
 
     try {
       const mesas = await api.getMesas();
       this.renderMesas(mesas);
     } catch (error) {
       console.error('Erro ao buscar mesas:', error);
-      const alert = document.createElement('ion-alert');
-      alert.header = 'Erro';
-      alert.message = 'Não foi possível carregar as mesas.';
-      alert.buttons = ['OK'];
-      document.body.appendChild(alert);
-      await alert.present();
+      await showAlert({ header: 'Erro', message: 'Não foi possível carregar as mesas.' });
     } finally {
       await loading.dismiss();
     }
@@ -119,37 +112,26 @@ class ListMesaPage extends HTMLElement {
     container.querySelectorAll('.btn-delete').forEach(btn => {
       btn.addEventListener('click', async () => {
         const id = btn.getAttribute('data-id');
-        const alert = document.createElement('ion-alert');
-        alert.header = 'Confirmar';
-        alert.message = 'Deseja realmente excluir esta mesa?';
-        alert.buttons = [
-          { text: 'Cancelar', role: 'cancel' },
-          {
-            text: 'Excluir',
-              handler: async () => {
-                try {
-                  await api.deleteMesa(id);
-                  const toast = document.createElement('ion-toast');
-                  toast.message = 'Mesa excluída com sucesso!';
-                  toast.duration = 2000;
-                  toast.color = 'success';
-                  document.body.appendChild(toast);
-                  await toast.present();
-                  await this.fetchMesas();
-                } catch (error) {
-                  console.error('Erro ao excluir:', error);
-                  const toast = document.createElement('ion-toast');
-                  toast.message = 'Erro ao excluir mesa. Tente novamente.';
-                  toast.duration = 3000;
-                  toast.color = 'danger';
-                  document.body.appendChild(toast);
-                  await toast.present();
-                }
+        await showAlert({
+          header: 'Confirmar',
+          message: 'Deseja realmente excluir esta mesa?',
+          buttons: [
+            { text: 'Cancelar', role: 'cancel' },
+            {
+              text: 'Excluir',
+                handler: async () => {
+                  try {
+                    await api.deleteMesa(id);
+                    showToast({ message: 'Mesa excluída com sucesso!', color: 'success', duration: 2000 });
+                    await this.fetchMesas();
+                  } catch (error) {
+                    console.error('Erro ao excluir:', error);
+                    showToast({ message: 'Erro ao excluir mesa. Tente novamente.', color: 'danger', duration: 3000 });
+                  }
+              }
             }
-          }
-        ];
-        document.body.appendChild(alert);
-        await alert.present();
+          ]
+        });
       });
     });
   }

@@ -2,6 +2,7 @@ import './UpdateComandaPage.css';
 import { createHeader } from '../../shared/Header.js';
 import { api } from '../../services/api.js';
 import { isAuthenticated } from '../../shared/auth.js';
+import { showAlert, showToast, showLoading } from '../../shared/overlay.js';
 
 const pageName = 'Editar Comanda';
 
@@ -77,12 +78,7 @@ class UpdateComandaPage extends HTMLElement {
       });
     } catch (error) {
       console.error('Erro ao carregar mesas:', error);
-      const toast = document.createElement('ion-toast');
-      toast.message = 'Erro ao carregar lista de mesas.';
-      toast.duration = 3000;
-      toast.color = 'danger';
-      document.body.appendChild(toast);
-      await toast.present();
+      showToast({ message: 'Erro ao carregar lista de mesas.', color: 'danger' });
     }
   }
 
@@ -94,12 +90,7 @@ class UpdateComandaPage extends HTMLElement {
       this.querySelector('#obs_comanda').value = comanda.obs_comanda || '';
     } catch (error) {
       console.error('Erro ao carregar comanda:', error);
-      const alert = document.createElement('ion-alert');
-      alert.header = 'Erro';
-      alert.message = 'Não foi possível carregar os dados da comanda.';
-      alert.buttons = ['OK'];
-      document.body.appendChild(alert);
-      await alert.present();
+      await showAlert({ header: 'Erro', message: 'Não foi possível carregar os dados da comanda.' });
       this.navigateBack();
     }
   }
@@ -110,12 +101,7 @@ class UpdateComandaPage extends HTMLElement {
       this.renderItens(itens);
     } catch (error) {
       console.error('Erro ao carregar itens:', error);
-      const toast = document.createElement('ion-toast');
-      toast.message = 'Erro ao carregar itens da comanda.';
-      toast.duration = 3000;
-      toast.color = 'danger';
-      document.body.appendChild(toast);
-      await toast.present();
+      showToast({ message: 'Erro ao carregar itens da comanda.', color: 'danger' });
     }
   }
 
@@ -179,48 +165,34 @@ class UpdateComandaPage extends HTMLElement {
       await this.loadItens();
     } catch (error) {
       console.error('Erro ao atualizar status:', error);
-      const toast = document.createElement('ion-toast');
-      toast.message = 'Erro ao atualizar status do item.';
-      toast.duration = 3000;
-      toast.color = 'danger';
-      document.body.appendChild(toast);
-      await toast.present();
+      showToast({ message: 'Erro ao atualizar status do item.', color: 'danger' });
     }
   }
 
   async removeItem(id_produto) {
-    const alert = document.createElement('ion-alert');
-    alert.header = 'Confirmar';
-    alert.message = 'Deseja remover este item da comanda?';
-    alert.buttons = [
-      { text: 'Cancelar', role: 'cancel' },
-      {
-        text: 'Remover',
-        handler: async () => {
-          try {
-            await api.deleteItemComanda(this.comandaId, id_produto);
-            await this.loadItens();
-          } catch (error) {
-            console.error('Erro ao remover item:', error);
-            const toast = document.createElement('ion-toast');
-            toast.message = 'Erro ao remover item. Tente novamente.';
-            toast.duration = 3000;
-            toast.color = 'danger';
-            document.body.appendChild(toast);
-            await toast.present();
+    await showAlert({
+      header: 'Confirmar',
+      message: 'Deseja remover este item da comanda?',
+      buttons: [
+        { text: 'Cancelar', role: 'cancel' },
+        {
+          text: 'Remover',
+          handler: async () => {
+            try {
+              await api.deleteItemComanda(this.comandaId, id_produto);
+              await this.loadItens();
+            } catch (error) {
+              console.error('Erro ao remover item:', error);
+              showToast({ message: 'Erro ao remover item. Tente novamente.', color: 'danger' });
+            }
           }
         }
-      }
-    ];
-    document.body.appendChild(alert);
-    await alert.present();
+      ]
+    });
   }
 
   async showAddItemModal() {
-    const loading = document.createElement('ion-loading');
-    loading.message = 'Carregando...';
-    document.body.appendChild(loading);
-    await loading.present();
+    const loading = showLoading('Carregando...');
 
     let produtos, itensAtuais;
     try {
@@ -229,12 +201,7 @@ class UpdateComandaPage extends HTMLElement {
     } catch (error) {
       await loading.dismiss();
       console.error('Erro ao carregar dados:', error);
-      const alert = document.createElement('ion-alert');
-      alert.header = 'Erro';
-      alert.message = 'Erro ao carregar dados. Tente novamente.';
-      alert.buttons = ['OK'];
-      document.body.appendChild(alert);
-      await alert.present();
+      await showAlert({ header: 'Erro', message: 'Erro ao carregar dados. Tente novamente.' });
       return;
     }
 
@@ -294,12 +261,7 @@ class UpdateComandaPage extends HTMLElement {
       const valor_venda = produtoSelecionado ? produtoSelecionado.valor_unit : 0;
       const qtd = parseInt(formData.get('qtd_item'));
       if (isNaN(qtd) || qtd <= 0) {
-        const alert = document.createElement('ion-alert');
-        alert.header = 'Erro';
-        alert.message = 'Quantidade invalida.';
-        alert.buttons = ['OK'];
-        document.body.appendChild(alert);
-        alert.present();
+        await showAlert({ header: 'Erro', message: 'Quantidade invalida.' });
         return;
       }
       const existente = itensAtuais.find(i => i.id_produto === id_produto);
@@ -324,12 +286,7 @@ class UpdateComandaPage extends HTMLElement {
         await this.loadItens();
       } catch (error) {
         console.error('Erro ao adicionar item:', error);
-        const alert = document.createElement('ion-alert');
-        alert.header = 'Erro';
-        alert.message = 'Não foi possível adicionar o item.';
-        alert.buttons = ['OK'];
-        document.body.appendChild(alert);
-        await alert.present();
+        await showAlert({ header: 'Erro', message: 'Não foi possível adicionar o item.' });
       }
     });
   }
@@ -348,12 +305,7 @@ class UpdateComandaPage extends HTMLElement {
       this.navigateBack();
     } catch (error) {
       console.error('Erro ao salvar comanda:', error);
-      const alert = document.createElement('ion-alert');
-      alert.header = 'Erro';
-      alert.message = 'Não foi possível salvar a comanda.';
-      alert.buttons = ['OK'];
-      document.body.appendChild(alert);
-      await alert.present();
+      await showAlert({ header: 'Erro', message: 'Não foi possível salvar a comanda.' });
     }
   }
 

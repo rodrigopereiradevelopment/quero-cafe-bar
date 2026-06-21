@@ -1,4 +1,4 @@
-h3 {
+.list-produto-container h3 {
     display: flex; 
     align-items: center; 
     gap: 6px; 

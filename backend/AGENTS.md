@@ -31,10 +31,10 @@ yarn run lint           # Fix code style
 - **Global Pipe**: `ValidationPipe` with `whitelist: true`, `forbidNonWhitelisted: true`, `transform: true` — rejects unknown fields with 400.
 - **Global Filter**: `GlobalExceptionFilter` catches unhandled errors and returns sanitized 500 responses.
 - **Security**: CORS is open (`*`). JWT auth via `jsonwebtoken` (signed with `JWT_SECRET`, 24h expiry).
-- **Password Encryption**: AES-256-CTR via `EncryptionTransformer` (TypeORM column transformer) — transparent encrypt/decrypt at ORM level.
+- **Password Hashing**: bcrypt with salt rounds 10 — transparent hash/compare at UserService level.
 - **Entities**: Use snake_case for database columns and camelCase for class properties.
 
 ## Environment
 - Ensure `PORT=3001` in `.env` to match frontend expectations during local dev.
 - Set `JWT_SECRET` in `.env` for token signing.
-- Set `ENCRYPTION_KEY` in `.env` for password encryption/decryption.
+- Set `ENCRYPTION_KEY` in `.env` for password encryption/decryption (legacy — no longer used since bcrypt migration).

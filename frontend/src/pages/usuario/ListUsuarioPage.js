@@ -2,6 +2,7 @@ import './ListUsuarioPage.css'
 import { createHeader } from '../../shared/Header.js';
 import { logout } from '../../shared/util.js';
 import { api } from '../../services/api.js';
+import { showLoading, showAlert, showToast } from '../../shared/overlay.js';
 import { isAuthenticated } from '../../shared/auth.js';
 
 const pageName = 'Usuários';
@@ -46,22 +47,14 @@ class ListUsuarioPage extends HTMLElement {
 
   async fetchUsuarios() {
     const container = this.querySelector('.list-usuario-container');
-    const loading = document.createElement('ion-loading');
-    loading.message = 'Buscando usuarios...';
-    document.body.appendChild(loading);
-    await loading.present();
+    const loading = showLoading('Buscando usuarios...');
 
     try {
       const usuarios = await api.getUsuarios();
       this.renderUsuarios(usuarios);
     } catch (error) {
       console.error('Erro ao buscar usuarios:', error);
-      const alert = document.createElement('ion-alert');
-      alert.header = 'Erro';
-      alert.message = 'Não foi possível carregar os usuarios. Tente novamente mais tarde.';
-      alert.buttons = ['OK'];
-      document.body.appendChild(alert);
-      await alert.present();
+      await showAlert({ header: 'Erro', message: 'Não foi possível carregar os usuarios. Tente novamente mais tarde.' });
     } finally {
       await loading.dismiss();
     }
@@ -138,37 +131,26 @@ class ListUsuarioPage extends HTMLElement {
       btn.addEventListener('click', async () => {
         const id = btn.getAttribute('data-id');
         
-        const alert = document.createElement('ion-alert');
-        alert.header = 'Confirmar';
-        alert.message = 'Deseja realmente excluir este usuario?';
-        alert.buttons = [
-          { text: 'Cancelar', role: 'cancel' },
-          {
-            text: 'Excluir',
-              handler: async () => {
-                try {
-                  await api.deleteUsuario(id);
-                  const toast = document.createElement('ion-toast');
-                  toast.message = 'Usuário excluído com sucesso!';
-                  toast.duration = 2000;
-                  toast.color = 'success';
-                  document.body.appendChild(toast);
-                  await toast.present();
-                  await this.fetchUsuarios();
-                } catch (error) {
-                  console.error('Erro ao excluir:', error);
-                  const toast = document.createElement('ion-toast');
-                  toast.message = 'Erro ao excluir usuário. Tente novamente.';
-                  toast.duration = 3000;
-                  toast.color = 'danger';
-                  document.body.appendChild(toast);
-                  await toast.present();
-                }
+        await showAlert({
+          header: 'Confirmar',
+          message: 'Deseja realmente excluir este usuario?',
+          buttons: [
+            { text: 'Cancelar', role: 'cancel' },
+            {
+              text: 'Excluir',
+                handler: async () => {
+                  try {
+                    await api.deleteUsuario(id);
+                    showToast({ message: 'Usuário excluído com sucesso!', duration: 2000, color: 'success' });
+                    await this.fetchUsuarios();
+                  } catch (error) {
+                    console.error('Erro ao excluir:', error);
+                    showToast({ message: 'Erro ao excluir usuário. Tente novamente.', duration: 3000, color: 'danger' });
+                  }
+              }
             }
-          }
-        ];
-        document.body.appendChild(alert);
-        await alert.present();
+          ]
+        });
       });
     });
   }

@@ -2,6 +2,7 @@ import './RegUsuarioPage.css'
 import { createHeader } from '../../shared/Header.js';
 import { api } from '../../services/api.js';
 import { isAuthenticated } from '../../shared/auth.js';
+import { showAlert, showToast, showLoading } from '../../shared/overlay.js';
 
 const pageName = 'Cadastrar Usuário';
 
@@ -71,12 +72,7 @@ class RegUsuarioPage extends HTMLElement {
       this.navigateBack();
     } catch (error) {
       console.error('Erro ao cadastrar usuario:', error);
-      const alert = document.createElement('ion-alert');
-      alert.header = 'Erro';
-      alert.message = 'Não foi possível cadastrar o usuário. Tente novamente mais tarde.';
-      alert.buttons = ['OK'];
-      document.body.appendChild(alert);
-      await alert.present();
+      await showAlert({ header: 'Erro', message: 'Não foi possível cadastrar o usuário. Tente novamente mais tarde.' });
     }
   }
 

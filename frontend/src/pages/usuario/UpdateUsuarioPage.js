@@ -2,6 +2,7 @@ import './UpdateUsuarioPage.css'
 import { createHeader } from '../../shared/Header.js';
 import { api } from '../../services/api.js';
 import { isAuthenticated } from '../../shared/auth.js';
+import { showAlert, showToast, showLoading } from '../../shared/overlay.js';
 
 const pageName = 'Editar Usuário';
 
@@ -71,12 +72,7 @@ class UpdateUsuarioPage extends HTMLElement {
       this.querySelector('#perfil').value = usuario.perfil.toString();
     } catch (error) {
       console.error('Erro ao carregar usuario:', error);
-      const alert = document.createElement('ion-alert');
-      alert.header = 'Erro';
-      alert.message = 'Não foi possível carregar os dados do usuário.';
-      alert.buttons = ['OK'];
-      document.body.appendChild(alert);
-      await alert.present();
+      await showAlert({ header: 'Erro', message: 'Não foi possível carregar os dados do usuário.' });
       this.navigateBack();
     }
   }
@@ -100,12 +96,7 @@ class UpdateUsuarioPage extends HTMLElement {
       this.navigateBack();
     } catch (error) {
       console.error('Erro ao salvar usuario:', error);
-      const alert = document.createElement('ion-alert');
-      alert.header = 'Erro';
-      alert.message = 'Não foi possível salvar as alterações. Tente novamente mais tarde.';
-      alert.buttons = ['OK'];
-      document.body.appendChild(alert);
-      await alert.present();
+      await showAlert({ header: 'Erro', message: 'Não foi possível salvar as alterações. Tente novamente mais tarde.' });
     }
   }
 

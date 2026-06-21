@@ -3,6 +3,7 @@ import { createHeader } from '../../shared/Header.js';
 import { logout } from '../../shared/util.js';
 import { api } from '../../services/api.js';
 import { isAuthenticated } from '../../shared/auth.js';
+import { showLoading, showAlert, showToast } from '../../shared/overlay.js';
 
 const pageName = 'Cozinha';
 
@@ -26,22 +27,14 @@ class HomePage extends HTMLElement {
 
   async fetchComandas() {
     const container = this.querySelector('.home-container');
-    const loading = document.createElement('ion-loading');
-    loading.message = 'Carregando pedidos...';
-    document.body.appendChild(loading);
-    await loading.present();
+    const loading = showLoading('Carregando pedidos...');
 
     try {
       const comandas = await api.getComandas();
       this.renderComandas(comandas);
     } catch (error) {
       console.error('Erro ao buscar comandas:', error);
-      const alert = document.createElement('ion-alert');
-      alert.header = 'Erro';
-      alert.message = 'Não foi possível carregar os pedidos. Tente novamente.';
-      alert.buttons = ['OK'];
-      document.body.appendChild(alert);
-      await alert.present();
+      await showAlert({ header: 'Erro', message: 'Não foi possível carregar os pedidos. Tente novamente.' });
     } finally {
       await loading.dismiss();
     }
@@ -125,20 +118,10 @@ class HomePage extends HTMLElement {
     try {
       await api.updateItemComanda(id_comanda, id_produto, { statusEntrega });
       this.updateCardStatusIcon(cardElement);
-      const toast = document.createElement('ion-toast');
-      toast.message = 'Status do item atualizado!';
-      toast.duration = 2000;
-      toast.color = 'success';
-      document.body.appendChild(toast);
-      await toast.present();
+      showToast({ message: 'Status do item atualizado!', color: 'success' });
     } catch (error) {
       console.error('Erro ao atualizar item:', error);
-      const toast = document.createElement('ion-toast');
-      toast.message = 'Erro ao atualizar status. Tente novamente.';
-      toast.duration = 2000;
-      toast.color = 'danger';
-      document.body.appendChild(toast);
-      await toast.present();
+      showToast({ message: 'Erro ao atualizar status. Tente novamente.', color: 'danger' });
     }
   }
 

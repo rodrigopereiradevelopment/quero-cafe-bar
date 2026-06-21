@@ -46,7 +46,7 @@ O projeto visa simular um cenário real de desenvolvimento de software, abrangen
 - [x] Route guards no frontend (páginas protegidas por autenticação)
 - [x] Utilitários de autenticação (`shared/auth.js`)
 - [x] Relacionamentos entre entidades configurados
-- [x] Testes unitários completos (146 testes, 19 suítes)
+- [x] Testes unitários completos (132 testes, 17 suítes) — AES removido, bcrypt
 - [x] Tratamento global de exceções
 - [x] Validação global (whitelist + transform)
 - [x] **Seed turbinado**: 5 usuários, 5 mesas, 11 produtos + comanda de exemplo
@@ -90,6 +90,11 @@ O projeto visa simular um cenário real de desenvolvimento de software, abrangen
 - [x] Testes `api.spec.js`: ngrok header removido das assertions (localhost)
 - [x] Testes `LoginPage.spec.js`: `response.token` -> `response.access_token`
 - [x] Testes `ListProdutoPage.spec.js`: `vlr_produto` -> `valor_unit`
+- [x] DOM leak: `shared/overlay.js` (toast/alert/loading com auto-remove) em 12 páginas
+- [x] CSS `h3` escopado em `.list-produto-container` e `.list-usuario-container`
+- [x] `Comanda.findOne()` com `relations` (consistente com `findAll`)
+- [x] Build Android: `npx cap add android` (JDK 21, compileSdk 36)
+- [x] Dead files removidos: `encryption/` (AES) e `LoginUsuarioDto`
 
 ## 📂 Estrutura de Pastas
 

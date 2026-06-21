@@ -2,6 +2,7 @@ import './RegProdutoPage.css';
 import { createHeader } from '../../shared/Header.js';
 import { api } from '../../services/api.js';
 import { isAuthenticated } from '../../shared/auth.js';
+import { showAlert, showToast, showLoading } from '../../shared/overlay.js';
 
 const pageName = 'Cadastrar Produto';
 
@@ -176,12 +177,7 @@ class RegProdutoPage extends HTMLElement {
 
     const valor = parseFloat(formData.get('valor_unit'));
     if (isNaN(valor)) {
-      const alert = document.createElement('ion-alert');
-      alert.header = 'Erro';
-      alert.message = 'Valor unitario invalido.';
-      alert.buttons = ['OK'];
-      document.body.appendChild(alert);
-      alert.present();
+      await showAlert({ header: 'Erro', message: 'Valor unitario invalido.' });
       return;
     }
 
@@ -201,12 +197,7 @@ class RegProdutoPage extends HTMLElement {
       this.navigateBack();
     } catch (error) {
       console.error('Erro ao cadastrar produto:', error);
-      const alert = document.createElement('ion-alert');
-      alert.header = 'Erro';
-      alert.message = 'Não foi possível cadastrar o produto. Tente novamente mais tarde.';
-      alert.buttons = ['OK'];
-      document.body.appendChild(alert);
-      await alert.present();
+      await showAlert({ header: 'Erro', message: 'Não foi possível cadastrar o produto. Tente novamente mais tarde.' });
     }
   }
 

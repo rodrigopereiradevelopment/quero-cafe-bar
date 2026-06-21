@@ -2,6 +2,7 @@ import './LoginPage.css'
 import { createHeader } from '../../shared/Header.js';
 import { api } from '../../services/api.js';
 import { login as authLogin } from '../../shared/auth.js';
+import { showToast, showLoading } from '../../shared/overlay.js';
 
 const pageName = 'Login';
 
@@ -49,29 +50,25 @@ class LoginPage extends HTMLElement {
       const senha = passwordInput.value?.trim();
 
       if (!usuario || !senha) {
-        await presentToast('Informe usuário e senha para acessar.', 'warning');
+        await showToast({ message: 'Informe usuário e senha para acessar.', color: 'warning' });
         return;
       }
 
-      const loading = document.createElement('ion-loading');
-      loading.message = 'Autenticando...';
-      
-      document.body.appendChild(loading);
-      await loading.present();
+      const loading = showLoading('Autenticando...');
 
       try {
         const response = await api.login(usuario, senha);
         authLogin(response.access_token, response.user);
         api.setToken(response.access_token);
 
-        await presentToast('Login realizado com sucesso!', 'success');        
+        showToast({ message: 'Login realizado com sucesso!', color: 'success' });        
         document.querySelector('ion-router').push('/home', 'forward', 'replace');
       } catch (error) {
         const mensagem =
           error.message === 'Failed to fetch'
             ? 'Não foi possível conectar ao servidor. Verifique sua conexão.'
             : error.message || 'Usuário ou senha inválidos.';
-        await presentToast(mensagem);
+        showToast({ message: mensagem });
         passwordInput.value = '';
       } finally {
         await loading.dismiss();

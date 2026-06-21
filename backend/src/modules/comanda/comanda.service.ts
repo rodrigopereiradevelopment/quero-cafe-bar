@@ -29,7 +29,10 @@ export class ComandaService {
   }
 
   async findOne(id: number): Promise<IComandaOutput> {
-    const comanda = await this.comandaRepository.findOne({ where: { id } });
+    const comanda = await this.comandaRepository.findOne({
+      where: { id },
+      relations: ['mesa', 'itens', 'itens.produto'],
+    });
     if (!comanda) {
       throw new NotFoundException(`Comanda com ID ${id} não encontrada`);
     }
@@ -39,6 +42,7 @@ export class ComandaService {
   async findOneByMesaId(id_mesa: number): Promise<IComandaOutput> {
     const comanda = await this.comandaRepository.findOne({
       where: { id_mesa },
+      relations: ['mesa', 'itens', 'itens.produto'],
     });
     if (!comanda) {
       throw new NotFoundException(

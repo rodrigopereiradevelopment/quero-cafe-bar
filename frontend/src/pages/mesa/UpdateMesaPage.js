@@ -2,6 +2,7 @@ import './UpdateMesaPage.css'
 import { createHeader } from '../../shared/Header.js';
 import { api } from '../../services/api.js';
 import { isAuthenticated } from '../../shared/auth.js';
+import { showAlert, showToast, showLoading } from '../../shared/overlay.js';
 
 const pageName = 'Editar Mesa';
 
@@ -45,12 +46,7 @@ class UpdateMesaPage extends HTMLElement {
       this.querySelector('#qtd_cadeiras').value = mesa.qtd_cadeiras;
       this.querySelector('#status').checked = mesa.status;
     } catch (error) {
-      const alert = document.createElement('ion-alert');
-      alert.header = 'Erro';
-      alert.message = 'Não foi possível carregar os dados da mesa.';
-      alert.buttons = ['OK'];
-      document.body.appendChild(alert);
-      await alert.present();
+      await showAlert({ header: 'Erro', message: 'Não foi possível carregar os dados da mesa.' });
       this.navigateBack();
     }
   }
@@ -67,12 +63,7 @@ class UpdateMesaPage extends HTMLElement {
       await api.updateMesa(this.mesaId, mesaData);
       this.navigateBack();
     } catch (error) {
-      const alert = document.createElement('ion-alert');
-      alert.header = 'Erro';
-      alert.message = 'Não foi possível salvar as alterações.';
-      alert.buttons = ['OK'];
-      document.body.appendChild(alert);
-      await alert.present();
+      await showAlert({ header: 'Erro', message: 'Não foi possível salvar as alterações.' });
     }
   }
 

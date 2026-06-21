@@ -35,6 +35,11 @@
 | 24 | `ngrok-skip-browser-warning` incondicional | `api.js` -> condicional a `apiUrl.includes('ngrok')` | ok |
 | 25 | Pexels errors com `NotFoundException` (404) em vez de `InternalServerError` | `produto.service.ts` | ok |
 | 26 | `POST /usuario/login` sem validacao (usava interface) | `usuario.controller.ts` -> `LoginDto` (classe com decorators) | ok |
+| 27 | DOM leak: toasts/alert/loading sem remove() apos dismiss | `shared/overlay.js` (helper) + 12 pages com `showToast/showAlert/showLoading` | ok |
+| 28 | `h3` globais vazando em ListProdutoPage.css e ListUsuarioPage.css | Escopado com `.list-produto-container h3` e `.list-usuario-container h3` | ok |
+| 29 | `Comanda.findOne()` sem relations (inconsistente com findAll) | `comanda.service.ts` + `.spec.ts` | ok |
+| 30 | Build Android (JDK 21 + `npx cap add android`) | `android/` criado, Gradle compila, so falta keystore | ok |
+| 31 | Dead files: `EncryptionTransformer`, `encryption.utils`, `LoginUsuarioDto` | Removidos `src/common/encryption/` (4 arquivos) e `login-usuario.dto.ts` | ok |
 
 ---
 

@@ -2,6 +2,7 @@ import './UpdateProdutoPage.css';
 import { createHeader } from '../../shared/Header.js';
 import { api } from '../../services/api.js';
 import { isAuthenticated } from '../../shared/auth.js';
+import { showAlert, showToast, showLoading } from '../../shared/overlay.js';
 
 const pageName = 'Editar Produto';
 
@@ -109,12 +110,7 @@ class UpdateProdutoPage extends HTMLElement {
       }
     } catch (error) {
       console.error('Erro ao carregar produto:', error);
-      const alert = document.createElement('ion-alert');
-      alert.header = 'Erro';
-      alert.message = 'Não foi possível carregar os dados do produto.';
-      alert.buttons = ['OK'];
-      document.body.appendChild(alert);
-      await alert.present();
+      await showAlert({ header: 'Erro', message: 'Não foi possível carregar os dados do produto.' });
       this.navigateBack();
     }
   }
@@ -207,12 +203,7 @@ class UpdateProdutoPage extends HTMLElement {
 
     const valor = parseFloat(formData.get('valor_unit'));
     if (isNaN(valor)) {
-      const alert = document.createElement('ion-alert');
-      alert.header = 'Erro';
-      alert.message = 'Valor unitario invalido.';
-      alert.buttons = ['OK'];
-      document.body.appendChild(alert);
-      alert.present();
+      await showAlert({ header: 'Erro', message: 'Valor unitario invalido.' });
       return;
     }
 
@@ -236,12 +227,7 @@ class UpdateProdutoPage extends HTMLElement {
       this.navigateBack();
     } catch (error) {
       console.error('Erro ao salvar produto:', error);
-      const alert = document.createElement('ion-alert');
-      alert.header = 'Erro';
-      alert.message = 'Não foi possível salvar o produto. Tente novamente mais tarde.';
-      alert.buttons = ['OK'];
-      document.body.appendChild(alert);
-      await alert.present();
+      await showAlert({ header: 'Erro', message: 'Não foi possível salvar o produto. Tente novamente mais tarde.' });
     }
   }
 

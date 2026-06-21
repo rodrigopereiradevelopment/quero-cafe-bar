@@ -99,10 +99,10 @@ Custom slash commands configured in `.opencode/commands/`:
 ## Test Status
 
 ```bash
-# Backend — 18 suites, 136 tests passing
+# Backend — 17 suites, 132 tests passing
 cd backend && yarn test
 
-# Frontend — 6 suites, 64 tests passing
+# Frontend — 7 suites, 89 tests passing
 cd frontend && npm test
 ```
 

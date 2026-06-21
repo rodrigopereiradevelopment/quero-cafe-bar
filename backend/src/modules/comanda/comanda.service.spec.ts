@@ -115,6 +115,7 @@ describe('ComandaService', () => {
       // Assert
       expect(mockComandaRepository.findOne).toHaveBeenCalledWith({
         where: { id: 1 },
+        relations: ['mesa', 'itens', 'itens.produto'],
       });
       expect(result).toEqual(comandaMock);
     });
@@ -147,6 +148,7 @@ describe('ComandaService', () => {
       // Assert
       expect(mockComandaRepository.findOne).toHaveBeenCalledWith({
         where: { id_mesa: 5 },
+        relations: ['mesa', 'itens', 'itens.produto'],
       });
       expect(result).toEqual(comandaMock);
     });
@@ -186,6 +188,7 @@ describe('ComandaService', () => {
       // Assert
       expect(mockComandaRepository.findOne).toHaveBeenCalledWith({
         where: { id: 1 },
+        relations: ['mesa', 'itens', 'itens.produto'],
       });
       expect(mockComandaRepository.save).toHaveBeenCalledWith(
         expect.objectContaining(updateComandaDto),
@@ -220,6 +223,7 @@ describe('ComandaService', () => {
       // Assert
       expect(mockComandaRepository.findOne).toHaveBeenCalledWith({
         where: { id: 1 },
+        relations: ['mesa', 'itens', 'itens.produto'],
       });
       expect(mockComandaRepository.delete).toHaveBeenCalledWith(1);
       expect(result).toEqual({ id: 1 });
