@@ -30,7 +30,7 @@ class Api {
     async request(endpoint, options = {}) {
         const headers = {
             'Content-Type': 'application/json',
-            'ngrok-skip-browser-warning': 'true',
+            ...(this.apiUrl.includes('ngrok') ? { 'ngrok-skip-browser-warning': 'true' } : {}),
             ...options.headers,
         };
 
@@ -86,7 +86,7 @@ class Api {
     async login(usuario, senha) {
         const headers = {
             'Content-Type': 'application/json',
-            'ngrok-skip-browser-warning': 'true',
+            ...(this.apiUrl.includes('ngrok') ? { 'ngrok-skip-browser-warning': 'true' } : {}),
         };
 
         const controller = new AbortController();

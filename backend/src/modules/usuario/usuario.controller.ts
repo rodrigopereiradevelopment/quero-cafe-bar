@@ -10,10 +10,8 @@ import {
 } from '@nestjs/common';
 import { UsuarioService } from './usuario.service';
 import { Public } from '../auth/public.decorator';
-import type {
-  IUsuarioOutput,
-  IUsuarioLoginInput,
-} from './interfaces/usuario.interface';
+import { LoginDto } from '../auth/dto/login.dto';
+import type { IUsuarioOutput } from './interfaces/usuario.interface';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { ListUsuarioDto } from './dto/list-usuario.dto';
@@ -58,12 +56,12 @@ export class UsuarioController {
 
   @Public()
   @Post('login')
-  async login(@Body() loginDto: IUsuarioLoginInput): Promise<IUsuarioOutput> {
+  async login(@Body() loginDto: LoginDto): Promise<IUsuarioOutput> {
     const user = await this.usuarioService.login(
       loginDto.usuario,
       loginDto.senha,
     );
-    const { senha: _, ...userWithoutPassword } = user;
+    const { senha, ...userWithoutPassword } = user;
     return userWithoutPassword;
   }
 

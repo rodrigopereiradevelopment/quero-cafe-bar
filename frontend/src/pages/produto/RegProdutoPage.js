@@ -130,7 +130,11 @@ class RegProdutoPage extends HTMLElement {
       data.images.forEach((img) => {
         const card = document.createElement('div');
         card.style.cssText = 'cursor:pointer;border-radius:8px;overflow:hidden;border:2px solid transparent';
-        card.innerHTML = `<img src="${img.url}" alt="${img.alt}" style="width:100%;height:120px;object-fit:cover;display:block" />`;
+        const cardImg = document.createElement('img');
+        cardImg.src = img.url;
+        cardImg.alt = img.alt;
+        cardImg.style.cssText = 'width:100%;height:120px;object-fit:cover;display:block';
+        card.appendChild(cardImg);
         card.addEventListener('click', () => this.selecionarImagem(img.url));
         resultados.appendChild(card);
       });
@@ -170,9 +174,20 @@ class RegProdutoPage extends HTMLElement {
     event.preventDefault();
     const formData = new FormData(event.target);
 
+    const valor = parseFloat(formData.get('valor_unit'));
+    if (isNaN(valor)) {
+      const alert = document.createElement('ion-alert');
+      alert.header = 'Erro';
+      alert.message = 'Valor unitario invalido.';
+      alert.buttons = ['OK'];
+      document.body.appendChild(alert);
+      alert.present();
+      return;
+    }
+
     const produtoData = {
       dsc_produto: formData.get('dsc_produto'),
-      valor_unit: parseFloat(formData.get('valor_unit')),
+      valor_unit: valor,
       status: formData.get('status') === 'on',
     };
 

@@ -27,13 +27,13 @@ describe('ListProdutoPage', () => {
     {
       id: 1,
       dsc_produto: 'Café Expresso',
-      vlr_produto: 5.50,
+      valor_unit: 5.50,
       status: true,
     },
     {
       id: 2,
       dsc_produto: 'Pão de Queijo',
-      vlr_produto: 8.00,
+      valor_unit: 8.00,
       status: false,
     },
   ];
@@ -87,10 +87,10 @@ describe('ListProdutoPage', () => {
           return;
         }
 
-        container.innerHTML = produtos.map(produto => `
+            container.innerHTML = produtos.map(produto => `
           <ion-card>
             <ion-card-header>
-              <ion-card-title>${produto.dsc_produto} - R$ ${produto.vlr_produto}</ion-card-title>
+              <ion-card-title>${produto.dsc_produto} - R$ ${produto.valor_unit}</ion-card-title>
             </ion-card-header>
             <ion-card-content>
               Status: ${produto.status ? 'Ativo' : 'Inativo'}

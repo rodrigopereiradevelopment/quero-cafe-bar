@@ -8,6 +8,9 @@ const pageName = 'Mesas';
 
 class ListMesaPage extends HTMLElement {
   async connectedCallback() {
+    if (this._initialized) return;
+    this._initialized = true;
+
     if (!isAuthenticated()) {
       document.querySelector('ion-router').push('/login', 'root');
       return;
@@ -70,7 +73,7 @@ class ListMesaPage extends HTMLElement {
     fab.horizontal = 'end';
     fab.slot = 'fixed';
     fab.innerHTML = `<ion-fab-button><ion-icon name="add"></ion-icon></ion-fab-button>`;
-    fab.addEventListener('click', () => { window.location.href = '/mesa/register'; });
+    fab.addEventListener('click', () => { document.querySelector('ion-router').push('/mesa/register', 'root'); });
     content.appendChild(fab);
   }
 

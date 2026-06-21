@@ -84,10 +84,8 @@ describe('Api Service', () => {
       const result = await api.request('/produto');
 
       expect(fetch).toHaveBeenCalledWith('http://localhost:3001/produto', {
-        method: undefined,
         headers: {
           'Content-Type': 'application/json',
-          'ngrok-skip-browser-warning': 'true',
         },
         signal: expect.any(AbortSignal),
       });
@@ -107,10 +105,8 @@ describe('Api Service', () => {
       await api.request('/usuario');
 
       expect(fetch).toHaveBeenCalledWith(expect.any(String), {
-        method: undefined,
         headers: {
           'Content-Type': 'application/json',
-          'ngrok-skip-browser-warning': 'true',
           'Authorization': 'Bearer token-jwt',
         },
         signal: expect.any(AbortSignal),
@@ -136,7 +132,6 @@ describe('Api Service', () => {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json',
-          'ngrok-skip-browser-warning': 'true',
         },
         signal: expect.any(AbortSignal),
       });
@@ -189,10 +184,8 @@ describe('Api Service', () => {
       });
 
       expect(fetch).toHaveBeenCalledWith(expect.any(String), {
-        method: undefined,
         headers: {
           'Content-Type': 'application/json',
-          'ngrok-skip-browser-warning': 'true',
           'Custom-Header': 'value',
         },
         signal: expect.any(AbortSignal),
@@ -215,7 +208,6 @@ describe('Api Service', () => {
         body: JSON.stringify({ usuario: 'admin', senha: 'senha123' }),
         headers: {
           'Content-Type': 'application/json',
-          'ngrok-skip-browser-warning': 'true',
         },
         signal: expect.any(AbortSignal),
       });

@@ -57,6 +57,8 @@ O projeto visa simular um cenário real de desenvolvimento de software, abrangen
 - [x] Correção: `ListUsuarioDto` com `@Type(() => Number)` para query params
 - [x] Correção: `POST /usuario/login` não retorna mais a senha
 - [x] Correção: scripts migratórios usam `npx` em vez de `yarn`
+- [x] Pexels errors usam `InternalServerErrorException` em vez de `NotFoundException`
+- [x] `POST /usuario/login` usa `LoginDto` (classe com validacao) em vez de interface
 
 ### Frontend
 - [x] Configuração inicial do ambiente Ionic + Vite
@@ -80,6 +82,14 @@ O projeto visa simular um cenário real de desenvolvimento de software, abrangen
 - [x] **Thumbnails** na lista de produtos
 - [x] `localStorage.removeItem` no 401 (em vez de `clear()`)
 - [x] Testes adaptados para jsdom (location + localStorage.assert)
+- [x] XSS: Pexels usam `createElement('img')` em vez de `innerHTML`
+- [x] NaN validation: `isNaN()` em `valor_unit` e `qtd_item`
+- [x] Navegacao SPA: FABs usam `router.push()` em vez de `window.location.href`
+- [x] `connectedCallback` com flag `_initialized` contra duplicacao
+- [x] `ngrok-skip-browser-warning` condicional ao ambiente dev
+- [x] Testes `api.spec.js`: ngrok header removido das assertions (localhost)
+- [x] Testes `LoginPage.spec.js`: `response.token` -> `response.access_token`
+- [x] Testes `ListProdutoPage.spec.js`: `vlr_produto` -> `valor_unit`
 
 ## 📂 Estrutura de Pastas
 

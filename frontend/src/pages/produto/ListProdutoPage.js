@@ -8,6 +8,9 @@ const pageName = 'Produtos';
 
 class ListProdutoPage extends HTMLElement {
   async connectedCallback() {
+    if (this._initialized) return;
+    this._initialized = true;
+
     if (!isAuthenticated()) {
       document.querySelector('ion-router').push('/login', 'root');
       return;
@@ -78,7 +81,7 @@ class ListProdutoPage extends HTMLElement {
     `;
 
     fab.addEventListener('click', () => {
-      window.location.href = '/produto/register';
+      document.querySelector('ion-router').push('/produto/register', 'root');
     });
 
     content.appendChild(fab);

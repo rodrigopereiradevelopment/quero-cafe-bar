@@ -145,7 +145,7 @@ describe('LoginPage', () => {
 
           try {
             const response = await api.login(user, password);
-            api.setToken(response.token);
+            api.setToken(response.access_token);
             if (global.presentToast) {
               global.presentToast('Login realizado com sucesso!', 'success');
             }
@@ -199,7 +199,7 @@ describe('LoginPage', () => {
         return null;
       });
 
-      api.login.mockResolvedValue({ token: 'jwt-token-123' });
+      api.login.mockResolvedValue({ access_token: 'jwt-token-123' });
 
       // Simula clique no botão
       await loginPage.loginHandler();
@@ -209,7 +209,7 @@ describe('LoginPage', () => {
     });
 
     it('deve mostrar toast de sucesso após login (Happy Path)', async () => {
-      api.login.mockResolvedValue({ token: 'jwt-token-123' });
+      api.login.mockResolvedValue({ access_token: 'jwt-token-123' });
       
       // Mock do presentToast
       const presentToast = jest.fn();
@@ -224,7 +224,7 @@ describe('LoginPage', () => {
     });
 
     it('deve redirecionar para /home após login bem-sucedido', async () => {
-      api.login.mockResolvedValue({ token: 'jwt-token-123' });
+      api.login.mockResolvedValue({ access_token: 'jwt-token-123' });
 
       const mockRouter = { push: jest.fn(), useHash: true };
       const originalDocQuerySelector = document.querySelector.bind(document);

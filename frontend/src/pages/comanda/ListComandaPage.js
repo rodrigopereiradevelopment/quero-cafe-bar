@@ -8,6 +8,9 @@ const pageName = 'Comandas';
 
 class ListComandaPage extends HTMLElement {
   async connectedCallback() {
+    if (this._initialized) return;
+    this._initialized = true;
+
     if (!isAuthenticated()) {
       document.querySelector('ion-router').push('/login', 'root');
       return;
@@ -88,7 +91,7 @@ class ListComandaPage extends HTMLElement {
     `;
 
     fab.addEventListener('click', () => {
-      window.location.href = '/comanda/register';
+      document.querySelector('ion-router').push('/comanda/register', 'root');
     });
 
     content.appendChild(fab);

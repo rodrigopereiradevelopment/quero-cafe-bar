@@ -293,6 +293,15 @@ class UpdateComandaPage extends HTMLElement {
       const produtoSelecionado = produtosAtivos.find(p => p.id === id_produto);
       const valor_venda = produtoSelecionado ? produtoSelecionado.valor_unit : 0;
       const qtd = parseInt(formData.get('qtd_item'));
+      if (isNaN(qtd) || qtd <= 0) {
+        const alert = document.createElement('ion-alert');
+        alert.header = 'Erro';
+        alert.message = 'Quantidade invalida.';
+        alert.buttons = ['OK'];
+        document.body.appendChild(alert);
+        alert.present();
+        return;
+      }
       const existente = itensAtuais.find(i => i.id_produto === id_produto);
 
       try {

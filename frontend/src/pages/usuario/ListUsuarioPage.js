@@ -8,6 +8,9 @@ const pageName = 'Usuários';
 
 class ListUsuarioPage extends HTMLElement {
   async connectedCallback() {
+    if (this._initialized) return;
+    this._initialized = true;
+
     if (!isAuthenticated()) {
       document.querySelector('ion-router').push('/login', 'root');
       return;
@@ -78,7 +81,7 @@ class ListUsuarioPage extends HTMLElement {
     `;
 
     fab.addEventListener('click', () => {
-      window.location.href = '/usuario/register';
+      document.querySelector('ion-router').push('/usuario/register', 'root');
     });
 
     content.appendChild(fab);

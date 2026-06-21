@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -56,7 +56,7 @@ export class ProdutoService {
   ): Promise<{ images: { url: string; alt: string }[] }> {
     const apiKey = this.configService.get<string>('PEXELS_API_KEY');
     if (!apiKey) {
-      throw new NotFoundException('PEXELS_API_KEY não configurada no .env');
+      throw new InternalServerErrorException('PEXELS_API_KEY não configurada no .env');
     }
 
     const response = await fetch(
@@ -65,7 +65,7 @@ export class ProdutoService {
     );
 
     if (!response.ok) {
-      throw new NotFoundException('Erro ao buscar imagens no Pexels');
+      throw new InternalServerErrorException('Erro ao buscar imagens no Pexels');
     }
 
     const data = await response.json();
