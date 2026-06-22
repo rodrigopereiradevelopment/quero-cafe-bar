@@ -3,6 +3,11 @@ export interface IUsuario {
   nome: string;
   usuario: string;
   perfil: number;
+  telefone?: string;
+  endereco?: string;
+  data_nascimento?: string;
+  cpf?: string;
+  foto?: string;
 }
 
 export interface IUsuarioInput {
@@ -10,6 +15,11 @@ export interface IUsuarioInput {
   usuario: string;
   senha: string;
   perfil?: number;
+  telefone?: string;
+  endereco?: string;
+  data_nascimento?: string;
+  cpf?: string;
+  foto?: string;
 }
 
 export interface IUsuarioUpdateInput {
@@ -18,6 +28,11 @@ export interface IUsuarioUpdateInput {
   usuario?: string;
   senha?: string;
   perfil?: number;
+  telefone?: string;
+  endereco?: string;
+  data_nascimento?: string;
+  cpf?: string;
+  foto?: string;
 }
 
 export interface IUsuarioLoginInput {

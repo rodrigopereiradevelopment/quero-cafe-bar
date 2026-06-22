@@ -1,0 +1,141 @@
+.profile-page {
+    --background: #0d1117;
+    background: #0d1117;
+}
+
+.profile-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 16px;
+}
+
+.profile-avatar-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 0;
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1a1a2e, #0f3460);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #e2b714;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.profile-avatar ion-icon {
+    font-size: 48px;
+    color: #e2b714;
+}
+
+.profile-avatar-edit {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #e2b714;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 2px solid #0d1117;
+}
+
+.profile-avatar-edit ion-icon {
+    font-size: 16px;
+    color: #0d1117;
+}
+
+.profile-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #e6edf3;
+    margin: 0;
+}
+
+.profile-username {
+    font-size: 0.9rem;
+    color: #8b949e;
+    margin: 4px 0 0;
+}
+
+.profile-role-badge {
+    margin-top: 8px;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.profile-section {
+    margin-top: 16px;
+}
+
+.profile-section-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #8b949e;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0 16px;
+    margin-bottom: 8px;
+}
+
+.profile-section ion-card {
+    margin: 0 0 16px;
+}
+
+.profile-input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.profile-input-row ion-icon {
+    color: #8b949e;
+    flex-shrink: 0;
+}
+
+.profile-actions {
+    padding: 16px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.profile-actions ion-button {
+    margin: 0;
+}
+
+/* Password section */
+.password-section {
+    margin-top: 8px;
+}
+
+.password-toggle {
+    cursor: pointer;
+}
+
+/* Photo input hidden */
+.photo-input {
+    display: none;
+}

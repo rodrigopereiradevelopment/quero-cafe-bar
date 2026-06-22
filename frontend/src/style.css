@@ -1,7 +1,405 @@
+/* ============================================
+   QUER CAFÉ BAR — DARK THEME "CAFÉ PREMIUM"
+   ============================================ */
+
+/* --- Ionic Dark Theme Overrides --- */
+:root {
+  /* Core palette */
+  --ion-color-primary: #e2b714;
+  --ion-color-primary-rgb: 226, 183, 20;
+  --ion-color-primary-shade: #c9a312;
+  --ion-color-primary-tint: #e5c04a;
+
+  --ion-color-secondary: #1a1a2e;
+  --ion-color-secondary-rgb: 26, 26, 46;
+  --ion-color-secondary-shade: #161627;
+  --ion-color-secondary-tint: #33334d;
+
+  --ion-color-tertiary: #0f3460;
+  --ion-color-tertiary-rgb: 15, 52, 96;
+  --ion-color-tertiary-shade: #0d2e54;
+  --ion-color-tertiary-tint: #2b4a75;
+
+  --ion-color-success: #2ea043;
+  --ion-color-success-rgb: 46, 160, 67;
+  --ion-color-success-shade: #298e3c;
+  --ion-color-success-tint: #45a95a;
+
+  --ion-color-warning: #d29922;
+  --ion-color-warning-rgb: 210, 153, 34;
+
+  --ion-color-danger: #f85149;
+  --ion-color-danger-rgb: 248, 81, 73;
+
+  --ion-color-light: #161b22;
+  --ion-color-light-rgb: 22, 27, 34;
+  --ion-color-light-shade: #12151b;
+  --ion-color-light-tint: #1c2129;
+
+  --ion-color-medium: #21262d;
+  --ion-color-medium-rgb: 33, 38, 45;
+
+  --ion-color-dark: #0d1117;
+  --ion-color-dark-rgb: 13, 17, 23;
+
+  /* Background tokens */
+  --ion-background-color: #0d1117;
+  --ion-background-color-rgb: 13, 17, 23;
+
+  /* Text tokens */
+  --ion-text-color: #e6edf3;
+  --ion-text-color-rgb: 230, 237, 243;
+  --ion-text-color-secondary: #8b949e;
+  --ion-text-color-rgb-secondary: 139, 148, 158;
+
+  /* Toolbar */
+  --ion-toolbar-background: #161b22;
+  --ion-toolbar-color: #e6edf3;
+
+  /* Cards */
+  --ion-card-background: #161b22;
+  --ion-card-color: #e6edf3;
+
+  /* Item */
+  --ion-item-background: #161b22;
+  --ion-item-color: #e6edf3;
+
+  /* List */
+  --ion-list-background: #0d1117;
+
+  /* Input */
+  --ion-input-background: #0d1117;
+  --ion-input-color: #e6edf3;
+  --ion-input-placeholder-color: #484f58;
+
+  /* Font family */
+  --ion-font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Border radius */
+  --ion-border-radius: 10px;
+
+  /* Step bar (if any) */
+  --ion-step-bar-background: #161b22;
+}
+
+/* --- Global Body --- */
+body {
+  --background: #0d1117;
+  background: #0d1117;
+  color: #e6edf3;
+}
+
+ion-app {
+  --background: #0d1117;
+}
+
+/* --- Typography --- */
+h1, h2, h3 {
+  font-family: 'Playfair Display', 'Poppins', serif;
+  font-weight: 700;
+  color: #e6edf3;
+  letter-spacing: -0.02em;
+}
+
+h3 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+ion-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+ion-label {
+  color: #e6edf3;
+}
+
+ion-label[slot="stacked"],
+ion-label[slot="floating"] {
+  color: #8b949e;
+}
+
+/* --- Toolbar & Header --- */
+ion-toolbar {
+  --background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+  --color: #e6edf3;
+  border-bottom: 1px solid rgba(226, 183, 20, 0.15);
+}
+
+ion-header ion-toolbar {
+  --background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+}
+
+ion-header ion-toolbar ion-title {
+  color: #e6edf3;
+  font-weight: 600;
+}
+
+/* --- Cards --- */
+ion-card {
+  --background: #161b22;
+  --color: #e6edf3;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+ion-card-header {
+  --background: #161b22;
+  color: #e6edf3;
+}
+
+ion-card-content {
+  color: #c9d1d9;
+}
+
+/* --- Items & Lists --- */
+ion-item {
+  --background: #161b22;
+  --color: #e6edf3;
+  --border-color: #21262d;
+  --inner-border-end-color: #21262d;
+}
+
+ion-item:hover {
+  --background: #1c2129;
+}
+
+ion-list {
+  --ion-item-background: #161b22;
+  background: #0d1117;
+}
+
+/* --- Inputs --- */
+ion-input,
+ion-textarea,
+ion-select {
+  --background: #0d1117;
+  --color: #e6edf3;
+  --placeholder-color: #484f58;
+  --highlight-color-focused: #e2b714;
+}
+
+ion-input ion-input-slot,
+ion-input ion-icon {
+  color: #8b949e;
+}
+
+/* --- Buttons --- */
+ion-button {
+  --border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+ion-button[color="primary"] {
+  --background: #e2b714;
+  --color: #0d1117;
+  --background-hover: #e5c04a;
+  --background-activated: #c9a312;
+}
+
+ion-button[color="danger"] {
+  --background: #f85149;
+  --color: #ffffff;
+}
+
+ion-button[color="success"] {
+  --background: #2ea043;
+  --color: #ffffff;
+}
+
+ion-button[color="secondary"] {
+  --background: #1a1a2e;
+  --color: #e6edf3;
+  --border-color: #30363d;
+}
+
+ion-button[color="light"] {
+  --background: #21262d;
+  --color: #e6edf3;
+}
+
+/* --- FAB --- */
+ion-fab-button {
+  --background: #e2b714;
+  --color: #0d1117;
+  --box-shadow: 0 4px 16px rgba(226, 183, 20, 0.4);
+}
+
+/* --- Badge --- */
+ion-badge {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+}
+
+ion-badge[color="primary"] {
+  --background: #e2b714;
+  color: #0d1117;
+}
+
+/* --- Checkbox --- */
+ion-checkbox {
+  --checkmark-color: #0d1117;
+  --background-checked: #e2b714;
+  --border-color-checked: #e2b714;
+}
+
+/* --- Select --- */
+ion-select {
+  --background: #0d1117;
+  --color: #e6edf3;
+}
+
+ion-select-option {
+  --background: #161b22;
+  --color: #e6edf3;
+}
+
+/* --- Menu (side) --- */
+ion-menu {
+  --background: #0d1117;
+}
+
+ion-menu ion-content {
+  --background: #0d1117;
+}
+
+ion-menu ion-toolbar {
+  --background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+}
+
+ion-menu ion-item {
+  --background: transparent;
+  --color: #c9d1d9;
+  --min-height: 50px;
+  border-radius: 8px;
+  margin: 4px 8px;
+}
+
+ion-menu ion-item:hover {
+  --background: rgba(226, 183, 20, 0.1);
+  --color: #e2b714;
+}
+
+ion-menu ion-item ion-icon {
+  color: #8b949e;
+}
+
+ion-menu ion-item:hover ion-icon {
+  color: #e2b714;
+}
+
+/* --- Toast --- */
+ion-toast {
+  --background: #161b22;
+  --color: #e6edf3;
+  --box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  border: 1px solid #30363d;
+  border-radius: 10px;
+}
+
+/* --- Alert --- */
+ion-alert {
+  --background: #161b22;
+  --color: #e6edf3;
+  --backdrop-opacity: 0.6;
+}
+
+/* --- Loading --- */
+ion-loading {
+  --background: #161b22;
+  --color: #e2b714;
+  --backdrop-opacity: 0.6;
+}
+
+/* --- Modal --- */
+ion-modal {
+  --background: #161b22;
+  --color: #e6edf3;
+}
+
+/* --- Popover --- */
+ion-popover {
+  --background: #161b22;
+  --color: #e6edf3;
+  border: 1px solid #30363d;
+}
+
+/* --- Scrollbar --- */
+ion-content {
+  --background: #0d1117;
+}
+
+ion-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+ion-content::-webkit-scrollbar-track {
+  background: #0d1117;
+}
+
+ion-content::-webkit-scrollbar-thumb {
+  background: #30363d;
+  border-radius: 3px;
+}
+
+/* --- Login Container --- */
 .login-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
-    padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  padding: 20px;
+  background: linear-gradient(180deg, #0d1117 0%, #161b22 100%);
+}
+
+.login-container ion-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+/* --- Subtle Animations --- */
+ion-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+ion-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* --- Utility Classes --- */
+.text-gold { color: #e2b714; }
+.text-muted { color: #8b949e; }
+.text-light { color: #c9d1d9; }
+.bg-dark { background: #0d1117; }
+.bg-card { background: #161b22; }
+.border-subtle { border: 1px solid #30363d; }
+
+/* --- Gothic Font (UnifrakturMaguntia) --- */
+.font-gothic {
+  font-family: 'UnifrakturMaguntia', cursive;
+  color: #e2b714;
+  letter-spacing: 0.02em;
+}
+
+.font-gothic-sm {
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: 1.1em;
+  color: #e2b714;
+}
+
+.font-gothic-lg {
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: 1.4em;
+  color: #e2b714;
+  text-shadow: 0 2px 8px rgba(226, 183, 20, 0.3);
 }

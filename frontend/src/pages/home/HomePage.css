@@ -11,12 +11,21 @@
 .comanda-card {
   margin: 0;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: #161b22;
+  border: 1px solid #30363d;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.comanda-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
 }
 
 .comanda-card ion-card-header {
-  background: var(--ion-color-light);
+  background: #161b22;
   padding-bottom: 8px;
+  border-bottom: 1px solid #21262d;
 }
 
 .card-header-content {
@@ -36,6 +45,7 @@
 .comanda-card ion-item {
   --padding-start: 0;
   --inner-padding-end: 0;
+  --background: transparent;
 }
 
 .comanda-card h3 {
@@ -44,10 +54,17 @@
   gap: 8px;
   margin: 10;
   font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  color: #e6edf3;
 }
 
 .comanda-card ion-badge {
   font-size: 12px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  --background: #e2b714;
+  color: #0d1117;
 }
 
 .item-entrega-select {
@@ -55,19 +72,19 @@
 }
 
 .item-pending {
-  --background: rgba(255, 0, 0, 0.08);
+  --background: rgba(248, 81, 73, 0.08);
   border-left: 4px solid var(--ion-color-danger);
 }
 
 .item-delivered {
-  --background: rgba(0, 128, 0, 0.08);
+  --background: rgba(46, 160, 67, 0.08);
   border-left: 4px solid var(--ion-color-success);
 }
 
 .item-pending ion-label h3 {
-  color: var(--ion-color-danger-shade);
+  color: #f85149;
 }
 
 .item-delivered ion-label h3 {
-  color: var(--ion-color-success-shade);
+  color: #2ea043;
 }

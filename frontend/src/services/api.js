@@ -195,6 +195,13 @@ class Api {
         });
     }
 
+    async changePassword(id, senhaAtual, novaSenha) {
+        return this.request(`/usuario/${id}/change-password`, {
+            method: 'PATCH',
+            body: JSON.stringify({ senha_atual: senhaAtual, nova_senha: novaSenha }),
+        });
+    }
+
     // --- Métodos de Mesas ---
     async getMesas() {
         return this.request('/mesa');

@@ -1,8 +1,15 @@
 ion-input {
     width: 100%;
     margin-bottom: 10px;
+    --background: #0d1117;
+    --color: #e6edf3;
+    --placeholder-color: #484f58;
+    --highlight-color-focused: #e2b714;
+    border-radius: 10px;
 }
 
 ion-label {
     margin-bottom: 10px;
+    color: #8b949e;
+    font-weight: 500;
 }

@@ -7,11 +7,56 @@ import { ComandaService } from '../modules/comanda/comanda.service';
 import { ComandaItemService } from '../modules/comanda-item/comanda-item.service';
 
 const usuarios = [
-  { nome: 'Administrador', usuario: 'admin', senha: 'admin', perfil: 0 },
-  { nome: 'Garçom', usuario: 'garcom', senha: 'garcom', perfil: 1 },
-  { nome: 'Atendente', usuario: 'atendente', senha: 'atendente', perfil: 1 },
-  { nome: 'Rodrigo', usuario: 'rodrigo', senha: 'rodrigo', perfil: 2 },
-  { nome: 'Maria', usuario: 'maria', senha: 'maria', perfil: 2 },
+  {
+    nome: 'Administrador',
+    usuario: 'admin',
+    senha: 'admin',
+    perfil: 0,
+    telefone: '(11) 99999-0000',
+    endereco: 'Rua do Admin, 100 - Centro',
+    data_nascimento: '1985-03-15',
+    cpf: '123.456.789-00',
+  },
+  {
+    nome: 'Garçom',
+    usuario: 'garcom',
+    senha: 'garcom',
+    perfil: 1,
+    telefone: '(11) 98888-1111',
+    endereco: 'Rua do Garcom, 200 - Vila',
+    data_nascimento: '1990-07-22',
+    cpf: '987.654.321-00',
+  },
+  {
+    nome: 'Atendente',
+    usuario: 'atendente',
+    senha: 'atendente',
+    perfil: 1,
+    telefone: '(11) 97777-2222',
+    endereco: 'Rua da Atendente, 300 - Jardim',
+    data_nascimento: '1992-11-05',
+    cpf: '456.789.123-00',
+  },
+  {
+    nome: 'Rodrigo',
+    usuario: 'rodrigo',
+    senha: 'rodrigo',
+    perfil: 2,
+    telefone: '(11) 96666-3333',
+    endereco: 'Rua do Cliente, 400 - Bairro',
+    data_nascimento: '1995-01-30',
+    cpf: '321.654.987-00',
+  },
+  {
+    nome: 'Maria',
+    usuario: 'maria',
+    senha: 'maria',
+    perfil: 2,
+    telefone: '(11) 95555-4444',
+    endereco: 'Rua da Maria, 500 - Vila Nova',
+    data_nascimento: '1988-06-18',
+    cpf: '654.321.987-00',
+  },
 ];
 
 const mesas = [

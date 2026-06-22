@@ -85,7 +85,7 @@ class ListMesaPage extends HTMLElement {
               name="${mesa.status ? 'checkmark-circle' : 'close-circle'}"
               color="${mesa.status ? 'success' : 'danger'}"
             ></ion-icon>
-            <span>Mesa #${mesa.id}</span>
+            <span>Mesa <span class="font-gothic-sm">#${mesa.id}</span></span>
           </h2>
           <p>Cadeiras: ${mesa.qtd_cadeiras}</p>
         </ion-label>

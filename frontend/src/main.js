@@ -42,6 +42,9 @@ import './pages/comanda/RegComandaPage.js';
 import './pages/comanda/ListComandaPage.js';
 import './pages/comanda/UpdateComandaPage.js';
 
+import './pages/profile/ProfilePage.js';
+import './pages/settings/SettingsPage.js';
+
 // Redirect to Login Page
 // if (window.location.hash === '' || window.location.hash === '#/') {
 //   window.location.hash = '#/login';

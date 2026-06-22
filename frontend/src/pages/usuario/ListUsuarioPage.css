@@ -5,4 +5,15 @@
     font-size: 0.9rem; 
     font-weight: 500; 
     margin: 0;
+    font-family: 'Poppins', sans-serif;
+    color: #e6edf3;
+}
+
+ion-item ion-label h3 {
+    color: #e6edf3;
+    font-weight: 500;
+}
+
+ion-item ion-label p {
+    color: #8b949e;
 }

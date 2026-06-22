@@ -101,8 +101,8 @@ class HomePage extends HTMLElement {
         <ion-card-header>
           <ion-card-title>
             <div class="card-header-content">
-              <span>Comanda #${comanda.id}</span>
-              <span>Mesa: ${comanda.mesa?.id || comanda.id_mesa}</span>
+              <span>Comanda <span class="font-gothic-sm">#${comanda.id}</span></span>
+              <span>Mesa: <span class="font-gothic-sm">${comanda.mesa?.id || comanda.id_mesa}</span></span>
               <ion-icon name="${statusIcon}" color="${statusColor}" class="status-icon"></ion-icon>
             </div>
           </ion-card-title>

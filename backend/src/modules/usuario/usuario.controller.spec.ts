@@ -55,6 +55,11 @@ describe('UsuarioController', () => {
         usuario: 'novo.usuario',
         senha: 'senha123',
         perfil: 1,
+        telefone: undefined,
+        endereco: undefined,
+        data_nascimento: undefined,
+        cpf: undefined,
+        foto: undefined,
       };
       service.create.mockResolvedValue(usuarioCriado);
 
@@ -71,8 +76,8 @@ describe('UsuarioController', () => {
     it('deve listar todos os usuários (Happy Path)', async () => {
       // Arrange
       const usuariosMock = [
-        { id: 1, nome: 'Admin', usuario: 'admin', senha: '123', perfil: 0 },
-        { id: 2, nome: 'Garçom', usuario: 'garcom', senha: '456', perfil: 1 },
+        { id: 1, nome: 'Admin', usuario: 'admin', senha: '123', perfil: 0, telefone: undefined, endereco: undefined, data_nascimento: undefined, cpf: undefined, foto: undefined },
+        { id: 2, nome: 'Garçom', usuario: 'garcom', senha: '456', perfil: 1, telefone: undefined, endereco: undefined, data_nascimento: undefined, cpf: undefined, foto: undefined },
       ];
 
       const listUsuarioDto: ListUsuarioDto = {};
@@ -89,7 +94,7 @@ describe('UsuarioController', () => {
     it('deve filtrar usuários por perfil', async () => {
       // Arrange
       const usuariosMock = [
-        { id: 2, nome: 'Garçom', usuario: 'garcom', senha: '456', perfil: 1 },
+        { id: 2, nome: 'Garçom', usuario: 'garcom', senha: '456', perfil: 1, telefone: undefined, endereco: undefined, data_nascimento: undefined, cpf: undefined, foto: undefined },
       ];
 
       const listUsuarioDto: ListUsuarioDto = { perfil: 1 };
@@ -113,6 +118,11 @@ describe('UsuarioController', () => {
         usuario: 'admin',
         senha: '123',
         perfil: 0,
+        telefone: undefined,
+        endereco: undefined,
+        data_nascimento: undefined,
+        cpf: undefined,
+        foto: undefined,
       };
 
       service.findOne.mockResolvedValue(usuarioMock);
@@ -135,6 +145,11 @@ describe('UsuarioController', () => {
         usuario: 'admin',
         senha: '123',
         perfil: 0,
+        telefone: undefined,
+        endereco: undefined,
+        data_nascimento: undefined,
+        cpf: undefined,
+        foto: undefined,
       };
 
       service.findByUsuario.mockResolvedValue(usuarioMock);
@@ -157,6 +172,11 @@ describe('UsuarioController', () => {
           usuario: 'garcom',
           senha: '456',
           perfil: 1,
+          telefone: undefined,
+          endereco: undefined,
+          data_nascimento: undefined,
+          cpf: undefined,
+          foto: undefined,
         },
       ];
 
@@ -178,6 +198,11 @@ describe('UsuarioController', () => {
         usuario: 'admin',
         senha: 'senha123',
         perfil: 0,
+        telefone: undefined,
+        endereco: undefined,
+        data_nascimento: undefined,
+        cpf: undefined,
+        foto: undefined,
       };
 
       service.login.mockResolvedValue(usuarioMock);
@@ -220,6 +245,11 @@ describe('UsuarioController', () => {
         usuario: 'admin',
         senha: '123',
         perfil: 1,
+        telefone: undefined,
+        endereco: undefined,
+        data_nascimento: undefined,
+        cpf: undefined,
+        foto: undefined,
       };
 
       service.update.mockResolvedValue(usuarioAtualizado);

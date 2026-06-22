@@ -1,0 +1,125 @@
+.settings-page {
+    --background: #0d1117;
+    background: #0d1117;
+}
+
+.settings-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 16px;
+}
+
+.settings-header {
+    text-align: center;
+    padding: 24px 0;
+}
+
+.settings-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #e6edf3;
+    margin: 0 0 4px;
+}
+
+.settings-header p {
+    font-size: 0.85rem;
+    color: #8b949e;
+    margin: 0;
+}
+
+.settings-section {
+    margin-top: 16px;
+}
+
+.settings-section-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #8b949e;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0 16px;
+    margin-bottom: 8px;
+}
+
+.settings-card ion-card-content {
+    padding: 0;
+}
+
+.settings-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border-bottom: 1px solid #21262d;
+}
+
+.settings-item:last-child {
+    border-bottom: none;
+}
+
+.settings-item-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+}
+
+.settings-item-left ion-icon {
+    font-size: 22px;
+    color: #8b949e;
+    flex-shrink: 0;
+}
+
+.settings-item-text h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #e6edf3;
+    margin: 0;
+}
+
+.settings-item-text p {
+    font-size: 0.8rem;
+    color: #8b949e;
+    margin: 2px 0 0;
+}
+
+/* Font size preview */
+.font-size-preview {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.font-size-preview span {
+    color: #8b949e;
+    font-weight: 600;
+    min-width: 28px;
+    text-align: center;
+}
+
+/* Range slider */
+.settings-range {
+    width: 100%;
+    padding: 8px 0;
+}
+
+/* Danger zone */
+.settings-danger {
+    margin-top: 32px;
+}
+
+.settings-danger .settings-section-title {
+    color: #f85149;
+}
+
+.danger-btn {
+    --background: transparent;
+    --color: #f85149;
+    --border-color: #f85149;
+    border: 1px solid #f85149;
+    border-radius: 10px;
+    font-weight: 500;
+}

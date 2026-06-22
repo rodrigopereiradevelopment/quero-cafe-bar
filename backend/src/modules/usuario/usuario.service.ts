@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -89,5 +90,21 @@ export class UsuarioService {
     await this.findOne(id);
     await this.usuarioRepository.delete(id);
     return { id };
+  }
+
+  async changePassword(id: number, senhaAtual: string, novaSenha: string) {
+    const usuario = await this.usuarioRepository.findOne({ where: { id } });
+    if (!usuario) {
+      throw new NotFoundException(`Usuário com ID ${id} não encontrado`);
+    }
+
+    const senhaValida = await bcrypt.compare(senhaAtual, usuario.senha);
+    if (!senhaValida) {
+      throw new BadRequestException('Senha atual incorreta');
+    }
+
+    const hash = await bcrypt.hash(novaSenha, 10);
+    usuario.senha = hash;
+    return await this.usuarioRepository.save(usuario);
   }
 }

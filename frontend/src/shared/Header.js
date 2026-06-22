@@ -27,33 +27,45 @@ const createAndInjectMenu = () => {
     menu.contentId = mainContent.id; // Garante que o ID do conteúdo seja o mesmo que o menu espera.
     menu.innerHTML = `
         <ion-header>
-            <ion-toolbar color="secondary">
-                <ion-title>Menu</ion-title>
+            <ion-toolbar>
+                <ion-title style="font-family: 'UnifrakturMaguntia', cursive; font-weight: 400; color: #e2b714; font-size: 1.4rem; letter-spacing: 0.02em;">
+                    ☕ Quero Café
+                </ion-title>
             </ion-toolbar>
         </ion-header>
         <ion-content>
-            <ion-list>
-                <ion-item button class="menu-item" data-url="/home">
-                    <ion-icon name="home-outline" slot="start"></ion-icon>
-                    <ion-label>Home</ion-label>
+            <ion-list lines="none" style="padding: 8px;">
+                <ion-item button class="menu-item" data-url="/home" style="--min-height: 48px; border-radius: 8px; margin-bottom: 4px;">
+                    <ion-icon name="home-outline" slot="start" style="color: #8b949e; margin-right: 12px;"></ion-icon>
+                    <ion-label style="font-weight: 500;">Home</ion-label>
                 </ion-item>
-                <ion-item button class="menu-item" data-url="/produtos">
-                    <ion-icon name="fast-food-outline" slot="start"></ion-icon>
-                    <ion-label>Produtos</ion-label>
+                <ion-item button class="menu-item" data-url="/produtos" style="--min-height: 48px; border-radius: 8px; margin-bottom: 4px;">
+                    <ion-icon name="fast-food-outline" slot="start" style="color: #8b949e; margin-right: 12px;"></ion-icon>
+                    <ion-label style="font-weight: 500;">Produtos</ion-label>
                 </ion-item>
-                <ion-item button class="menu-item" data-url="/usuarios">
-                    <ion-icon name="people-outline" slot="start"></ion-icon>
-                    <ion-label>Usuários</ion-label>
+                <ion-item button class="menu-item" data-url="/usuarios" style="--min-height: 48px; border-radius: 8px; margin-bottom: 4px;">
+                    <ion-icon name="people-outline" slot="start" style="color: #8b949e; margin-right: 12px;"></ion-icon>
+                    <ion-label style="font-weight: 500;">Usuários</ion-label>
                 </ion-item>
-                <ion-item button class="menu-item" data-url="/mesas">
-                    <ion-icon name="grid-outline" slot="start"></ion-icon>
-                    <ion-label>Mesas</ion-label>
+                <ion-item button class="menu-item" data-url="/mesas" style="--min-height: 48px; border-radius: 8px; margin-bottom: 4px;">
+                    <ion-icon name="grid-outline" slot="start" style="color: #8b949e; margin-right: 12px;"></ion-icon>
+                    <ion-label style="font-weight: 500;">Mesas</ion-label>
                 </ion-item>
-                <ion-item button class="menu-item" data-url="/comandas">
-                    <ion-icon name="receipt-outline" slot="start"></ion-icon>
-                    <ion-label>Comandas</ion-label>
+                <ion-item button class="menu-item" data-url="/comandas" style="--min-height: 48px; border-radius: 8px; margin-bottom: 4px;">
+                    <ion-icon name="receipt-outline" slot="start" style="color: #8b949e; margin-right: 12px;"></ion-icon>
+                    <ion-label style="font-weight: 500;">Comandas</ion-label>
                 </ion-item>
-
+                <ion-item style="margin: 16px 8px 4px; --min-height: 1px; --inner-padding-end: 0;">
+                    <div style="width: 100%; height: 1px; background: #21262d;"></div>
+                </ion-item>
+                <ion-item button class="menu-item" data-url="/profile" style="--min-height: 48px; border-radius: 8px; margin-bottom: 4px;">
+                    <ion-icon name="person-circle-outline" slot="start" style="color: #8b949e; margin-right: 12px;"></ion-icon>
+                    <ion-label style="font-weight: 500;">Meu Perfil</ion-label>
+                </ion-item>
+                <ion-item button class="menu-item" data-url="/settings" style="--min-height: 48px; border-radius: 8px; margin-bottom: 4px;">
+                    <ion-icon name="settings-outline" slot="start" style="color: #8b949e; margin-right: 12px;"></ion-icon>
+                    <ion-label style="font-weight: 500;">Configuracoes</ion-label>
+                </ion-item>
             </ion-list>
         </ion-content>
     `;
@@ -79,11 +91,11 @@ export function createHeader(pageName) {
         createAndInjectMenu();
     }
 
-    const startSlotContent = pageName !== 'Login' ? `<ion-buttons slot="start"><ion-menu-button></ion-menu-button></ion-buttons>` : `<ion-icon name="cafe" slot="start" style="margin-left: 15px; font-size: 24px;"></ion-icon>`;
-    const logoutBtn = pageName !== 'Login' ? `<ion-buttons slot="end"><ion-button id="logout-btn"><ion-icon slot="icon-only" name="log-out-outline"></ion-icon></ion-button></ion-buttons>` : ``;
+    const startSlotContent = pageName !== 'Login' ? `<ion-buttons slot="start"><ion-menu-button></ion-menu-button></ion-buttons>` : `<ion-icon name="cafe" slot="start" style="margin-left: 15px; font-size: 24px; color: #e2b714;"></ion-icon>`;
+    const logoutBtn = pageName !== 'Login' ? `<ion-buttons slot="end"><ion-button id="logout-btn" style="--color: #8b949e;"><ion-icon slot="icon-only" name="log-out-outline"></ion-icon></ion-button></ion-buttons>` : ``;
 
     return `<ion-header>
-                <ion-toolbar color="primary">
+                <ion-toolbar>
                     ${startSlotContent}
                     <ion-title>Quero Café Bar - ${pageName}</ion-title>
                     ${logoutBtn}

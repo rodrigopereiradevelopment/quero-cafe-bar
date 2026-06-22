@@ -1,12 +1,14 @@
 .itens-section {
   margin-top: 24px;
   padding-top: 16px;
-  border-top: 1px solid var(--ion-color-light-tint);
+  border-top: 1px solid #21262d;
 }
 
 .itens-section h3 {
   margin-bottom: 12px;
   font-weight: 600;
+  color: #e6edf3;
+  font-family: 'Poppins', sans-serif;
 }
 
 .itens-container ion-item {

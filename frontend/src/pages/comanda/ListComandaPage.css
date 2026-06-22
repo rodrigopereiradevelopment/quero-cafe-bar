@@ -5,4 +5,15 @@
 .list-comanda-container ion-item {
   margin-bottom: 8px;
   border-radius: 8px;
+  --background: #161b22;
+  border: 1px solid #21262d;
+}
+
+ion-item ion-label h3 {
+  color: #e6edf3;
+  font-weight: 500;
+}
+
+ion-item ion-label p {
+  color: #8b949e;
 }

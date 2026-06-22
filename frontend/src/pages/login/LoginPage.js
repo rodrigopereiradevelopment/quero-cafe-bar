@@ -15,7 +15,7 @@ class LoginPage extends HTMLElement {
           <div class="login-container">
               <ion-card>
               <ion-card-header>
-                  <ion-card-title>Acessar</ion-card-title>
+                  <ion-card-title style="font-family: 'UnifrakturMaguntia', cursive; font-size: 1.6rem; color: #e2b714; text-align: center;">Acessar</ion-card-title>
               </ion-card-header>
 
               <ion-card-content>

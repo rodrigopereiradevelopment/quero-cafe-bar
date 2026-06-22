@@ -110,9 +110,9 @@ class ListComandaPage extends HTMLElement {
               color="${comanda.todosPagos ? 'success' : 'warning'}"
               style="flex-shrink: 0;"
             ></ion-icon>
-            <span>Comanda #${comanda.id}</span>
+            <span>Comanda <span class="font-gothic-sm">#${comanda.id}</span></span>
           </h2>
-          <p>Mesa: ${comanda.id_mesa}</p>
+          <p>Mesa: <span class="font-gothic-sm">${comanda.id_mesa}</span></p>
           <p>Itens: ${comanda.qtdItens} | Total: ${formatCurrency(comanda.valorTotal)}</p>
           <p>
             <ion-icon name="${comanda.todosPagos ? 'checkmark-circle' : 'close-circle'}" color="${comanda.todosPagos ? 'success' : 'danger'}"></ion-icon>

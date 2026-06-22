@@ -16,6 +16,7 @@ import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { ListUsuarioDto } from './dto/list-usuario.dto';
 import { DeleteUsuarioDto } from './dto/delete-usuario.dto';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 @Controller('usuario')
 export class UsuarioController {
@@ -71,6 +72,19 @@ export class UsuarioController {
     @Body() updateUsuarioDto: UpdateUsuarioDto,
   ): Promise<IUsuarioOutput> {
     return await this.usuarioService.update(id, updateUsuarioDto);
+  }
+
+  @Patch(':id/change-password')
+  async changePassword(
+    @Param('id') id: number,
+    @Body() changePasswordDto: ChangePasswordDto,
+  ) {
+    await this.usuarioService.changePassword(
+      id,
+      changePasswordDto.senha_atual,
+      changePasswordDto.nova_senha,
+    );
+    return { message: 'Senha alterada com sucesso' };
   }
 
   @Delete(':id')

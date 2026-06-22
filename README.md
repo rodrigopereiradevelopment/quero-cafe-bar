@@ -49,7 +49,7 @@ O projeto visa simular um cenário real de desenvolvimento de software, abrangen
 - [x] Testes unitários completos (132 testes, 17 suítes) — AES removido, bcrypt
 - [x] Tratamento global de exceções
 - [x] Validação global (whitelist + transform)
-- [x] **Seed turbinado**: 5 usuários, 5 mesas, 11 produtos + comanda de exemplo
+- [x] **Seed turbinado**: 5 usuários (com telefone, CPF, endereço, data nascimento), 5 mesas, 11 produtos + comanda de exemplo
 - [x] **Perfil Cliente (2)** adicionado ao sistema
 - [x] CORS lê `CORS_ORIGIN` do .env (fallback `*` com warning)
 - [x] Warnings para fallback de `JWT_SECRET` e `ENCRYPTION_KEY`
@@ -59,6 +59,8 @@ O projeto visa simular um cenário real de desenvolvimento de software, abrangen
 - [x] Correção: scripts migratórios usam `npx` em vez de `yarn`
 - [x] Pexels errors usam `InternalServerErrorException` em vez de `NotFoundException`
 - [x] `POST /usuario/login` usa `LoginDto` (classe com validacao) em vez de interface
+- [x] **Campos extras no usuario**: telefone, endereco, data_nascimento, cpf, foto (migration separada)
+- [x] **Endpoint change-password**: `PATCH /usuario/:id/change-password` com validação da senha atual
 
 ### Frontend
 - [x] Configuração inicial do ambiente Ionic + Vite
@@ -75,7 +77,7 @@ O projeto visa simular um cenário real de desenvolvimento de software, abrangen
 - [x] Build para Android configurado (Capacitor)
 - [x] Correção: token JWT enviado corretamente após login (`api.setToken`)
 - [x] Correção: roteamento sem hash (`/login` em vez de `#/login`)
-- [ ] Temas personalizados
+- [x] Temas personalizados (toggle dark/light nas configuracoes)
 - [x] Testes unitários (89 testes, 7 suítes)
 - [x] **Perfil Cliente (2)** nas telas de cadastro/edição/lista
 - [x] **Busca de imagens Pexels** no cadastro de produtos
@@ -95,6 +97,11 @@ O projeto visa simular um cenário real de desenvolvimento de software, abrangen
 - [x] `Comanda.findOne()` com `relations` (consistente com `findAll`)
 - [x] Build Android: `npx cap add android` (JDK 21, compileSdk 36)
 - [x] Dead files removidos: `encryption/` (AES) e `LoginUsuarioDto`
+- [x] **Tela de Perfil do Usuario** (`/profile`): avatar com upload, dados pessoais, troca de senha
+- [x] **Tela de Configuracoes** (`/settings`): acessibilidade, tema, notificacoes, idioma
+- [x] **Tipografia gótica** (UnifrakturMaguntia) no logo, numeros de mesa/comanda e titulo do login
+- [x] Menu lateral atualizado com "Meu Perfil" e "Configuracoes"
+- [x] **API changePassword()** integrada ao frontend
 
 ## 📂 Estrutura de Pastas
 
@@ -252,7 +259,7 @@ Este projeto possui configurações para agentes de IA no arquivo [AGENTS.md](./
 | `npm run start:dev` | Servidor com hot-reload |
 | `npm run build` | Build de produção |
 | `npm run lint` | ESLint + Prettier |
-| `npm test` | Jest unit tests (146 testes) |
+| `npm test` | Jest unit tests (132 testes) |
 | `npx ts-node src/database/seed.ts` | Seed: cria usuários, mesas, produtos e comanda exemplo |
 | `npx ts-node src/database/seed-mesas.ts --qtd 10 --cadeiras 4` | Adicionar mesas customizadas |
 
@@ -274,6 +281,33 @@ A página inicial (Home) serve como visualização da cozinha:
 - **Status visual**: Itens pendentes (vermelho) e entregues (verde)
 - Select boxes para alterar status de entrega
 - Ícone dinâmico: muda quando todos os itens são entregues
+
+## 👤 Perfil do Usuário
+
+Acesso pelo menu lateral > "Meu Perfil":
+- **Avatar**: upload de foto com preview
+- **Dados pessoais**: nome, telefone, CPF, data de nascimento, endereço
+- **Troca de senha**: senha atual + nova senha com confirmação
+- Campos extras opcionais (compatível com dados existentes)
+
+## ⚙️ Configurações
+
+Acesso pelo menu lateral > "Configurações":
+- **Acessibilidade**: tamanho da fonte (80%-150%), alto contraste, reduzir animações
+- **Aparência**: toggle modo escuro/claro
+- **Notificações**: push e sons (toggle)
+- **Idioma**: Português, English, Español
+- **Conta**: link rápido pro perfil e botão de logout
+- Configurações salvas em `localStorage`
+
+## 🔤 Tipografia Gótica
+
+O app utiliza a fonte **UnifrakturMaguntia** (Google Fonts) em pontos estratégicos:
+- Logo "Quero Café" no menu lateral
+- Título "Acessar" na tela de login
+- Números de mesa (`#1`, `#2`...)
+- Números de comanda (`#1`, `#2`...)
+- Classes CSS utilitárias: `.font-gothic`, `.font-gothic-sm`, `.font-gothic-lg`
 
 ---
 
