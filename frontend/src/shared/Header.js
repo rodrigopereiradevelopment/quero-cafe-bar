@@ -29,7 +29,7 @@ const createAndInjectMenu = () => {
         <ion-header>
             <ion-toolbar>
                 <ion-title style="font-family: 'UnifrakturMaguntia', cursive; font-weight: 400; color: #e2b714; font-size: 1.4rem; letter-spacing: 0.02em;">
-                    ☕ Quero Café
+                    ☕ Quero Café Bar
                 </ion-title>
             </ion-toolbar>
         </ion-header>
