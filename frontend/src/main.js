@@ -44,6 +44,7 @@ import './pages/comanda/UpdateComandaPage.js';
 
 import './pages/profile/ProfilePage.js';
 import './pages/settings/SettingsPage.js';
+import './pages/menu/MenuPage.js';
 
 // Route Guard Global — protege todas as rotas autenticadas
 const PUBLIC_ROUTES = ['/login'];

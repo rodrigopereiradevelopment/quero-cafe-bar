@@ -55,6 +55,10 @@ const createAndInjectMenu = () => {
                     <ion-icon name="receipt-outline" slot="start" style="color: #8b949e; margin-right: 12px;"></ion-icon>
                     <ion-label style="font-weight: 500;">Comandas</ion-label>
                 </ion-item>
+                <ion-item button class="menu-item" data-url="/menu" style="--min-height: 48px; border-radius: 8px; margin-bottom: 4px;">
+                    <ion-icon name="book-outline" slot="start" style="color: #e2b714; margin-right: 12px;"></ion-icon>
+                    <ion-label style="font-weight: 500; color: #e2b714;">Cardápio</ion-label>
+                </ion-item>
                 <ion-item style="margin: 16px 8px 4px; --min-height: 1px; --inner-padding-end: 0;">
                     <div style="width: 100%; height: 1px; background: #21262d;"></div>
                 </ion-item>
