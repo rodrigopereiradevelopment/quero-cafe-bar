@@ -16,6 +16,7 @@ describe('MesaService', () => {
     create: jest.fn(),
     save: jest.fn(),
     find: jest.fn(),
+    findAndCount: jest.fn(),
     findOne: jest.fn(),
     delete: jest.fn(),
   };
@@ -69,17 +70,18 @@ describe('MesaService', () => {
       ];
 
       const listMesaDto: ListMesaDto = {};
-      mockMesaRepository.find.mockResolvedValue(mesasMock);
+      mockMesaRepository.findAndCount.mockResolvedValue([mesasMock, 3]);
 
       // Act
       const result = await service.findAll(listMesaDto);
 
       // Assert
-      expect(mockMesaRepository.find).toHaveBeenCalledWith({
-        where: listMesaDto,
+      expect(mockMesaRepository.findAndCount).toHaveBeenCalledWith({
+        where: {},
+        skip: undefined,
+        take: undefined,
       });
-      expect(result).toEqual(mesasMock);
-      expect(result).toHaveLength(3);
+      expect(result).toEqual({ data: mesasMock, total: 3, skip: 0, take: 20 });
     });
 
     it('deve filtrar mesas por status (Edge Case)', async () => {
@@ -92,17 +94,19 @@ describe('MesaService', () => {
       const listMesaDto: ListMesaDto = {
         status: true,
       } as unknown as ListMesaDto;
-      mockMesaRepository.find.mockResolvedValue(mesasAtivas);
+      mockMesaRepository.findAndCount.mockResolvedValue([mesasAtivas, 2]);
 
       // Act
       const result = await service.findAll(listMesaDto);
 
       // Assert
-      expect(mockMesaRepository.find).toHaveBeenCalledWith({
+      expect(mockMesaRepository.findAndCount).toHaveBeenCalledWith({
         where: { status: true },
+        skip: undefined,
+        take: undefined,
       });
-      expect(result).toHaveLength(2);
-      expect(result[0].status).toBe(true);
+      expect(result.data).toHaveLength(2);
+      expect(result.data[0].status).toBe(true);
     });
   });
 
@@ -133,7 +137,7 @@ describe('MesaService', () => {
 
       // Act & Assert
       await expect(service.findOne(999)).rejects.toThrow(
-        new NotFoundException(`Mesa com ID 999 não encontrada`),
+        new NotFoundException(`Mesa com ID 999 nao encontrada`),
       );
     });
   });
@@ -179,7 +183,7 @@ describe('MesaService', () => {
       await expect(
         service.update(999, { id: 999, status: false } as UpdateMesaDto),
       ).rejects.toThrow(
-        new NotFoundException(`Mesa com ID 999 não encontrada`),
+        new NotFoundException(`Mesa com ID 999 nao encontrada`),
       );
     });
   });
@@ -212,7 +216,7 @@ describe('MesaService', () => {
 
       // Act & Assert
       await expect(service.remove(999)).rejects.toThrow(
-        new NotFoundException(`Mesa com ID 999 não encontrada`),
+        new NotFoundException(`Mesa com ID 999 nao encontrada`),
       );
     });
   });

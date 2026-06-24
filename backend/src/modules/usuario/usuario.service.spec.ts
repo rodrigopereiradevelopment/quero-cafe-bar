@@ -19,6 +19,7 @@ describe('UsuarioService', () => {
     create: jest.fn(),
     save: jest.fn(),
     find: jest.fn(),
+    findAndCount: jest.fn(),
     findOne: jest.fn(),
     delete: jest.fn(),
   };
@@ -117,16 +118,18 @@ describe('UsuarioService', () => {
       ];
 
       const listUsuarioDto: ListUsuarioDto = {};
-      mockUsuarioRepository.find.mockResolvedValue(usuariosMock);
+      mockUsuarioRepository.findAndCount.mockResolvedValue([usuariosMock, 2]);
 
       // Act
       const result = await service.findAll(listUsuarioDto);
 
       // Assert
-      expect(mockUsuarioRepository.find).toHaveBeenCalledWith({
-        where: listUsuarioDto,
+      expect(mockUsuarioRepository.findAndCount).toHaveBeenCalledWith({
+        where: {},
+        skip: undefined,
+        take: undefined,
       });
-      expect(result).toEqual(usuariosMock);
+      expect(result).toEqual({ data: usuariosMock, total: 2, skip: 0, take: 20 });
     });
 
     it('deve filtrar usuários por perfil', async () => {
@@ -142,17 +145,19 @@ describe('UsuarioService', () => {
       ];
 
       const listUsuarioDto: ListUsuarioDto = { perfil: 1 };
-      mockUsuarioRepository.find.mockResolvedValue(usuariosMock);
+      mockUsuarioRepository.findAndCount.mockResolvedValue([usuariosMock, 1]);
 
       // Act
       const result = await service.findAll(listUsuarioDto);
 
       // Assert
-      expect(mockUsuarioRepository.find).toHaveBeenCalledWith({
+      expect(mockUsuarioRepository.findAndCount).toHaveBeenCalledWith({
         where: { perfil: 1 },
+        skip: undefined,
+        take: undefined,
       });
-      expect(result).toHaveLength(1);
-      expect(result[0].perfil).toBe(1);
+      expect(result.data).toHaveLength(1);
+      expect(result.data[0].perfil).toBe(1);
     });
   });
 
@@ -185,7 +190,7 @@ describe('UsuarioService', () => {
 
       // Act & Assert
       await expect(service.findOne(999)).rejects.toThrow(
-        'Usuário com ID 999 não encontrado',
+        'Usuario com ID 999 nao encontrado',
       );
     });
   });
@@ -219,7 +224,7 @@ describe('UsuarioService', () => {
 
       // Act & Assert
       await expect(service.findByUsuario('inexistente')).rejects.toThrow(
-        'Usuário inexistente não encontrado',
+        'Usuario inexistente nao encontrado',
       );
     });
   });
@@ -250,7 +255,7 @@ describe('UsuarioService', () => {
       mockUsuarioRepository.find.mockResolvedValue([]);
 
       await expect(service.findByPerfil(99)).rejects.toThrow(
-        'Nenhum usuário com perfil 99 encontrado',
+        'Nenhum usuario com perfil 99 encontrado',
       );
     });
   });
@@ -284,7 +289,7 @@ describe('UsuarioService', () => {
 
       await expect(
         service.login('usuario_inexistente', 'senha'),
-      ).rejects.toThrow('Usuário ou senha inválidos');
+      ).rejects.toThrow('Usuario ou senha invalidos');
     });
 
     it('deve lançar erro quando senha está incorreta (Edge Case)', async () => {
@@ -301,7 +306,7 @@ describe('UsuarioService', () => {
       mockUsuarioRepository.findOne.mockResolvedValue(usuarioMock);
 
       await expect(service.login('admin', 'senha_errada')).rejects.toThrow(
-        'Usuário ou senha inválidos',
+        'Usuario ou senha invalidos',
       );
     });
   });
@@ -352,7 +357,7 @@ describe('UsuarioService', () => {
       // Act & Assert
       await expect(
         service.update(999, { id: 999, nome: 'Teste' } as UpdateUsuarioDto),
-      ).rejects.toThrow('Usuário com ID 999 não encontrado');
+      ).rejects.toThrow('Usuario com ID 999 nao encontrado');
     });
   });
 
@@ -387,7 +392,7 @@ describe('UsuarioService', () => {
 
       // Act & Assert
       await expect(service.remove(999)).rejects.toThrow(
-        'Usuário com ID 999 não encontrado',
+        'Usuario com ID 999 nao encontrado',
       );
     });
   });

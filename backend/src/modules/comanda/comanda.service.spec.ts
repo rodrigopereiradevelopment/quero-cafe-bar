@@ -16,6 +16,7 @@ describe('ComandaService', () => {
     create: jest.fn(),
     save: jest.fn(),
     find: jest.fn(),
+    findAndCount: jest.fn(),
     findOne: jest.fn(),
     delete: jest.fn(),
   };
@@ -83,18 +84,19 @@ describe('ComandaService', () => {
         },
       ];
 
-      mockComandaRepository.find.mockResolvedValue(comandasMock);
+      mockComandaRepository.findAndCount.mockResolvedValue([comandasMock, 2]);
 
       // Act
       const result = await service.findAll({});
 
       // Assert
-      expect(mockComandaRepository.find).toHaveBeenCalledWith({
+      expect(mockComandaRepository.findAndCount).toHaveBeenCalledWith({
         where: {},
         relations: ['mesa', 'itens', 'itens.produto'],
+        skip: undefined,
+        take: undefined,
       });
-      expect(result).toEqual(comandasMock);
-      expect(result).toHaveLength(2);
+      expect(result).toEqual({ data: comandasMock, total: 2, skip: 0, take: 20 });
     });
   });
 
@@ -126,7 +128,7 @@ describe('ComandaService', () => {
 
       // Act & Assert
       await expect(service.findOne(999)).rejects.toThrow(
-        new NotFoundException(`Comanda com ID 999 não encontrada`),
+        new NotFoundException(`Comanda com ID 999 nao encontrada`),
       );
     });
   });
@@ -159,7 +161,7 @@ describe('ComandaService', () => {
 
       // Act & Assert
       await expect(service.findOneByMesaId(999)).rejects.toThrow(
-        new NotFoundException(`Comanda da Mesa com ID 999 não encontrada`),
+        new NotFoundException(`Comanda da Mesa com ID 999 nao encontrada`),
       );
     });
   });
@@ -205,7 +207,7 @@ describe('ComandaService', () => {
 
       // Act & Assert
       await expect(service.update(999, updateDto)).rejects.toThrow(
-        new NotFoundException(`Comanda com ID 999 não encontrada`),
+        new NotFoundException(`Comanda com ID 999 nao encontrada`),
       );
     });
   });
@@ -235,7 +237,7 @@ describe('ComandaService', () => {
 
       // Act & Assert
       await expect(service.remove(999)).rejects.toThrow(
-        new NotFoundException(`Comanda com ID 999 não encontrada`),
+        new NotFoundException(`Comanda com ID 999 nao encontrada`),
       );
     });
   });

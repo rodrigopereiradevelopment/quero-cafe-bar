@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Comanda } from './entities/comanda.entity';
@@ -6,8 +6,8 @@ import { CreateComandaDto } from './dto/create-comanda.dto';
 import { ListComandaDto } from './dto/list-comanda.dto';
 import { UpdateComandaDto } from './dto/update-comanda.dto';
 import { DeleteComandaDto } from './dto/delete-comanda.dto';
+import { PaginatedResponse } from '../produto/dto/paginated-response.dto';
 import { IComandaOutput } from './interfaces/comanda.interface';
-import { NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class ComandaService {
@@ -21,11 +21,15 @@ export class ComandaService {
     return await this.comandaRepository.save(comanda);
   }
 
-  async findAll(listComandaDto: ListComandaDto): Promise<IComandaOutput[]> {
-    return await this.comandaRepository.find({
-      where: listComandaDto,
+  async findAll(listComandaDto: ListComandaDto): Promise<PaginatedResponse<IComandaOutput>> {
+    const { skip, take, ...where } = listComandaDto;
+    const [data, total] = await this.comandaRepository.findAndCount({
+      where,
       relations: ['mesa', 'itens', 'itens.produto'],
+      skip,
+      take,
     });
+    return { data, total, skip: skip ?? 0, take: take ?? 20 };
   }
 
   async findOne(id: number): Promise<IComandaOutput> {
@@ -34,7 +38,7 @@ export class ComandaService {
       relations: ['mesa', 'itens', 'itens.produto'],
     });
     if (!comanda) {
-      throw new NotFoundException(`Comanda com ID ${id} não encontrada`);
+      throw new NotFoundException(`Comanda com ID ${id} nao encontrada`);
     }
     return comanda;
   }
@@ -46,7 +50,7 @@ export class ComandaService {
     });
     if (!comanda) {
       throw new NotFoundException(
-        `Comanda da Mesa com ID ${id_mesa} não encontrada`,
+        `Comanda da Mesa com ID ${id_mesa} nao encontrada`,
       );
     }
     return comanda;

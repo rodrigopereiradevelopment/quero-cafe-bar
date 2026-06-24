@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Mesa } from './entities/mesa.entity';
@@ -6,8 +6,8 @@ import { CreateMesaDto } from './dto/create-mesa.dto';
 import { ListMesaDto } from './dto/list-mesa.dto';
 import { UpdateMesaDto } from './dto/update-mesa.dto';
 import { DeleteMesaDto } from './dto/delete-mesa.dto';
+import { PaginatedResponse } from '../produto/dto/paginated-response.dto';
 import { IMesaOutput } from './interfaces/mesa.interface';
-import { NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class MesaService {
@@ -21,16 +21,20 @@ export class MesaService {
     return await this.mesaRepository.save(mesa);
   }
 
-  async findAll(listMesaDto: ListMesaDto): Promise<IMesaOutput[]> {
-    return await this.mesaRepository.find({
-      where: listMesaDto,
+  async findAll(listMesaDto: ListMesaDto): Promise<PaginatedResponse<IMesaOutput>> {
+    const { skip, take, ...where } = listMesaDto;
+    const [data, total] = await this.mesaRepository.findAndCount({
+      where,
+      skip,
+      take,
     });
+    return { data, total, skip: skip ?? 0, take: take ?? 20 };
   }
 
   async findOne(id: number): Promise<IMesaOutput> {
     const mesa = await this.mesaRepository.findOne({ where: { id } });
     if (!mesa) {
-      throw new NotFoundException(`Mesa com ID ${id} não encontrada`);
+      throw new NotFoundException(`Mesa com ID ${id} nao encontrada`);
     }
     return mesa;
   }

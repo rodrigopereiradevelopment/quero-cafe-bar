@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ConflictException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -11,6 +12,7 @@ import * as bcrypt from 'bcrypt';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { ListUsuarioDto } from './dto/list-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
+import { PaginatedResponse } from '../produto/dto/paginated-response.dto';
 
 @Injectable()
 export class UsuarioService {
@@ -20,6 +22,12 @@ export class UsuarioService {
   ) {}
 
   async create(createUsuarioDto: CreateUsuarioDto) {
+    const existing = await this.usuarioRepository.findOne({
+      where: { usuario: createUsuarioDto.usuario },
+    });
+    if (existing) {
+      throw new ConflictException('Ja existe um usuario com este login');
+    }
     const senha = await bcrypt.hash(createUsuarioDto.senha, 10);
     const usuario = this.usuarioRepository.create({
       ...createUsuarioDto,
@@ -28,16 +36,22 @@ export class UsuarioService {
     return await this.usuarioRepository.save(usuario);
   }
 
-  async findAll(listUsuarioDto: ListUsuarioDto) {
-    return await this.usuarioRepository.find({
-      where: listUsuarioDto,
+  async findAll(
+    listUsuarioDto: ListUsuarioDto,
+  ): Promise<PaginatedResponse<Usuario>> {
+    const { skip, take, ...where } = listUsuarioDto;
+    const [data, total] = await this.usuarioRepository.findAndCount({
+      where,
+      skip,
+      take,
     });
+    return { data, total, skip: skip ?? 0, take: take ?? 20 };
   }
 
   async findOne(id: number) {
     const usuario = await this.usuarioRepository.findOne({ where: { id } });
     if (!usuario) {
-      throw new NotFoundException(`Usuário com ID ${id} não encontrado`);
+      throw new NotFoundException(`Usuario com ID ${id} nao encontrado`);
     }
     return usuario;
   }
@@ -45,7 +59,7 @@ export class UsuarioService {
   async findByUsuario(usuario: string) {
     const user = await this.usuarioRepository.findOne({ where: { usuario } });
     if (!user) {
-      throw new NotFoundException(`Usuário ${usuario} não encontrado`);
+      throw new NotFoundException(`Usuario ${usuario} nao encontrado`);
     }
     return user;
   }
@@ -54,7 +68,7 @@ export class UsuarioService {
     const users = await this.usuarioRepository.find({ where: { perfil } });
     if (users.length === 0) {
       throw new NotFoundException(
-        `Nenhum usuário com perfil ${perfil} encontrado`,
+        `Nenhum usuario com perfil ${perfil} encontrado`,
       );
     }
     return users;
@@ -66,18 +80,26 @@ export class UsuarioService {
     });
 
     if (!user) {
-      throw new UnauthorizedException('Usuário ou senha inválidos');
+      throw new UnauthorizedException('Usuario ou senha invalidos');
     }
 
     const senhaValida = await bcrypt.compare(senha, user.senha);
     if (!senhaValida) {
-      throw new UnauthorizedException('Usuário ou senha inválidos');
+      throw new UnauthorizedException('Usuario ou senha invalidos');
     }
 
     return user;
   }
 
   async update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
+    if (updateUsuarioDto.usuario) {
+      const existing = await this.usuarioRepository.findOne({
+        where: { usuario: updateUsuarioDto.usuario },
+      });
+      if (existing && existing.id !== id) {
+        throw new ConflictException('Ja existe um usuario com este login');
+      }
+    }
     const usuario = await this.findOne(id);
     if (updateUsuarioDto.senha) {
       updateUsuarioDto.senha = await bcrypt.hash(updateUsuarioDto.senha, 10);
@@ -95,7 +117,7 @@ export class UsuarioService {
   async changePassword(id: number, senhaAtual: string, novaSenha: string) {
     const usuario = await this.usuarioRepository.findOne({ where: { id } });
     if (!usuario) {
-      throw new NotFoundException(`Usuário com ID ${id} não encontrado`);
+      throw new NotFoundException(`Usuario com ID ${id} nao encontrado`);
     }
 
     const senhaValida = await bcrypt.compare(senhaAtual, usuario.senha);

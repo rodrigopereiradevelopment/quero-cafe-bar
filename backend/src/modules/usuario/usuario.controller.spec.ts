@@ -81,14 +81,14 @@ describe('UsuarioController', () => {
       ];
 
       const listUsuarioDto: ListUsuarioDto = {};
-      service.findAll.mockResolvedValue(usuariosMock);
+      service.findAll.mockResolvedValue({ data: usuariosMock, total: 2, skip: 0, take: 20 });
 
       // Act
       const result = await controller.findAll(listUsuarioDto);
 
       // Assert
       expect(service.findAll).toHaveBeenCalledWith(listUsuarioDto);
-      expect(result).toEqual(usuariosMock);
+      expect(result).toEqual({ data: usuariosMock, total: 2, skip: 0, take: 20 });
     });
 
     it('deve filtrar usuários por perfil', async () => {
@@ -98,14 +98,14 @@ describe('UsuarioController', () => {
       ];
 
       const listUsuarioDto: ListUsuarioDto = { perfil: 1 };
-      service.findAll.mockResolvedValue(usuariosMock);
+      service.findAll.mockResolvedValue({ data: usuariosMock, total: 1, skip: 0, take: 20 });
 
       // Act
       const result = await controller.findAll(listUsuarioDto);
 
       // Assert
       expect(service.findAll).toHaveBeenCalledWith({ perfil: 1 });
-      expect(result).toHaveLength(1);
+      expect(result.data).toHaveLength(1);
     });
   });
 
@@ -270,7 +270,7 @@ describe('UsuarioController', () => {
       service.remove.mockResolvedValue(deleteResult);
 
       // Act
-      const result = await controller.remove(1);
+      const result = await controller.remove(1, { user: undefined } as any);
 
       // Assert
       expect(service.remove).toHaveBeenCalledWith(1);

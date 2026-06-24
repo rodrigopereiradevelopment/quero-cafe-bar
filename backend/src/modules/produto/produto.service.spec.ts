@@ -17,6 +17,7 @@ describe('ProdutoService', () => {
     create: jest.fn(),
     save: jest.fn(),
     find: jest.fn(),
+    findAndCount: jest.fn(),
     findOne: jest.fn(),
     delete: jest.fn(),
   };
@@ -84,17 +85,18 @@ describe('ProdutoService', () => {
       ];
 
       const listProdutoDto: ListProdutoDto = {};
-      mockProdutoRepository.find.mockResolvedValue(produtosMock);
+      mockProdutoRepository.findAndCount.mockResolvedValue([produtosMock, 2]);
 
       // Act
       const result = await service.findAll(listProdutoDto);
 
       // Assert
-      expect(mockProdutoRepository.find).toHaveBeenCalledWith({
-        where: listProdutoDto,
+      expect(mockProdutoRepository.findAndCount).toHaveBeenCalledWith({
+        where: {},
+        skip: undefined,
+        take: undefined,
       });
-      expect(result).toEqual(produtosMock);
-      expect(result).toHaveLength(2);
+      expect(result).toEqual({ data: produtosMock, total: 2, skip: 0, take: 20 });
     });
 
     it('deve filtrar produtos por id (Edge Case)', async () => {
@@ -104,16 +106,18 @@ describe('ProdutoService', () => {
       ];
 
       const listProdutoDto: ListProdutoDto = { id: 1 };
-      mockProdutoRepository.find.mockResolvedValue(produtosFiltrados);
+      mockProdutoRepository.findAndCount.mockResolvedValue([produtosFiltrados, 1]);
 
       // Act
       const result = await service.findAll(listProdutoDto);
 
       // Assert
-      expect(mockProdutoRepository.find).toHaveBeenCalledWith({
+      expect(mockProdutoRepository.findAndCount).toHaveBeenCalledWith({
         where: { id: 1 },
+        skip: undefined,
+        take: undefined,
       });
-      expect(result).toHaveLength(1);
+      expect(result.data).toHaveLength(1);
     });
   });
 
@@ -145,7 +149,7 @@ describe('ProdutoService', () => {
 
       // Act & Assert
       await expect(service.findOne(999)).rejects.toThrow(
-        new NotFoundException(`Produto com ID 999 não encontrado`),
+        new NotFoundException(`Produto com ID 999 nao encontrado`),
       );
     });
   });
@@ -192,7 +196,7 @@ describe('ProdutoService', () => {
 
       // Act & Assert
       await expect(service.update(999, updateDto)).rejects.toThrow(
-        new NotFoundException(`Produto com ID 999 não encontrado`),
+        new NotFoundException(`Produto com ID 999 nao encontrado`),
       );
     });
   });
@@ -225,7 +229,7 @@ describe('ProdutoService', () => {
 
       // Act & Assert
       await expect(service.remove(999)).rejects.toThrow(
-        new NotFoundException(`Produto com ID 999 não encontrado`),
+        new NotFoundException(`Produto com ID 999 nao encontrado`),
       );
     });
   });

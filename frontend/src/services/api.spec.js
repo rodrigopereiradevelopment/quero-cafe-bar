@@ -156,7 +156,7 @@ describe('Api Service', () => {
       };
       fetch.mockResolvedValue(mockResponse);
 
-      await expect(api.request('/produto')).rejects.toThrow('Erro na requisição');
+      await expect(api.request('/produto')).rejects.toThrow('Erro interno. Tente novamente em alguns instantes.');
     });
 
     it('deve retornar null para status 204 No Content (Edge Case)', async () => {
@@ -223,7 +223,7 @@ describe('Api Service', () => {
       fetch.mockResolvedValue(mockResponse);
 
       await expect(api.login('admin', 'senha_errada')).rejects.toThrow(
-        'Usuário ou senha inválidos.',
+        'Usuario ou senha invalidos.',
       );
     });
 
@@ -236,7 +236,7 @@ describe('Api Service', () => {
       fetch.mockResolvedValue(mockResponse);
 
       await expect(api.login('admin', 'senha123')).rejects.toThrow(
-        'Resposta inválida do servidor. Token não recebido.',
+        'Resposta invalida do servidor. Token nao recebido.',
       );
     });
   });
@@ -251,7 +251,7 @@ describe('Api Service', () => {
       fetch.mockResolvedValue(mockResponse);
 
       await expect(api.request('/produto')).rejects.toThrow(
-        'Sessão expirada. Faça login novamente.',
+        'Sessao expirada. Faca login novamente.',
       );
       expect(localStorageMock.removeItem).toHaveBeenCalledWith('token');
       expect(localStorageMock.removeItem).toHaveBeenCalledWith('user');
@@ -263,7 +263,7 @@ describe('Api Service', () => {
       fetch.mockRejectedValue(abortError);
 
       await expect(api.request('/produto')).rejects.toThrow(
-        'A requisição excedeu o tempo limite. Verifique sua conexão.',
+        'A requisicao excedeu o tempo limite. Verifique sua conexao.',
       );
     });
   });
@@ -279,7 +279,7 @@ describe('Api Service', () => {
       await api.getProdutos();
 
       expect(fetch).toHaveBeenCalledWith(
-        'http://localhost:3001/produto',
+        'http://localhost:3001/produto?skip=0&take=20',
         expect.any(Object)
       );
     });
@@ -356,7 +356,7 @@ describe('Api Service', () => {
       await api.getUsuarios();
 
       expect(fetch).toHaveBeenCalledWith(
-        'http://localhost:3001/usuario',
+        'http://localhost:3001/usuario?skip=0&take=20',
         expect.any(Object)
       );
     });
@@ -433,7 +433,7 @@ describe('Api Service', () => {
       await api.getMesas();
 
       expect(fetch).toHaveBeenCalledWith(
-        'http://localhost:3001/mesa',
+        'http://localhost:3001/mesa?skip=0&take=20',
         expect.any(Object)
       );
     });
@@ -510,7 +510,7 @@ describe('Api Service', () => {
       await api.getComandas();
 
       expect(fetch).toHaveBeenCalledWith(
-        'http://localhost:3001/comanda',
+        'http://localhost:3001/comanda?skip=0&take=20',
         expect.any(Object)
       );
     });
@@ -660,7 +660,7 @@ describe('Api Service', () => {
       fetch.mockRejectedValue(abortError);
 
       await expect(api.login('admin', 'senha123')).rejects.toThrow(
-        'A requisição excedeu o tempo limite. Verifique sua conexão.',
+        'A requisicao excedeu o tempo limite. Verifique sua conexao.',
       );
     });
   });

@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -7,6 +12,7 @@ import { CreateProdutoDto } from './dto/create-produto.dto';
 import { ListProdutoDto } from './dto/list-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
 import { DeleteProdutoDto } from './dto/delete-produto.dto';
+import { PaginatedResponse } from './dto/paginated-response.dto';
 import { IProdutoOutput } from './interfaces/produto.interface';
 
 @Injectable()
@@ -18,20 +24,32 @@ export class ProdutoService {
   ) {}
 
   async create(createProdutoDto: CreateProdutoDto): Promise<IProdutoOutput> {
+    const existing = await this.produtoRepository.findOne({
+      where: { dsc_produto: createProdutoDto.dsc_produto },
+    });
+    if (existing) {
+      throw new ConflictException('Ja existe um produto com esta descricao');
+    }
     const produto = this.produtoRepository.create(createProdutoDto);
     return await this.produtoRepository.save(produto);
   }
 
-  async findAll(listProdutoDto: ListProdutoDto): Promise<IProdutoOutput[]> {
-    return await this.produtoRepository.find({
-      where: listProdutoDto,
+  async findAll(
+    listProdutoDto: ListProdutoDto,
+  ): Promise<PaginatedResponse<IProdutoOutput>> {
+    const { skip, take, ...where } = listProdutoDto;
+    const [data, total] = await this.produtoRepository.findAndCount({
+      where,
+      skip,
+      take,
     });
+    return { data, total, skip: skip ?? 0, take: take ?? 20 };
   }
 
   async findOne(id: number): Promise<IProdutoOutput> {
     const produto = await this.produtoRepository.findOne({ where: { id } });
     if (!produto) {
-      throw new NotFoundException(`Produto com ID ${id} não encontrado`);
+      throw new NotFoundException(`Produto com ID ${id} nao encontrado`);
     }
     return produto;
   }
@@ -40,6 +58,14 @@ export class ProdutoService {
     id: number,
     updateProdutoDto: UpdateProdutoDto,
   ): Promise<IProdutoOutput> {
+    if (updateProdutoDto.dsc_produto) {
+      const existing = await this.produtoRepository.findOne({
+        where: { dsc_produto: updateProdutoDto.dsc_produto },
+      });
+      if (existing && existing.id !== id) {
+        throw new ConflictException('Ja existe um produto com esta descricao');
+      }
+    }
     const produto = await this.findOne(id);
     const updatedProduto = Object.assign(produto, updateProdutoDto);
     return await this.produtoRepository.save(updatedProduto);
@@ -56,7 +82,7 @@ export class ProdutoService {
   ): Promise<{ images: { url: string; alt: string }[] }> {
     const apiKey = this.configService.get<string>('PEXELS_API_KEY');
     if (!apiKey) {
-      throw new InternalServerErrorException('PEXELS_API_KEY não configurada no .env');
+      throw new InternalServerErrorException('PEXELS_API_KEY nao configurada no .env');
     }
 
     const response = await fetch(

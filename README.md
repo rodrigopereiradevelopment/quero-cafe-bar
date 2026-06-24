@@ -61,6 +61,13 @@ O projeto visa simular um cenário real de desenvolvimento de software, abrangen
 - [x] `POST /usuario/login` usa `LoginDto` (classe com validacao) em vez de interface
 - [x] **Campos extras no usuario**: telefone, endereco, data_nascimento, cpf, foto (migration separada)
 - [x] **Endpoint change-password**: `PATCH /usuario/:id/change-password` com validação da senha atual
+- [x] **Deteção de duplicatas**: `ConflictException` para usuario e produto duplicados (create + update)
+- [x] **Auto-prevenção de delete**: usuario logado não pode excluir a si mesmo
+- [x] **Paginação**: `PaginatedResponse<T>` com `skip`/`take` em todos os services (usuario, produto, mesa, comanda)
+- [x] **Route guard global**: listener `ionRouteDidChange` protege todas as rotas no `main.js`
+- [x] **Sync de sessão entre abas**: listener `storage` redireciona para login se token for removido
+- [x] **Mensagens de erro centralizadas**: mapa `ERROR_MESSAGES` por status HTTP no `api.js`
+- [x] **Skeleton loading**: `createListSkeleton()` e `createCardSkeleton()` com animação shimmer
 
 ### Frontend
 - [x] Configuração inicial do ambiente Ionic + Vite
