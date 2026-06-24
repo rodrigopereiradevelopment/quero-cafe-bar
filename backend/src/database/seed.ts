@@ -150,7 +150,7 @@ async function seedUsuarios(usuarioService: UsuarioService) {
 
 async function seedMesas(mesaService: MesaService) {
   const existing = await mesaService.findAll({});
-  let count = existing.length;
+  let count = existing.data.length;
   for (const data of mesas) {
     if (count >= 5) {
       console.log(`Mesa (${data.qtd_cadeiras} cadeiras) já existe. Pulando.`);
@@ -165,7 +165,7 @@ async function seedMesas(mesaService: MesaService) {
 async function seedProdutos(produtoService: ProdutoService) {
   const existing = await produtoService.findAll({});
   for (const data of produtos) {
-    const existente = existing.find((p) => p.dsc_produto === data.dsc_produto);
+    const existente = existing.data.find((p) => p.dsc_produto === data.dsc_produto);
     if (existente) {
       if (!existente.imagem && data.imagem) {
         await produtoService.update(existente.id, { imagem: data.imagem });
@@ -195,7 +195,7 @@ async function seedComandaExemplo(
 
   const produtosDB = await produtoService.findAll({});
   const findProduto = (nome: string) =>
-    produtosDB.find((p) => p.dsc_produto === nome);
+    produtosDB.data.find((p) => p.dsc_produto === nome);
 
   const comanda = await comandaService.create({
     id_mesa: 2,
