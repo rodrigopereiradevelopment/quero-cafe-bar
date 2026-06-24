@@ -11,6 +11,11 @@ export default defineConfig(({ mode }) => {
           : path.resolve(__dirname, './src/environments/environment.js'),
       },
     },
+    server: {
+      watch: {
+        ignored: ['**/quero-cafe-bar-main/**'],
+      },
+    },
     optimizeDeps: {
       exclude: ['@ionic/core'],
     },

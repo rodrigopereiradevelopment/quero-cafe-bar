@@ -50,7 +50,7 @@ class ListProdutoPage extends HTMLElement {
     const loading = showLoading('Buscando produtos...');
 
     try {
-      const produtos = await api.getProdutos();
+      const { data: produtos } = await api.getProdutos();
       this.renderProdutos(produtos);
     } catch (error) {
       console.error('Erro ao buscar produtos:', error);

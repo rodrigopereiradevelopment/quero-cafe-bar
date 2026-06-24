@@ -51,7 +51,7 @@ class RegComandaPage extends HTMLElement {
 
   async loadMesas() {
     try {
-      const mesas = await api.getMesas();
+      const { data: mesas } = await api.getMesas();
       const select = this.querySelector('#id_mesa');
       mesas.forEach(mesa => {
         if (mesa.status) {

@@ -49,7 +49,7 @@ class ListMesaPage extends HTMLElement {
     const loading = showLoading('Buscando mesas...');
 
     try {
-      const mesas = await api.getMesas();
+      const { data: mesas } = await api.getMesas();
       this.renderMesas(mesas);
     } catch (error) {
       console.error('Erro ao buscar mesas:', error);

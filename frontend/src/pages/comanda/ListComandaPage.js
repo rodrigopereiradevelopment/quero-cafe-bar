@@ -50,7 +50,7 @@ class ListComandaPage extends HTMLElement {
     const loading = showLoading('Carregando comandas...');
 
     try {
-      const comandas = await api.getComandas();
+      const { data: comandas } = await api.getComandas();
       const comandasWithDetails = await Promise.all(
         comandas.map(async (comanda) => {
           const itens = await api.getItensComanda(comanda.id);

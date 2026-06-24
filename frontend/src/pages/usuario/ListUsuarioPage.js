@@ -50,7 +50,7 @@ class ListUsuarioPage extends HTMLElement {
     const loading = showLoading('Buscando usuarios...');
 
     try {
-      const usuarios = await api.getUsuarios();
+      const { data: usuarios } = await api.getUsuarios();
       this.renderUsuarios(usuarios);
     } catch (error) {
       console.error('Erro ao buscar usuarios:', error);

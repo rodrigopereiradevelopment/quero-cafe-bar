@@ -68,7 +68,7 @@ class UpdateComandaPage extends HTMLElement {
 
   async loadMesas() {
     try {
-      const mesas = await api.getMesas();
+      const { data: mesas } = await api.getMesas();
       const select = this.querySelector('#id_mesa');
       mesas.forEach(mesa => {
         const option = document.createElement('ion-select-option');
@@ -196,7 +196,7 @@ class UpdateComandaPage extends HTMLElement {
 
     let produtos, itensAtuais;
     try {
-      produtos = await api.getProdutos();
+      ({ data: produtos } = await api.getProdutos());
       itensAtuais = await api.getItensComanda(this.comandaId);
     } catch (error) {
       await loading.dismiss();

@@ -30,7 +30,7 @@ class HomePage extends HTMLElement {
     const loading = showLoading('Carregando pedidos...');
 
     try {
-      const comandas = await api.getComandas();
+      const { data: comandas } = await api.getComandas();
       this.renderComandas(comandas);
     } catch (error) {
       console.error('Erro ao buscar comandas:', error);
