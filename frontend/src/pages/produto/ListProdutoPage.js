@@ -50,11 +50,11 @@ class ListProdutoPage extends HTMLElement {
     const loading = showLoading('Buscando produtos...');
 
     try {
-      const { data: produtos } = await api.getProdutos();
+      const { data: produtos } = await api.getProdutos(0, 100);
       this.renderProdutos(produtos);
     } catch (error) {
       console.error('Erro ao buscar produtos:', error);
-      await showAlert({ header: 'Erro', message: 'Não foi possível carregar os produtos. Tente novamente mais tarde.' });
+      await showAlert({ header: 'Erro', message: 'Nao foi possivel carregar os produtos. Tente novamente mais tarde.' });
     } finally {
       await loading.dismiss();
     }
