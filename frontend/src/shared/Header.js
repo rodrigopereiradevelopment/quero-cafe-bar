@@ -22,9 +22,35 @@ const createAndInjectMenu = () => {
         mainContent.id = contentId;
     }
 
-    // 3. Cria o elemento <ion-menu>
+    // 3. Lê o perfil do usuário logado
+    const userRaw = localStorage.getItem('user');
+    const user = userRaw ? JSON.parse(userRaw) : null;
+    const perfil = user?.perfil ?? -1;
+
+    // 4. Define os itens do menu por perfil
+    //    0=Admin, 1=Atendente, 2=Cliente, 3=Barista, 4=Cozinheiro
+    const menuItems = [
+        { url: '/home',     icon: 'home-outline',          label: 'Home',          profiles: [0, 1, 3, 4] },
+        { url: '/produtos', icon: 'fast-food-outline',     label: 'Produtos',      profiles: [0, 1] },
+        { url: '/usuarios', icon: 'people-outline',        label: 'Usuarios',      profiles: [0] },
+        { url: '/mesas',    icon: 'grid-outline',          label: 'Mesas',         profiles: [0, 1] },
+        { url: '/comandas', icon: 'receipt-outline',       label: 'Comandas',      profiles: [0, 1] },
+        { url: '/menu',     icon: 'book-outline',          label: 'Cardapio',      profiles: [0, 1, 2, 3, 4], highlight: true },
+    ];
+
+    const filteredItems = menuItems.filter(item => item.profiles.includes(perfil));
+
+    // 5. Monta o HTML do menu
+    const menuHtml = filteredItems.map(item => `
+        <ion-item button class="menu-item" data-url="${item.url}" style="--min-height: 48px; border-radius: 8px; margin-bottom: 4px;">
+            <ion-icon name="${item.icon}" slot="start" style="color: ${item.highlight ? '#e2b714' : '#8b949e'}; margin-right: 12px;"></ion-icon>
+            <ion-label style="font-weight: 500; ${item.highlight ? 'color: #e2b714;' : ''}">${item.label}</ion-label>
+        </ion-item>
+    `).join('');
+
+    // 6. Cria o elemento <ion-menu>
     const menu = document.createElement('ion-menu');
-    menu.contentId = mainContent.id; // Garante que o ID do conteúdo seja o mesmo que o menu espera.
+    menu.contentId = mainContent.id;
     menu.innerHTML = `
         <ion-header>
             <ion-toolbar>
@@ -35,30 +61,7 @@ const createAndInjectMenu = () => {
         </ion-header>
         <ion-content>
             <ion-list lines="none" style="padding: 8px;">
-                <ion-item button class="menu-item" data-url="/home" style="--min-height: 48px; border-radius: 8px; margin-bottom: 4px;">
-                    <ion-icon name="home-outline" slot="start" style="color: #8b949e; margin-right: 12px;"></ion-icon>
-                    <ion-label style="font-weight: 500;">Home</ion-label>
-                </ion-item>
-                <ion-item button class="menu-item" data-url="/produtos" style="--min-height: 48px; border-radius: 8px; margin-bottom: 4px;">
-                    <ion-icon name="fast-food-outline" slot="start" style="color: #8b949e; margin-right: 12px;"></ion-icon>
-                    <ion-label style="font-weight: 500;">Produtos</ion-label>
-                </ion-item>
-                <ion-item button class="menu-item" data-url="/usuarios" style="--min-height: 48px; border-radius: 8px; margin-bottom: 4px;">
-                    <ion-icon name="people-outline" slot="start" style="color: #8b949e; margin-right: 12px;"></ion-icon>
-                    <ion-label style="font-weight: 500;">Usuários</ion-label>
-                </ion-item>
-                <ion-item button class="menu-item" data-url="/mesas" style="--min-height: 48px; border-radius: 8px; margin-bottom: 4px;">
-                    <ion-icon name="grid-outline" slot="start" style="color: #8b949e; margin-right: 12px;"></ion-icon>
-                    <ion-label style="font-weight: 500;">Mesas</ion-label>
-                </ion-item>
-                <ion-item button class="menu-item" data-url="/comandas" style="--min-height: 48px; border-radius: 8px; margin-bottom: 4px;">
-                    <ion-icon name="receipt-outline" slot="start" style="color: #8b949e; margin-right: 12px;"></ion-icon>
-                    <ion-label style="font-weight: 500;">Comandas</ion-label>
-                </ion-item>
-                <ion-item button class="menu-item" data-url="/menu" style="--min-height: 48px; border-radius: 8px; margin-bottom: 4px;">
-                    <ion-icon name="book-outline" slot="start" style="color: #e2b714; margin-right: 12px;"></ion-icon>
-                    <ion-label style="font-weight: 500; color: #e2b714;">Cardápio</ion-label>
-                </ion-item>
+                ${menuHtml}
                 <ion-item style="margin: 16px 8px 4px; --min-height: 1px; --inner-padding-end: 0;">
                     <div style="width: 100%; height: 1px; background: #21262d;"></div>
                 </ion-item>

@@ -7,7 +7,9 @@ import { DeleteComandaDto } from './dto/delete-comanda.dto';
 import { PaginatedResponse } from '../produto/dto/paginated-response.dto';
 import { IComandaOutput } from './interfaces/comanda.interface';
 import { Body, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { Roles } from '../auth/roles.decorator';
 
+@Roles(0, 1)
 @Controller('comanda')
 export class ComandaController {
   constructor(private readonly comandaService: ComandaService) {}

@@ -50,12 +50,43 @@ import './pages/menu/MenuPage.js';
 const PUBLIC_ROUTES = ['/login'];
 const router = document.querySelector('ion-router');
 
+// Rotas por perfil: 0=Admin, 1=Atendente, 2=Cliente, 3=Barista, 4=Cozinheiro
+const ROUTE_PERMISSIONS = {
+  '/usuarios': [0],
+  '/produtos': [0, 1],
+  '/mesas': [0, 1],
+  '/comandas': [0, 1],
+  '/home': [0, 1, 3, 4],
+  '/menu': [0, 1, 2, 3, 4],
+  '/profile': [0, 1, 2, 3, 4],
+  '/settings': [0, 1, 2, 3, 4],
+};
+
 function isAuthenticated() {
   return !!localStorage.getItem('token');
 }
 
+function getUserPerfil() {
+  const userRaw = localStorage.getItem('user');
+  if (!userRaw) return -1;
+  try {
+    return JSON.parse(userRaw).perfil ?? -1;
+  } catch {
+    return -1;
+  }
+}
+
 function getCurrentPath() {
   return window.location.pathname;
+}
+
+function canAccessRoute(path, perfil) {
+  for (const [route, allowedProfiles] of Object.entries(ROUTE_PERMISSIONS)) {
+    if (path.startsWith(route) && !allowedProfiles.includes(perfil)) {
+      return false;
+    }
+  }
+  return true;
 }
 
 if (router) {
@@ -67,6 +98,11 @@ if (router) {
       router.push('/login', 'root');
     } else if (isPublic && isAuthenticated()) {
       router.push('/home', 'root');
+    } else if (!isPublic && isAuthenticated()) {
+      const perfil = getUserPerfil();
+      if (!canAccessRoute(path, perfil)) {
+        router.push('/home', 'root');
+      }
     }
   });
 }

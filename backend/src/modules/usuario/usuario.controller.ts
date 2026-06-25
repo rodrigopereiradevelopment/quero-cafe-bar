@@ -13,6 +13,7 @@ import {
 import { Request } from 'express';
 import { UsuarioService } from './usuario.service';
 import { Public } from '../auth/public.decorator';
+import { Roles } from '../auth/roles.decorator';
 import { JwtPayload } from '../auth/jwt-payload.interface';
 import { LoginDto } from '../auth/dto/login.dto';
 import type { IUsuarioOutput } from './interfaces/usuario.interface';
@@ -23,6 +24,7 @@ import { ListUsuarioDto } from './dto/list-usuario.dto';
 import { DeleteUsuarioDto } from './dto/delete-usuario.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 
+@Roles(0)
 @Controller('usuario')
 export class UsuarioController {
   constructor(private readonly usuarioService: UsuarioService) {}

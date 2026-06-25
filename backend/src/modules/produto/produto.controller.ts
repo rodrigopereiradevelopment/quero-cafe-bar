@@ -15,7 +15,9 @@ import { UpdateProdutoDto } from './dto/update-produto.dto';
 import { DeleteProdutoDto } from './dto/delete-produto.dto';
 import { PaginatedResponse } from './dto/paginated-response.dto';
 import { IProdutoOutput } from './interfaces/produto.interface';
+import { Roles } from '../auth/roles.decorator';
 
+@Roles(0, 1)
 @Controller('produto')
 export class ProdutoController {
   constructor(private readonly produtoService: ProdutoService) {}

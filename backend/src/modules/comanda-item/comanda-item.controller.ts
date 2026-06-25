@@ -14,7 +14,9 @@ import { ListComandaItemDto } from './dto/list-comanda-item.dto';
 import { UpdateComandaItemDto } from './dto/update-comanda-item.dto';
 import { DeleteComandaItemDto } from './dto/delete-comanda-item.dto';
 import { IComandaItemOutput } from './interfaces/comanda-item.interface';
+import { Roles } from '../auth/roles.decorator';
 
+@Roles(0, 1, 3, 4)
 @Controller('comanda-item')
 export class ComandaItemController {
   constructor(private readonly comandaItemService: ComandaItemService) {}

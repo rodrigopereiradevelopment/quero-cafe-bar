@@ -7,7 +7,9 @@ import { DeleteMesaDto } from './dto/delete-mesa.dto';
 import { PaginatedResponse } from '../produto/dto/paginated-response.dto';
 import { IMesaOutput } from './interfaces/mesa.interface';
 import { Body, Get, Param, Patch, Post, Query, Delete } from '@nestjs/common';
+import { Roles } from '../auth/roles.decorator';
 
+@Roles(0, 1)
 @Controller('mesa')
 export class MesaController {
   constructor(private readonly mesaService: MesaService) {}
