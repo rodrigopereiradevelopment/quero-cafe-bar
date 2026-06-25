@@ -67,7 +67,9 @@ O projeto visa simular um cenário real de desenvolvimento de software, abrangen
 - [x] **Route guard global**: listener `ionRouteDidChange` protege todas as rotas no `main.js`
 - [x] **Sync de sessão entre abas**: listener `storage` redireciona para login se token for removido
 - [x] **Mensagens de erro centralizadas**: mapa `ERROR_MESSAGES` por status HTTP no `api.js`
-- [x] **Skeleton loading**: `createListSkeleton()` e `createCardSkeleton()` com animação shimmer
+- [x] **Paginação**: todas as listagens (produto, usuario, mesa, comanda) — 20 items/página com botões Anterior/Próximo
+- [x] **Imagens dos produtos**: todas as 66 URLs verificadas 200 OK no Unsplash (sem 404s)
+- [x] **Seed expandido**: 21 usuários (admins, atendentes, clientes, baristas, cozinheiros), 13 mesas com posições x/y, 66 produtos com categorias
 
 ### Frontend
 - [x] Configuração inicial do ambiente Ionic + Vite
@@ -109,6 +111,17 @@ O projeto visa simular um cenário real de desenvolvimento de software, abrangen
 - [x] **Tipografia gótica** (UnifrakturMaguntia) no logo, numeros de mesa/comanda e titulo do login
 - [x] Menu lateral atualizado com "Meu Perfil" e "Configuracoes"
 - [x] **API changePassword()** integrada ao frontend
+- [x] **Mapa interativo de mesas**: SVG horizontal (Bar/Salao/Externa), clicar para reservar/liberar
+- [x] **Cardápio digital** (`/cardapio`): busca da API, filtro por categoria, imagens dos produtos
+- [x] **Paginação** em todas as listagens (Produtos, Usuarios, Mesas, Comandas) — 20 por página
+- [x] **Skeleton loading** em todas as listagens (5 cards placeholder enquanto carrega)
+- [x] **4 presets de tamanho de fonte**: Pequena (85%), Média (100%), Grande (120%), Extra (140%)
+- [x] **Escala global proporcional**: tudo escala junto (texto, imagens, botoes, mapa SVG) via `--app-font-scale`
+- [x] **Modo Claro**: toggle nas configuracoes substitui "Modo Escuro", tema claro estilo GitHub
+- [x] **Alto Contraste**: modo preto/branco com bordas visiveis em todos os elementos
+- [x] **Reduzir Animacoes**: bloqueia transicoes e animacoes CSS
+- [x] **RBAC completo**: menu lateral e rotas filtrados por perfil (0=Admin, 1=Atendente, 2=Cliente, 3=Barista, 4=Cozinheiro)
+- [x] **RolesGuard global**: backend protege todas as rotas com `@Roles()`
 
 ## 📂 Estrutura de Pastas
 
@@ -235,13 +248,19 @@ Este projeto possui configurações para agentes de IA no arquivo [AGENTS.md](./
 
 | Usuário | Senha | Perfil |
 |---------|-------|--------|
-| admin | admin | Administrador |
-| garcom | garcom | Atendente |
-| atendente | atendente | Atendente |
-| rodrigo | rodrigo | Cliente |
-| maria | maria | Cliente |
+| admin | admin | Administrador (0) |
+| master | master | Administrador (0) |
+| garcom | garcom | Atendente (1) |
+| atendente | atendente | Atendente (1) |
+| joana | joana | Atendente (1) |
+| lucas | lucas | Atendente (1) |
+| rodrigo | rodrigo | Cliente (2) |
+| maria | maria | Cliente (2) |
+| +7 clientes | = nome | Cliente (2) |
+| barista | barista | Barista (3) |
+| cozinha | cozinha | Cozinheiro (4) |
 
-**Perfis:** 0 = Administrador, 1 = Atendente, 2 = Cliente
+**Perfis:** 0 = Administrador, 1 = Atendente, 2 = Cliente, 3 = Barista, 4 = Cozinheiro
 
 ---
 
@@ -266,7 +285,7 @@ Este projeto possui configurações para agentes de IA no arquivo [AGENTS.md](./
 | `npm run start:dev` | Servidor com hot-reload |
 | `npm run build` | Build de produção |
 | `npm run lint` | ESLint + Prettier |
-| `npm test` | Jest unit tests (132 testes) |
+| `npm test` | Jest unit tests (132 testes, 17 suites) |
 | `npx ts-node src/database/seed.ts` | Seed: cria usuários, mesas, produtos e comanda exemplo |
 | `npx ts-node src/database/seed-mesas.ts --qtd 10 --cadeiras 4` | Adicionar mesas customizadas |
 
@@ -276,7 +295,7 @@ Este projeto possui configurações para agentes de IA no arquivo [AGENTS.md](./
 | `npm run dev` | Servidor Vite (desenvolvimento) |
 | `npm run build` | Build web |
 | `npm run build:prod` | Build de produção |
-| `npm test` | Jest unit tests (89 testes) |
+| `npm test` | Jest unit tests (89 testes, 7 suites) |
 | `npm run test:coverage` | Testes com relatório de cobertura |
 | `npx cap sync` | Sincronizar com Capacitor |
 
@@ -300,12 +319,47 @@ Acesso pelo menu lateral > "Meu Perfil":
 ## ⚙️ Configurações
 
 Acesso pelo menu lateral > "Configurações":
-- **Acessibilidade**: tamanho da fonte (80%-150%), alto contraste, reduzir animações
-- **Aparência**: toggle modo escuro/claro
+- **Acessibilidade**:
+  - **Tamanho da Fonte**: 4 presets — Pequena (85%), Média (100%), Grande (120%), Extra (140%)
+  - **Escala global**: texto, imagens, botões, espaçamentos e SVG do mapa escalam proporcionalmente via `--app-font-scale`
+  - **Alto Contraste**: fundo preto/branco com bordas visíveis em todos os elementos
+  - **Reduzir Animações**: bloqueia todas as transições e animações CSS
+- **Aparência**: toggle **Modo Claro** (app escuro por natureza, modo claro como opção)
 - **Notificações**: push e sons (toggle)
 - **Idioma**: Português, English, Español
 - **Conta**: link rápido pro perfil e botão de logout
 - Configurações salvas em `localStorage`
+
+## 🗺️ Mapa Interativo de Mesas
+
+Acesso pelo menu lateral > "Mapa":
+- Layout SVG horizontal com 3 áreas: **Bar**, **Salão**, **Externa**
+- Mesas coloridas: verde (disponível), vermelha (ocupada), amarela (reservada)
+- **Clique** para reservar (usuário logado) ou liberar (dono da reserva ou admin)
+- Pull-to-refresh para atualizar
+- Dados salvos no banco (colunas `posicao_x`, `posicao_y`, `localizacao`, `reservado_por`, `reservado_em`)
+
+## 🍽️ Cardápio Digital
+
+Acesso pelo menu lateral > "Cardápio":
+- Busca todos os produtos da API (`getProdutos(0, 100)`)
+- Filtro por categoria com botões de emoji
+- Cards com imagem, nome e preço
+- Sincronizado com o admin de produtos — editar no admin reflete no cardápio
+
+## 🔑 Controle de Acesso (RBAC)
+
+**Backend** (`RolesGuard` global):
+- `@Roles(0)` — Usuários (admin only)
+- `@Roles(0, 1)` — Produtos, Mesas, Comandas (admin + atendente)
+- `@Roles(0, 1, 3, 4)` — Itens de Comanda (admin + atendente + barista + cozinheiro)
+- Rotas públicas via `@Public()` (ex: login)
+
+**Frontend** (ROUTE_PERMISSIONS + menu dinâmico):
+- Admin (0): acesso total
+- Atendente (1): produtos, mesas, comandas, cardápio, cozinha
+- Barista (3), Cozinheiro (4): cozinha + cardápio
+- Cliente (2): cardápio + perfil
 
 ## 🔤 Tipografia Gótica
 
