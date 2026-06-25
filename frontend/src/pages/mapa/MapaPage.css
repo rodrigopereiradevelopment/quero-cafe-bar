@@ -1,0 +1,74 @@
+.mapa-container {
+  padding: 16px;
+}
+
+.mapa-header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.mapa-header h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #e2b714;
+  margin: 0 0 12px 0;
+}
+
+.mapa-legend {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: #8b949e;
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+.legend-dot.disponivel {
+  background: #22c55e;
+}
+
+.legend-dot.reservada {
+  background: #f59e0b;
+}
+
+.legend-dot.ocupada {
+  background: #ef4444;
+}
+
+.mapa-svg-container {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.mapa-svg {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid #30363d;
+}
+
+.mesa-group {
+  transition: transform 0.2s ease;
+}
+
+.mesa-group:hover {
+  filter: brightness(1.2);
+}
+
+.mesa-rect {
+  transition: fill 0.3s ease, stroke 0.3s ease;
+}

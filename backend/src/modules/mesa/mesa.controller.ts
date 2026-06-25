@@ -24,6 +24,11 @@ export class MesaController {
     return await this.mesaService.findAll(listMesaDto);
   }
 
+  @Get('mapa')
+  async findAllForMapa(): Promise<IMesaOutput[]> {
+    return await this.mesaService.findAllForMapa();
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: number): Promise<IMesaOutput> {
     return await this.mesaService.findOne(id);
@@ -35,6 +40,19 @@ export class MesaController {
     @Body() updateMesaDto: UpdateMesaDto,
   ): Promise<IMesaOutput> {
     return await this.mesaService.update(id, updateMesaDto);
+  }
+
+  @Patch(':id/reservar')
+  async reservar(
+    @Param('id') id: number,
+    @Body('nome_cliente') nomeCliente: string,
+  ): Promise<IMesaOutput> {
+    return await this.mesaService.reservar(id, nomeCliente);
+  }
+
+  @Patch(':id/liberar')
+  async liberar(@Param('id') id: number): Promise<IMesaOutput> {
+    return await this.mesaService.liberar(id);
   }
 
   @Delete(':id')

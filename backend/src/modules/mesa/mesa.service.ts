@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Mesa } from './entities/mesa.entity';
@@ -31,7 +31,13 @@ export class MesaService {
     return { data, total, skip: skip ?? 0, take: take ?? 20 };
   }
 
-  async findOne(id: number): Promise<IMesaOutput> {
+  async findAllForMapa(): Promise<IMesaOutput[]> {
+    return await this.mesaRepository.find({
+      order: { numero: 'ASC' },
+    });
+  }
+
+  async findOne(id: number): Promise<Mesa> {
     const mesa = await this.mesaRepository.findOne({ where: { id } });
     if (!mesa) {
       throw new NotFoundException(`Mesa com ID ${id} nao encontrada`);
@@ -41,8 +47,34 @@ export class MesaService {
 
   async update(id: number, updateMesaDto: UpdateMesaDto): Promise<IMesaOutput> {
     const mesa = await this.findOne(id);
-    const updatedMesa = Object.assign(mesa, updateMesaDto);
-    return await this.mesaRepository.save(updatedMesa);
+    Object.assign(mesa, updateMesaDto);
+    return await this.mesaRepository.save(mesa);
+  }
+
+  async reservar(id: number, nomeCliente: string): Promise<IMesaOutput> {
+    const mesa = await this.findOne(id);
+
+    if (mesa.reservado_por) {
+      throw new ConflictException(
+        `Mesa ${mesa.numero} ja esta reservada por ${mesa.reservado_por}`,
+      );
+    }
+
+    mesa.reservado_por = nomeCliente;
+    mesa.reservado_em = new Date();
+    mesa.status = false;
+
+    return await this.mesaRepository.save(mesa);
+  }
+
+  async liberar(id: number): Promise<IMesaOutput> {
+    const mesa = await this.findOne(id);
+
+    mesa.reservado_por = null;
+    mesa.reservado_em = null;
+    mesa.status = true;
+
+    return await this.mesaRepository.save(mesa);
   }
 
   async remove(id: number): Promise<DeleteMesaDto> {

@@ -35,6 +35,7 @@ const createAndInjectMenu = () => {
         { url: '/usuarios', icon: 'people-outline',        label: 'Usuarios',      profiles: [0] },
         { url: '/mesas',    icon: 'grid-outline',          label: 'Mesas',         profiles: [0, 1] },
         { url: '/comandas', icon: 'receipt-outline',       label: 'Comandas',      profiles: [0, 1] },
+        { url: '/mapa',     icon: 'map-outline',           label: 'Mapa',          profiles: [0, 1, 2, 3, 4] },
         { url: '/menu',     icon: 'book-outline',          label: 'Cardapio',      profiles: [0, 1, 2, 3, 4], highlight: true },
     ];
 

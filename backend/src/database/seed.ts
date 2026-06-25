@@ -225,11 +225,22 @@ const usuarios = [
 ];
 
 const mesas = [
-  { qtd_cadeiras: 2 },
-  { qtd_cadeiras: 2 },
-  { qtd_cadeiras: 3 },
-  { qtd_cadeiras: 4 },
-  { qtd_cadeiras: 4 },
+  // === BAR/BALCÃO (3 cadeiras) ===
+  { qtd_cadeiras: 1, numero: 1, localizacao: 'bar', posicao_x: 80, posicao_y: 60 },
+  { qtd_cadeiras: 1, numero: 2, localizacao: 'bar', posicao_x: 160, posicao_y: 60 },
+  { qtd_cadeiras: 1, numero: 3, localizacao: 'bar', posicao_x: 240, posicao_y: 60 },
+  // === SALÃO (6 mesas) ===
+  { qtd_cadeiras: 2, numero: 4, localizacao: 'salao', posicao_x: 80, posicao_y: 180 },
+  { qtd_cadeiras: 2, numero: 5, localizacao: 'salao', posicao_x: 200, posicao_y: 180 },
+  { qtd_cadeiras: 4, numero: 6, localizacao: 'salao', posicao_x: 340, posicao_y: 180 },
+  { qtd_cadeiras: 2, numero: 7, localizacao: 'salao', posicao_x: 80, posicao_y: 280 },
+  { qtd_cadeiras: 3, numero: 8, localizacao: 'salao', posicao_x: 200, posicao_y: 280 },
+  { qtd_cadeiras: 4, numero: 9, localizacao: 'salao', posicao_x: 340, posicao_y: 280 },
+  // === EXTERNA (4 mesas) ===
+  { qtd_cadeiras: 2, numero: 10, localizacao: 'externa', posicao_x: 80, posicao_y: 400 },
+  { qtd_cadeiras: 2, numero: 11, localizacao: 'externa', posicao_x: 200, posicao_y: 400 },
+  { qtd_cadeiras: 4, numero: 12, localizacao: 'externa', posicao_x: 340, posicao_y: 400 },
+  { qtd_cadeiras: 4, numero: 13, localizacao: 'externa', posicao_x: 460, posicao_y: 400 },
 ];
 
 const produtos = [
@@ -326,14 +337,24 @@ async function seedUsuarios(usuarioService: UsuarioService) {
 
 async function seedMesas(mesaService: MesaService) {
   const existing = await mesaService.findAll({});
-  let count = existing.data.length;
   for (const data of mesas) {
-    if (count >= 5) {
-      console.log(`Mesa (${data.qtd_cadeiras} cadeiras) já existe. Pulando.`);
+    const existente = existing.data.find((m) => m.numero === data.numero);
+    if (existente) {
+      // Atualiza posicao se nao tiver
+      if (!existente.posicao_x && data.posicao_x) {
+        await mesaService.update(existente.id, {
+          posicao_x: data.posicao_x,
+          posicao_y: data.posicao_y,
+          localizacao: data.localizacao,
+          qtd_cadeiras: data.qtd_cadeiras,
+        });
+        console.log(`Mesa ${data.numero} atualizada com posicao!`);
+      } else {
+        console.log(`Mesa ${data.numero} já existe. Pulando.`);
+      }
     } else {
       await mesaService.create(data);
-      count++;
-      console.log(`Mesa (${data.qtd_cadeiras} cadeiras) criada!`);
+      console.log(`Mesa ${data.numero} criada!`);
     }
   }
 }

@@ -1,4 +1,4 @@
-import { IsBoolean, IsInt, IsNotEmpty, IsOptional, Min } from 'class-validator';
+import { IsBoolean, IsInt, IsNotEmpty, IsOptional, IsString, Min } from 'class-validator';
 import { ICreateMesaInput } from '../interfaces/mesa.interface';
 
 export class CreateMesaDto implements ICreateMesaInput {
@@ -10,4 +10,20 @@ export class CreateMesaDto implements ICreateMesaInput {
   @IsBoolean()
   @IsOptional()
   status?: boolean;
+
+  @IsInt()
+  @IsOptional()
+  numero?: number;
+
+  @IsString()
+  @IsOptional()
+  localizacao?: string;
+
+  @IsInt()
+  @IsOptional()
+  posicao_x?: number;
+
+  @IsInt()
+  @IsOptional()
+  posicao_y?: number;
 }

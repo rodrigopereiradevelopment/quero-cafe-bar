@@ -6,6 +6,18 @@ describe('MesaController', () => {
   let controller: MesaController;
   let service: MesaService;
 
+  const mockMesa = {
+    id: 1,
+    qtd_cadeiras: 4,
+    status: true,
+    numero: 1,
+    localizacao: 'salao',
+    posicao_x: 100,
+    posicao_y: 200,
+    reservado_por: null,
+    reservado_em: null,
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [MesaController],
@@ -13,17 +25,14 @@ describe('MesaController', () => {
         {
           provide: MesaService,
           useValue: {
-            findOne: jest
-              .fn()
-              .mockResolvedValue({ id: 1, qtd_cadeiras: 4, status: true }),
-            create: jest
-              .fn()
-              .mockResolvedValue({ id: 1, qtd_cadeiras: 4, status: true }),
-            update: jest
-              .fn()
-              .mockResolvedValue({ id: 1, qtd_cadeiras: 6, status: true }),
+            findOne: jest.fn().mockResolvedValue(mockMesa),
+            create: jest.fn().mockResolvedValue(mockMesa),
+            update: jest.fn().mockResolvedValue({ ...mockMesa, qtd_cadeiras: 6 }),
             remove: jest.fn().mockResolvedValue({ id: 1 }),
             findAll: jest.fn().mockResolvedValue({ data: [], total: 0, skip: 0, take: 20 }),
+            findAllForMapa: jest.fn().mockResolvedValue([]),
+            reservar: jest.fn().mockResolvedValue({ ...mockMesa, reservado_por: 'Cliente' }),
+            liberar: jest.fn().mockResolvedValue(mockMesa),
           },
         },
       ],
@@ -43,7 +52,7 @@ describe('MesaController', () => {
         qtd_cadeiras: 4,
         status: true,
       };
-      const result = { id: 1, ...createMesaDto };
+      const result = { ...mockMesa, ...createMesaDto };
 
       jest.spyOn(service, 'create').mockResolvedValue(result);
 
@@ -55,7 +64,7 @@ describe('MesaController', () => {
   describe('findAll', () => {
     it('should return paginated mesas', async () => {
       const result = {
-        data: [{ id: 1, qtd_cadeiras: 4, status: true }],
+        data: [mockMesa],
         total: 1,
         skip: 0,
         take: 20,
@@ -70,11 +79,9 @@ describe('MesaController', () => {
 
   describe('findOne', () => {
     it('should return a single mesa', async () => {
-      const result = { id: 1, qtd_cadeiras: 4, status: true };
+      jest.spyOn(service, 'findOne').mockResolvedValue(mockMesa);
 
-      jest.spyOn(service, 'findOne').mockResolvedValue(result);
-
-      expect(await controller.findOne(1)).toBe(result);
+      expect(await controller.findOne(1)).toBe(mockMesa);
       expect(service.findOne).toHaveBeenCalledWith(1);
     });
   });
@@ -82,7 +89,7 @@ describe('MesaController', () => {
   describe('update', () => {
     it('should update a mesa', async () => {
       const updateMesaDto = { id: 1, qtd_cadeiras: 6 };
-      const result = { id: 1, qtd_cadeiras: 6, status: true };
+      const result = { ...mockMesa, qtd_cadeiras: 6 };
 
       jest.spyOn(service, 'update').mockResolvedValue(result);
 

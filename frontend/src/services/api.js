@@ -201,6 +201,10 @@ class Api {
         return this.request(`/mesa?skip=${skip}&take=${take}`);
     }
 
+    async getMesasMapa() {
+        return this.request('/mesa/mapa');
+    }
+
     async addMesa(mesaData) {
         return this.request('/mesa', {
             method: 'POST',
@@ -216,6 +220,19 @@ class Api {
         return this.request(`/mesa/${id}`, {
             method: 'PATCH',
             body: JSON.stringify(mesaData),
+        });
+    }
+
+    async reservarMesa(id, nomeCliente) {
+        return this.request(`/mesa/${id}/reservar`, {
+            method: 'PATCH',
+            body: JSON.stringify({ nome_cliente: nomeCliente }),
+        });
+    }
+
+    async liberarMesa(id) {
+        return this.request(`/mesa/${id}/liberar`, {
+            method: 'PATCH',
         });
     }
 
