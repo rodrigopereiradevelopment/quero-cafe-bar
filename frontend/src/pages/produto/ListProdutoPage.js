@@ -108,7 +108,7 @@ class ListProdutoPage extends HTMLElement {
             ></ion-icon>
             <span>${produto.dsc_produto}</span>
           </h2>
-          <p>${formatCurrency(produto.valor_unit)}</p>
+          <p>${formatCurrency(produto.valor_unit)}${produto.categoria ? ` · <ion-badge color="medium" style="font-size: 0.7rem; vertical-align: middle;">${produto.categoria}</ion-badge>` : ''}</p>
         </ion-label>
 
         <ion-buttons slot="end">

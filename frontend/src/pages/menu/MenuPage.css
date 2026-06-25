@@ -88,9 +88,9 @@
 
 .menu-item-card {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 12px 14px;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
   background: #161b22;
   border-radius: 8px;
   border: 1px solid #21262d;
@@ -101,23 +101,33 @@
   border-color: #e2b714;
 }
 
+.item-imagem {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.item-imagem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .item-info {
   flex: 1;
-  padding-right: 12px;
+  min-width: 0;
 }
 
 .item-nome {
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: #e6edf3;
-  margin: 0 0 4px 0;
-  font-weight: 500;
-}
-
-.item-descricao {
-  font-size: 0.8rem;
-  color: #8b949e;
   margin: 0;
-  line-height: 1.3;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .item-preco {

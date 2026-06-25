@@ -7,90 +7,27 @@ import { showLoading, showAlert } from '../../shared/overlay.js'
 
 const pageName = 'Cardápio'
 
-const categorias = [
-  { id: 'cafes-quentes', nome: '☕ Cafés Quentes', icone: 'cafe' },
-  { id: 'cafes-gelados', nome: '🧊 Cafés Gelados', icone: 'snow' },
-  { id: 'frappes', nome: '🥤 Frappés', icone: 'wine' },
-  { id: 'nao-cafe', nome: '🍫 Bebidas Não-CAFÉ', icone: 'cafe' },
-  { id: 'sucos', nome: '🧃 Sucos e Smoothies', icone: 'nutrition' },
-  { id: 'lanches', nome: '🥪 Lanches e Salgados', icone: 'pizza' },
-  { id: 'doces', nome: '🍰 Doces', icone: 'ice-cream' },
-  { id: 'pratos', nome: '🍽️ Pratos Principais', icone: 'restaurant' },
+const categoriasDef = [
+  { id: 'todos', nome: 'Todos', icone: 'grid' },
+  { id: 'Cafés Quentes', nome: 'Cafés Quentes', icone: 'cafe' },
+  { id: 'Cafés Gelados', nome: 'Cafés Gelados', icone: 'snow' },
+  { id: 'Frappés', nome: 'Frappés', icone: 'wine' },
+  { id: 'Bebidas', nome: 'Bebidas', icone: 'cafe' },
+  { id: 'Sucos', nome: 'Sucos', icone: 'nutrition' },
+  { id: 'Lanches', nome: 'Lanches', icone: 'pizza' },
+  { id: 'Doces', nome: 'Doces', icone: 'ice-cream' },
+  { id: 'Pratos', nome: 'Pratos', icone: 'restaurant' },
 ]
 
-const produtosPorCategoria = {
-  'cafes-quentes': [
-    { nome: 'Expresso Simples', descricao: 'Café puro e encorpado', preco: 6 },
-    { nome: 'Expresso Duplo', descricao: 'Duas doses de café', preco: 9 },
-    { nome: 'Cappuccino', descricao: 'Espresso com espuma de leite', preco: 12 },
-    { nome: 'Café com Leite', descricao: 'Café coado com leite quente', preco: 8 },
-    { nome: 'Latte', descricao: 'Espresso com muito leite vaporizado', preco: 13 },
-    { nome: 'Mocha', descricao: 'Espresso, chocolate e leite', preco: 15 },
-    { nome: 'Macchiato', descricao: 'Espresso manchado com espuma', preco: 11 },
-    { nome: 'Café Especial 3WU', descricao: 'Nosso blend exclusivo', preco: 14 },
-    { nome: 'Einspanner', descricao: 'Espresso com chantilly vienense', preco: 16 },
-    { nome: 'Salted Caramel Latte', descricao: 'Caramelo salgado com leite', preco: 16 },
-    { nome: 'Café Canela', descricao: 'Café com canela e especiarias', preco: 10 },
-  ],
-  'cafes-gelados': [
-    { nome: 'Cold Brew', descricao: 'Extraído a frio por 12h', preco: 14 },
-    { nome: 'Cold Brew com Leite', descricao: 'Cold brew com leite gelado', preco: 16 },
-    { nome: 'Espresso Gelado', descricao: 'Espresso sobre gelo', preco: 10 },
-    { nome: 'Iced Latte', descricao: 'Latte gelado com gelo', preco: 15 },
-  ],
-  'frappes': [
-    { nome: 'Frappé de Café', descricao: 'Café gelado batido com leite', preco: 16 },
-    { nome: 'Frappé de Caramelo', descricao: 'Caramelo, café e chantilly', preco: 18 },
-    { nome: 'Frappé de Chocolate', descricao: 'Chocolate, café e chantilly', preco: 18 },
-    { nome: 'Frappé de Matcha', descricao: 'Matcha com leite gelado', preco: 19 },
-    { nome: 'Frappé Cookies & Cream', descricao: 'Bolacha oreo com chantilly', preco: 20 },
-  ],
-  'nao-cafe': [
-    { nome: 'Chocolate Quente', descricao: 'Chocolate cremoso e quente', preco: 12 },
-    { nome: 'Matcha Latte', descricao: 'Chá verde com leite', preco: 15 },
-    { nome: 'Chá Latte', descricao: 'Chá preto com leite e especiarias', preco: 13 },
-    { nome: 'Latte de Baunilha', descricao: 'Leite com essência de baunilha', preco: 14 },
-    { nome: 'Hot White Chocolate', descricao: 'Chocolate branco quente', preco: 15 },
-  ],
-  'sucos': [
-    { nome: 'Suco de Laranja Natural', descricao: 'Laranja espremta na hora', preco: 10 },
-    { nome: 'Suco de Limão', descricao: 'Limão com açúcar e gelo', preco: 9 },
-    { nome: 'Suco de Maracujá', descricao: 'Maracujá fresco', preco: 11 },
-    { nome: 'Suco Detox Verde', descricao: 'Couve, gengibre, limão e maçã', preco: 14 },
-    { nome: 'Smoothie de Morango', descricao: 'Morango batido com leite e banana', preco: 16 },
-    { nome: 'Açaí na Tigela', descricao: 'Açaí com banana, granola e mel', preco: 22 },
-  ],
-  'lanches': [
-    { nome: 'Pão de Queijo', descricao: 'Pão de queijo mineiro crocante', preco: 6 },
-    { nome: 'Coxinha de Frango', descricao: 'Coxinha cremosa de frango', preco: 8 },
-    { nome: 'Pastel de Carne', descricao: 'Pastel crocante recheado', preco: 9 },
-    { nome: 'Pastel de Queijo', descricao: 'Pastel com queijo derretido', preco: 9 },
-    { nome: 'Esfiha de Carne', descricao: 'Esfiha assada com carne moída', preco: 7 },
-    { nome: 'Quiche de Frango', descricao: 'Quiche cremosa com frango', preco: 12 },
-    { nome: 'Sanduíche Natural', descricao: 'Frango, alface, tomate e maionese', preco: 14 },
-    { nome: 'Misto Quente', descricao: 'Presunto e queijo na chapa', preco: 12 },
-    { nome: 'Croissant c/ Presunto e Queijo', descricao: 'Croissant amanteigado recheado', preco: 15 },
-    { nome: 'Wrap de Frango', descricao: 'Tortilha com frango e molho especial', preco: 18 },
-    { nome: 'Pão na Chapa', descricao: 'Pão francês na manteiga', preco: 7 },
-    { nome: 'Tapioca c/ Queijo', descricao: 'Tapioca com queijo derretido', preco: 10 },
-  ],
-  'doces': [
-    { nome: 'Bolo de Cenoura c/ Cobertura', descricao: 'Bolo fofinho com cobertura de chocolate', preco: 10 },
-    { nome: 'Bolo de Chocolate', descricao: 'Bolo cremoso de chocolate', preco: 11 },
-    { nome: 'Brownie', descricao: 'Brownie denso com gotas de chocolate', preco: 12 },
-    { nome: 'Cookie c/ Gotas de Chocolate', descricao: 'Cookie crocante por fora, macio por dentro', preco: 8 },
-    { nome: 'Croissant Doce c/ Nutella', descricao: 'Croissant com Nutella derretida', preco: 16 },
-    { nome: 'Torta de Limão', descricao: 'Torta cremosa com merengue', preco: 14 },
-    { nome: 'Petit Gateau', descricao: 'Bolinho de chocolate com sorvete', preco: 22 },
-    { nome: 'Churros c/ Doce de Leite', descricao: 'Churros crocantes com doce de leite', preco: 14 },
-  ],
-  'pratos': [
-    { nome: 'Arroz c/ Feijão e Frango Grelhado', descricao: 'Prato feito completo', preco: 28 },
-    { nome: 'Macarrão à Carbonara', descricao: 'Espaguete com bacon e parmesão', preco: 32 },
-    { nome: 'Risoto de Cogumelos', descricao: 'Risoto cremoso com mix de cogumelos', preco: 35 },
-    { nome: 'Salada Caesar c/ Frango', descricao: 'Alface, croutons, parmesão e frango', preco: 26 },
-    { nome: 'Fish & Chips', descricao: 'Peixe empanado com batata frita', preco: 34 },
-  ],
+const categoriaEmoji = {
+  'Cafés Quentes': '☕',
+  'Cafés Gelados': '🧊',
+  'Frappés': '🥤',
+  'Bebidas': '🍫',
+  'Sucos': '🧃',
+  'Lanches': '🥪',
+  'Doces': '🍰',
+  'Pratos': '🍽️',
 }
 
 class MenuPage extends HTMLElement {
@@ -114,35 +51,9 @@ class MenuPage extends HTMLElement {
           <p class="menu-subtitle">Conheça nossas especialidades</p>
         </div>
 
-        <div class="menu-categorias">
-          ${categorias.map(cat => `
-            <button class="cat-btn" data-categoria="${cat.id}">
-              <ion-icon name="${cat.icone}"></ion-icon>
-              <span>${cat.nome.replace(/^[^\s]+\s/, '')}</span>
-            </button>
-          `).join('')}
-        </div>
+        <div class="menu-categorias" id="menu-categorias"></div>
 
-        <div class="menu-secao" id="menu-todos">
-          ${categorias.map(cat => `
-            <div class="menu-categoria" id="cat-${cat.id}">
-              <h2 class="categoria-titulo">${cat.nome}</h2>
-              <div class="categoria-items">
-                ${produtosPorCategoria[cat.id].map(produto => `
-                  <div class="menu-item-card">
-                    <div class="item-info">
-                      <h3 class="item-nome">${produto.nome}</h3>
-                      <p class="item-descricao">${produto.descricao}</p>
-                    </div>
-                    <div class="item-preco">
-                      <span>R$ ${produto.preco.toFixed(2)}</span>
-                    </div>
-                  </div>
-                `).join('')}
-              </div>
-            </div>
-          `).join('')}
-        </div>
+        <div class="menu-secao" id="menu-todos"></div>
 
         <div class="menu-footer">
           <p>Prices subject to change without notice</p>
@@ -152,12 +63,79 @@ class MenuPage extends HTMLElement {
     `
 
     this.querySelector('#logout-btn')?.addEventListener('click', logout)
-    this.setupCategoriaFilters()
+    await this.fetchAndRender()
   }
 
-  setupCategoriaFilters() {
+  async fetchAndRender() {
+    const loading = showLoading('Carregando cardápio...')
+
+    try {
+      const { data: produtos } = await api.getProdutos({ take: 200 })
+      this.renderCategorias(produtos)
+      this.renderProdutos(produtos)
+      this.setupCategoriaFilters(produtos)
+    } catch (error) {
+      console.error('Erro ao buscar cardápio:', error)
+      await showAlert({ header: 'Erro', message: 'Não foi possível carregar o cardápio.' })
+    } finally {
+      await loading.dismiss()
+    }
+  }
+
+  renderCategorias(produtos) {
+    const container = this.querySelector('#menu-categorias')
+    const categoriasEncontradas = [...new Set(produtos.map(p => p.categoria).filter(Boolean))]
+
+    const catsHtml = categoriasDef
+      .filter(cat => cat.id === 'todos' || categoriasEncontradas.includes(cat.id))
+      .map(cat => `
+        <button class="cat-btn ${cat.id === 'todos' ? 'active' : ''}" data-categoria="${cat.id}">
+          <ion-icon name="${cat.icone}"></ion-icon>
+          <span>${cat.nome}</span>
+        </button>
+      `).join('')
+
+    container.innerHTML = catsHtml
+  }
+
+  renderProdutos(produtos, filtro = 'todos') {
+    const container = this.querySelector('#menu-todos')
+    const categoriasEncontradas = [...new Set(produtos.map(p => p.categoria).filter(Boolean))]
+
+    const catsParaMostrar = filtro === 'todos'
+      ? categoriasEncontradas
+      : [filtro]
+
+    container.innerHTML = catsParaMostrar.map(cat => {
+      const itens = produtos.filter(p => p.categoria === cat)
+      const emoji = categoriaEmoji[cat] || '📋'
+      return `
+        <div class="menu-categoria">
+          <h2 class="categoria-titulo">${emoji} ${cat}</h2>
+          <div class="categoria-items">
+            ${itens.map(produto => `
+              <div class="menu-item-card">
+                ${produto.imagem ? `
+                  <div class="item-imagem">
+                    <img src="${produto.imagem}" alt="${produto.dsc_produto}" loading="lazy" />
+                  </div>
+                ` : ''}
+                <div class="item-info">
+                  <h3 class="item-nome">${produto.dsc_produto}</h3>
+                </div>
+                <div class="item-preco">
+                  <span>R$ ${Number(produto.valor_unit).toFixed(2)}</span>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `
+    }).join('')
+  }
+
+  setupCategoriaFilters(produtos) {
     const buttons = this.querySelectorAll('.cat-btn')
-    const sections = this.querySelectorAll('.menu-categoria')
 
     buttons.forEach(btn => {
       btn.addEventListener('click', () => {
@@ -166,13 +144,7 @@ class MenuPage extends HTMLElement {
         buttons.forEach(b => b.classList.remove('active'))
         btn.classList.add('active')
 
-        if (catId === 'todos') {
-          sections.forEach(s => s.style.display = 'block')
-        } else {
-          sections.forEach(s => s.style.display = 'none')
-          const target = this.querySelector(`#cat-${catId}`)
-          if (target) target.style.display = 'block'
-        }
+        this.renderProdutos(produtos, catId)
 
         const menuTodos = this.querySelector('#menu-todos')
         menuTodos.scrollIntoView({ behavior: 'smooth', block: 'start' })

@@ -69,382 +69,82 @@ const mesas = [
 
 const produtos = [
   // === CAFÉS QUENTES ===
-  {
-    dsc_produto: 'Expresso Simples',
-    valor_unit: 6,
-    imagem:
-      'https://images.pexels.com/photos/19252265/pexels-photo-19252265.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Expresso Duplo',
-    valor_unit: 9,
-    imagem:
-      'https://images.pexels.com/photos/19252265/pexels-photo-19252265.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Cappuccino',
-    valor_unit: 12,
-    imagem:
-      'https://images.pexels.com/photos/6747870/pexels-photo-6747870.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Café com Leite',
-    valor_unit: 8,
-    imagem:
-      'https://images.pexels.com/photos/6747870/pexels-photo-6747870.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Latte',
-    valor_unit: 13,
-    imagem:
-      'https://images.pexels.com/photos/6747870/pexels-photo-6747870.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Mocha',
-    valor_unit: 15,
-    imagem:
-      'https://images.pexels.com/photos/6747870/pexels-photo-6747870.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Macchiato',
-    valor_unit: 11,
-    imagem:
-      'https://images.pexels.com/photos/6747870/pexels-photo-6747870.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Café Especial 3WU',
-    valor_unit: 14,
-    imagem:
-      'https://images.pexels.com/photos/19252265/pexels-photo-19252265.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Einspanner',
-    valor_unit: 16,
-    imagem:
-      'https://images.pexels.com/photos/6747870/pexels-photo-6747870.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Salted Caramel Latte',
-    valor_unit: 16,
-    imagem:
-      'https://images.pexels.com/photos/6747870/pexels-photo-6747870.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Café Canela',
-    valor_unit: 10,
-    imagem:
-      'https://images.pexels.com/photos/6747870/pexels-photo-6747870.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
+  { dsc_produto: 'Expresso Simples', categoria: 'Cafés Quentes', valor_unit: 6, imagem: 'https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=400' },
+  { dsc_produto: 'Expresso Duplo', categoria: 'Cafés Quentes', valor_unit: 9, imagem: 'https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=400' },
+  { dsc_produto: 'Cappuccino', categoria: 'Cafés Quentes', valor_unit: 12, imagem: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400' },
+  { dsc_produto: 'Café com Leite', categoria: 'Cafés Quentes', valor_unit: 8, imagem: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400' },
+  { dsc_produto: 'Latte', categoria: 'Cafés Quentes', valor_unit: 13, imagem: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400' },
+  { dsc_produto: 'Mocha', categoria: 'Cafés Quentes', valor_unit: 15, imagem: 'https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=400' },
+  { dsc_produto: 'Macchiato', categoria: 'Cafés Quentes', valor_unit: 11, imagem: 'https://images.unsplash.com/photo-1485808191679-5f86510681a2?w=400' },
+  { dsc_produto: 'Café Especial 3WU', categoria: 'Cafés Quentes', valor_unit: 14, imagem: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400' },
+  { dsc_produto: 'Einspanner', categoria: 'Cafés Quentes', valor_unit: 16, imagem: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400' },
+  { dsc_produto: 'Salted Caramel Latte', categoria: 'Cafés Quentes', valor_unit: 16, imagem: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400' },
+  { dsc_produto: 'Café Canela', categoria: 'Cafés Quentes', valor_unit: 10, imagem: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400' },
 
   // === CAFÉS GELADOS ===
-  {
-    dsc_produto: 'Cold Brew',
-    valor_unit: 14,
-    imagem:
-      'https://images.pexels.com/photos/2074130/pexels-photo-2074130.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Cold Brew com Leite',
-    valor_unit: 16,
-    imagem:
-      'https://images.pexels.com/photos/2074130/pexels-photo-2074130.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Espresso Gelado',
-    valor_unit: 10,
-    imagem:
-      'https://images.pexels.com/photos/2074130/pexels-photo-2074130.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Iced Latte',
-    valor_unit: 15,
-    imagem:
-      'https://images.pexels.com/photos/2074130/pexels-photo-2074130.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
+  { dsc_produto: 'Cold Brew', categoria: 'Cafés Gelados', valor_unit: 14, imagem: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400' },
+  { dsc_produto: 'Cold Brew com Leite', categoria: 'Cafés Gelados', valor_unit: 16, imagem: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400' },
+  { dsc_produto: 'Espresso Gelado', categoria: 'Cafés Gelados', valor_unit: 10, imagem: 'https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=400' },
+  { dsc_produto: 'Iced Latte', categoria: 'Cafés Gelados', valor_unit: 15, imagem: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400' },
 
   // === FRAPPÉS ===
-  {
-    dsc_produto: 'Frappé de Café',
-    valor_unit: 16,
-    imagem:
-      'https://images.pexels.com/photos/2074130/pexels-photo-2074130.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Frappé de Caramelo',
-    valor_unit: 18,
-    imagem:
-      'https://images.pexels.com/photos/2074130/pexels-photo-2074130.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Frappé de Chocolate',
-    valor_unit: 18,
-    imagem:
-      'https://images.pexels.com/photos/2074130/pexels-photo-2074130.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Frappé de Matcha',
-    valor_unit: 19,
-    imagem:
-      'https://images.pexels.com/photos/2074130/pexels-photo-2074130.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Frappé Cookies & Cream',
-    valor_unit: 20,
-    imagem:
-      'https://images.pexels.com/photos/2074130/pexels-photo-2074130.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
+  { dsc_produto: 'Frappé de Café', categoria: 'Frappés', valor_unit: 16, imagem: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400' },
+  { dsc_produto: 'Frappé de Caramelo', categoria: 'Frappés', valor_unit: 18, imagem: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400' },
+  { dsc_produto: 'Frappé de Chocolate', categoria: 'Frappés', valor_unit: 18, imagem: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400' },
+  { dsc_produto: 'Frappé de Matcha', categoria: 'Frappés', valor_unit: 19, imagem: 'https://images.unsplash.com/photo-1515823064-d6e0c04616a7?w=400' },
+  { dsc_produto: 'Frappé Cookies & Cream', categoria: 'Frappés', valor_unit: 20, imagem: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400' },
 
   // === BEBIDAS NÃO-CAFÉ ===
-  {
-    dsc_produto: 'Chocolate Quente',
-    valor_unit: 12,
-    imagem:
-      'https://images.pexels.com/photos/33541425/pexels-photo-33541425.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Matcha Latte',
-    valor_unit: 15,
-    imagem:
-      'https://images.pexels.com/photos/33541425/pexels-photo-33541425.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Chá Latte',
-    valor_unit: 13,
-    imagem:
-      'https://images.pexels.com/photos/33541425/pexels-photo-33541425.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Latte de Baunilha',
-    valor_unit: 14,
-    imagem:
-      'https://images.pexels.com/photos/33541425/pexels-photo-33541425.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Hot White Chocolate',
-    valor_unit: 15,
-    imagem:
-      'https://images.pexels.com/photos/33541425/pexels-photo-33541425.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
+  { dsc_produto: 'Chocolate Quente', categoria: 'Bebidas', valor_unit: 12, imagem: 'https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?w=400' },
+  { dsc_produto: 'Matcha Latte', categoria: 'Bebidas', valor_unit: 15, imagem: 'https://images.unsplash.com/photo-1515823064-d6e0c04616a7?w=400' },
+  { dsc_produto: 'Chá Latte', categoria: 'Bebidas', valor_unit: 13, imagem: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400' },
+  { dsc_produto: 'Latte de Baunilha', categoria: 'Bebidas', valor_unit: 14, imagem: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400' },
+  { dsc_produto: 'Hot White Chocolate', categoria: 'Bebidas', valor_unit: 15, imagem: 'https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?w=400' },
 
-  // === SUCOS E Beatriz ===
-  {
-    dsc_produto: 'Suco de Laranja Natural',
-    valor_unit: 10,
-    imagem:
-      'https://images.pexels.com/photos/30900665/pexels-photo-30900665.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Suco de Limão',
-    valor_unit: 9,
-    imagem:
-      'https://images.pexels.com/photos/30900665/pexels-photo-30900665.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Suco de Maracujá',
-    valor_unit: 11,
-    imagem:
-      'https://images.pexels.com/photos/30900665/pexels-photo-30900665.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Suco Detox Verde',
-    valor_unit: 14,
-    imagem:
-      'https://images.pexels.com/photos/30900665/pexels-photo-30900665.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Smoothie de Morango',
-    valor_unit: 16,
-    imagem:
-      'https://images.pexels.com/photos/30900665/pexels-photo-30900665.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Açaí na Tigela',
-    valor_unit: 22,
-    imagem:
-      'https://images.pexels.com/photos/30900665/pexels-photo-30900665.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
+  // === SUCOS EBeatriz ===
+  { dsc_produto: 'Suco de Laranja Natural', categoria: 'Sucos', valor_unit: 10, imagem: 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=400' },
+  { dsc_produto: 'Suco de Limão', categoria: 'Sucos', valor_unit: 9, imagem: 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=400' },
+  { dsc_produto: 'Suco de Maracujá', categoria: 'Sucos', valor_unit: 11, imagem: 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=400' },
+  { dsc_produto: 'Suco Detox Verde', categoria: 'Sucos', valor_unit: 14, imagem: 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=400' },
+  { dsc_produto: 'Smoothie de Morango', categoria: 'Sucos', valor_unit: 16, imagem: 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=400' },
+  { dsc_produto: 'Açaí na Tigela', categoria: 'Sucos', valor_unit: 22, imagem: 'https://images.unsplash.com/photo-1590301157890-4810ed352733?w=400' },
 
   // === REFRIGERANTES E ÁGUA ===
-  {
-    dsc_produto: 'Água Mineral s/ Gás',
-    valor_unit: 5,
-    imagem:
-      'https://images.pexels.com/photos/1540235/pexels-photo-1540235.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Água Mineral c/ Gás',
-    valor_unit: 6,
-    imagem:
-      'https://images.pexels.com/photos/1540235/pexels-photo-1540235.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Refrigerante Lata',
-    valor_unit: 8,
-    imagem:
-      'https://images.pexels.com/photos/33469209/pexels-photo-33469209.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Soda Italiana',
-    valor_unit: 10,
-    imagem:
-      'https://images.pexels.com/photos/33469209/pexels-photo-33469209.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
+  { dsc_produto: 'Água Mineral s/ Gás', categoria: 'Bebidas', valor_unit: 5, imagem: 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400' },
+  { dsc_produto: 'Água Mineral c/ Gás', categoria: 'Bebidas', valor_unit: 6, imagem: 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400' },
+  { dsc_produto: 'Refrigerante Lata', categoria: 'Bebidas', valor_unit: 8, imagem: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400' },
+  { dsc_produto: 'Soda Italiana', categoria: 'Bebidas', valor_unit: 10, imagem: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400' },
 
   // === LANCHES E SALGADOS ===
-  {
-    dsc_produto: 'Pão de Queijo',
-    valor_unit: 6,
-    imagem:
-      'https://images.pexels.com/photos/33541425/pexels-photo-33541425.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Coxinha de Frango',
-    valor_unit: 8,
-    imagem:
-      'https://images.pexels.com/photos/6170473/pexels-photo-6170473.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Pastel de Carne',
-    valor_unit: 9,
-    imagem:
-      'https://images.pexels.com/photos/14866635/pexels-photo-14866635.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Pastel de Queijo',
-    valor_unit: 9,
-    imagem:
-      'https://images.pexels.com/photos/14866635/pexels-photo-14866635.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Esfiha de Carne',
-    valor_unit: 7,
-    imagem:
-      'https://images.pexels.com/photos/6170473/pexels-photo-6170473.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Quiche de Frango',
-    valor_unit: 12,
-    imagem:
-      'https://images.pexels.com/photos/6170473/pexels-photo-6170473.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Sanduíche Natural',
-    valor_unit: 14,
-    imagem:
-      'https://images.pexels.com/photos/29747752/pexels-photo-29747752.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Misto Quente',
-    valor_unit: 12,
-    imagem:
-      'https://images.pexels.com/photos/29747752/pexels-photo-29747752.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Croissant c/ Presunto e Queijo',
-    valor_unit: 15,
-    imagem:
-      'https://images.pexels.com/photos/29747752/pexels-photo-29747752.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Wrap de Frango',
-    valor_unit: 18,
-    imagem:
-      'https://images.pexels.com/photos/29747752/pexels-photo-29747752.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Pão na Chapa',
-    valor_unit: 7,
-    imagem:
-      'https://images.pexels.com/photos/3997309/pexels-photo-3997309.png?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Tapioca c/ Queijo',
-    valor_unit: 10,
-    imagem:
-      'https://images.pexels.com/photos/29747752/pexels-photo-29747752.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
+  { dsc_produto: 'Pão de Queijo', categoria: 'Lanches', valor_unit: 6, imagem: 'https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=400' },
+  { dsc_produto: 'Coxinha de Frango', categoria: 'Lanches', valor_unit: 8, imagem: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=400' },
+  { dsc_produto: 'Pastel de Carne', categoria: 'Lanches', valor_unit: 9, imagem: 'https://images.unsplash.com/photo-1606525437679-05b9193e16e7?w=400' },
+  { dsc_produto: 'Pastel de Queijo', categoria: 'Lanches', valor_unit: 9, imagem: 'https://images.unsplash.com/photo-1606525437679-05b9193e16e7?w=400' },
+  { dsc_produto: 'Esfiha de Carne', categoria: 'Lanches', valor_unit: 7, imagem: 'https://images.unsplash.com/photo-1606525437679-05b9193e16e7?w=400' },
+  { dsc_produto: 'Quiche de Frango', categoria: 'Lanches', valor_unit: 12, imagem: 'https://images.unsplash.com/photo-1527515545241-17d2f0f8a2a4?w=400' },
+  { dsc_produto: 'Sanduíche Natural', categoria: 'Lanches', valor_unit: 14, imagem: 'https://images.unsplash.com/photo-1553909489-cd47e0907980?w=400' },
+  { dsc_produto: 'Misto Quente', categoria: 'Lanches', valor_unit: 12, imagem: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400' },
+  { dsc_produto: 'Croissant c/ Presunto e Queijo', categoria: 'Lanches', valor_unit: 15, imagem: 'https://images.unsplash.com/photo-1555507036-ab1f4038024a?w=400' },
+  { dsc_produto: 'Wrap de Frango', categoria: 'Lanches', valor_unit: 18, imagem: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=400' },
+  { dsc_produto: 'Pão na Chapa', categoria: 'Lanches', valor_unit: 7, imagem: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400' },
+  { dsc_produto: 'Tapioca c/ Queijo', categoria: 'Lanches', valor_unit: 10, imagem: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400' },
 
   // === DOCES ===
-  {
-    dsc_produto: 'Bolo de Cenoura c/ Cobertura',
-    valor_unit: 10,
-    imagem:
-      'https://images.pexels.com/photos/5121948/pexels-photo-5121948.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Bolo de Chocolate',
-    valor_unit: 11,
-    imagem:
-      'https://images.pexels.com/photos/5121948/pexels-photo-5121948.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Brownie',
-    valor_unit: 12,
-    imagem:
-      'https://images.pexels.com/photos/5121948/pexels-photo-5121948.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Cookie c/ Gotas de Chocolate',
-    valor_unit: 8,
-    imagem:
-      'https://images.pexels.com/photos/5121948/pexels-photo-5121948.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Croissant Doce c/ Nutella',
-    valor_unit: 16,
-    imagem:
-      'https://images.pexels.com/photos/5121948/pexels-photo-5121948.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Torta de Limão',
-    valor_unit: 14,
-    imagem:
-      'https://images.pexels.com/photos/5121948/pexels-photo-5121948.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Petit Gateau',
-    valor_unit: 22,
-    imagem:
-      'https://images.pexels.com/photos/5121948/pexels-photo-5121948.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Churros c/ Doce de Leite',
-    valor_unit: 14,
-    imagem:
-      'https://images.pexels.com/photos/5121948/pexels-photo-5121948.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
+  { dsc_produto: 'Bolo de Cenoura c/ Cobertura', categoria: 'Doces', valor_unit: 10, imagem: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400' },
+  { dsc_produto: 'Bolo de Chocolate', categoria: 'Doces', valor_unit: 11, imagem: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400' },
+  { dsc_produto: 'Brownie', categoria: 'Doces', valor_unit: 12, imagem: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400' },
+  { dsc_produto: 'Cookie c/ Gotas de Chocolate', categoria: 'Doces', valor_unit: 8, imagem: 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=400' },
+  { dsc_produto: 'Croissant Doce c/ Nutella', categoria: 'Doces', valor_unit: 16, imagem: 'https://images.unsplash.com/photo-1555507036-ab1f4038024a?w=400' },
+  { dsc_produto: 'Torta de Limão', categoria: 'Doces', valor_unit: 14, imagem: 'https://images.unsplash.com/photo-1519915028121-7d3463d20b13?w=400' },
+  { dsc_produto: 'Petit Gateau', categoria: 'Doces', valor_unit: 22, imagem: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400' },
+  { dsc_produto: 'Churros c/ Doce de Leite', categoria: 'Doces', valor_unit: 14, imagem: 'https://images.unsplash.com/photo-1624371414361-e670edf4e838?w=400' },
 
   // === PRATOS PRINCIPAIS ===
-  {
-    dsc_produto: 'Arroz c/ Feijão e Frango Grelhado',
-    valor_unit: 28,
-    imagem:
-      'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Macarrão à Carbonara',
-    valor_unit: 32,
-    imagem:
-      'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Risoto de Cogumelos',
-    valor_unit: 35,
-    imagem:
-      'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Salada Caesar c/ Frango',
-    valor_unit: 26,
-    imagem:
-      'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
-  {
-    dsc_produto: 'Fish & Chips',
-    valor_unit: 34,
-    imagem:
-      'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&h=350',
-  },
+  { dsc_produto: 'Arroz c/ Feijão e Frango Grelhado', categoria: 'Pratos', valor_unit: 28, imagem: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400' },
+  { dsc_produto: 'Macarrão à Carbonara', categoria: 'Pratos', valor_unit: 32, imagem: 'https://images.unsplash.com/photo-1612874742237-6526221588e3?w=400' },
+  { dsc_produto: 'Risoto de Cogumelos', categoria: 'Pratos', valor_unit: 35, imagem: 'https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=400' },
+  { dsc_produto: 'Salada Caesar c/ Frango', categoria: 'Pratos', valor_unit: 26, imagem: 'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400' },
+  { dsc_produto: 'Fish & Chips', categoria: 'Pratos', valor_unit: 34, imagem: 'https://images.unsplash.com/photo-1534766555764-ce878a5e3a2b?w=400' },
 ];
 
 async function seedUsuarios(usuarioService: UsuarioService) {

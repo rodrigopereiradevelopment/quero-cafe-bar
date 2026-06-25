@@ -9,6 +9,9 @@ export class Produto {
   @Column({ type: 'varchar', length: 100 })
   dsc_produto: string;
 
+  @Column({ type: 'varchar', length: 50, nullable: true })
+  categoria: string;
+
   @Column({ type: 'float' })
   valor_unit: number;
 

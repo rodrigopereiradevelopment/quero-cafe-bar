@@ -1,6 +1,7 @@
 export interface IProduto {
   id: number;
   dsc_produto: string;
+  categoria?: string;
   valor_unit: number;
   imagem?: string;
   status: boolean;
@@ -8,6 +9,7 @@ export interface IProduto {
 
 export interface ICreateProdutoInput {
   dsc_produto: string;
+  categoria?: string;
   valor_unit: number;
   imagem?: string;
   status?: boolean;
@@ -16,6 +18,7 @@ export interface ICreateProdutoInput {
 export interface IUpdateProdutoInput {
   id?: number;
   dsc_produto?: string;
+  categoria?: string;
   valor_unit?: number;
   imagem?: string;
   status?: boolean;

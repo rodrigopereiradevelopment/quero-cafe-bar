@@ -14,6 +14,11 @@ export class CreateProdutoDto implements ICreateProdutoInput {
   @MaxLength(100)
   dsc_produto: string;
 
+  @IsString()
+  @IsOptional()
+  @MaxLength(50)
+  categoria?: string;
+
   @IsNumber()
   @IsNotEmpty()
   valor_unit: number;
