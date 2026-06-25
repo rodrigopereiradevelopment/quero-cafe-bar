@@ -16,7 +16,10 @@ export function showAlert({ header, message, buttons = ['OK'] }) {
     alert.message = message;
     alert.buttons = buttons;
     document.body.appendChild(alert);
-    alert.addEventListener('ionAlertDidDismiss', () => { alert.remove(); resolve(); });
+    alert.addEventListener('ionAlertDidDismiss', (e) => {
+      alert.remove();
+      resolve(e.detail?.data?.values?.[0] || e.detail?.role || undefined);
+    });
     alert.present();
   });
 }

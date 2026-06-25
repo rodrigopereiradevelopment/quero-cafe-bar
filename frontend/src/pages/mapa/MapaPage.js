@@ -133,7 +133,7 @@ class MapaPage extends HTMLElement {
               message: `Deseja liberar a Mesa ${mesa.numero}?`,
               buttons: ['Cancelar', { text: 'Liberar', role: 'confirm' }],
             });
-            if (confirm === 'Liberar') {
+            if (confirm === 'confirm') {
               try {
                 await api.liberarMesa(id);
                 await showToast({ message: `Mesa ${mesa.numero} liberada!`, color: 'success' });
@@ -167,7 +167,7 @@ class MapaPage extends HTMLElement {
           buttons: ['Cancelar', { text: 'Reservar', role: 'confirm' }],
         });
 
-        if (confirm === 'Reservar') {
+        if (confirm === 'confirm') {
           try {
             await api.reservarMesa(id, user.nome);
             await showToast({ message: `Mesa ${mesa.numero} reservada para ${user.nome}!`, color: 'success' });
