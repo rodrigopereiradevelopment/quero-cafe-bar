@@ -464,3 +464,279 @@ ion-card:hover {
   color: #e2b714;
   text-shadow: 0 2px 8px rgba(226, 183, 20, 0.3);
 }
+
+/* ============================================
+   LIGHT MODE THEME
+   ============================================ */
+.light-mode {
+  --ion-color-primary: #b8860b;
+  --ion-color-primary-rgb: 184, 134, 11;
+  --ion-color-primary-shade: #a0750a;
+  --ion-color-primary-tint: #c99633;
+
+  --ion-color-secondary: #e8ebef;
+  --ion-color-secondary-rgb: 232, 235, 239;
+  --ion-color-secondary-shade: #cdd3d9;
+  --ion-color-secondary-tint: #ebeef2;
+
+  --ion-color-tertiary: #1e6bb8;
+  --ion-color-tertiary-rgb: 30, 107, 184;
+  --ion-color-tertiary-shade: #1a5e9f;
+  --ion-color-tertiary-tint: #357cc9;
+
+  --ion-color-success: #2ea043;
+  --ion-color-success-rgb: 46, 160, 67;
+  --ion-color-success-shade: #298e3c;
+  --ion-color-success-tint: #45a95a;
+
+  --ion-color-warning: #d29922;
+  --ion-color-warning-rgb: 210, 153, 34;
+
+  --ion-color-danger: #cf222e;
+  --ion-color-danger-rgb: 207, 34, 46;
+
+  --ion-color-light: #f6f8fa;
+  --ion-color-light-rgb: 246, 248, 250;
+  --ion-color-light-shade: #d8dee4;
+  --ion-color-light-tint: #f6f8fa;
+
+  --ion-color-medium: #6e7681;
+  --ion-color-medium-rgb: 110, 118, 129;
+
+  --ion-color-dark: #24292f;
+  --ion-color-dark-rgb: 36, 41, 47;
+
+  --ion-background-color: #ffffff;
+  --ion-background-color-rgb: 255, 255, 255;
+
+  --ion-text-color: #24292f;
+  --ion-text-color-rgb: 36, 41, 47;
+  --ion-text-color-secondary: #656d76;
+  --ion-text-color-rgb-secondary: 101, 109, 118;
+
+  --ion-toolbar-background: #f6f8fa;
+  --ion-toolbar-color: #24292f;
+
+  --ion-card-background: #ffffff;
+  --ion-card-color: #24292f;
+
+  --ion-item-background: #ffffff;
+  --ion-item-color: #24292f;
+
+  --ion-list-background: #f6f8fa;
+
+  --ion-input-background: #ffffff;
+  --ion-input-color: #24292f;
+  --ion-input-placeholder-color: #8b949e;
+}
+
+.light-mode body {
+  --background: #ffffff;
+  background: #ffffff;
+  color: #24292f;
+}
+
+.light-mode ion-app {
+  --background: #ffffff;
+}
+
+.light-mode ion-toolbar {
+  --background: #f6f8fa;
+  --color: #24292f;
+  border-bottom: 1px solid #d0d7de;
+}
+
+.light-mode ion-header ion-toolbar {
+  --background: linear-gradient(135deg, #e8ebef 0%, #d0d7de 100%);
+}
+
+.light-mode ion-card {
+  --background: #ffffff;
+  --color: #24292f;
+  border: 1px solid #d0d7de;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.light-mode ion-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.light-mode ion-card-header {
+  --background: #ffffff;
+  color: #24292f;
+}
+
+.light-mode ion-card-content {
+  color: #484f58;
+}
+
+.light-mode ion-item {
+  --background: #ffffff;
+  --color: #24292f;
+  --border-color: #d0d7de;
+  --inner-border-end-color: #d0d7de;
+}
+
+.light-mode ion-item:hover {
+  --background: #f6f8fa;
+}
+
+.light-mode ion-list {
+  --ion-item-background: #ffffff;
+  background: #f6f8fa;
+}
+
+.light-mode ion-input,
+.light-mode ion-textarea,
+.light-mode ion-select {
+  --background: #ffffff;
+  --color: #24292f;
+  --placeholder-color: #8b949e;
+  --highlight-color-focused: #b8860b;
+}
+
+.light-mode ion-button[color="primary"] {
+  --background: #b8860b;
+  --color: #ffffff;
+  --background-hover: #c99633;
+  --background-activated: #a0750a;
+}
+
+.light-mode ion-button[color="secondary"] {
+  --background: #f3f4f6;
+  --color: #24292f;
+  --border-color: #d0d7de;
+}
+
+.light-mode ion-button[color="light"] {
+  --background: #f3f4f6;
+  --color: #24292f;
+}
+
+.light-mode ion-fab-button {
+  --background: #b8860b;
+  --color: #ffffff;
+  --box-shadow: 0 4px 16px rgba(184, 134, 11, 0.3);
+}
+
+.light-mode ion-badge[color="primary"] {
+  --background: #b8860b;
+  color: #ffffff;
+}
+
+.light-mode ion-checkbox {
+  --checkmark-color: #ffffff;
+  --background-checked: #b8860b;
+  --border-color-checked: #b8860b;
+}
+
+.light-mode ion-select-option {
+  --background: #ffffff;
+  --color: #24292f;
+}
+
+.light-mode ion-menu {
+  --background: #ffffff;
+}
+
+.light-mode ion-menu ion-content {
+  --background: #ffffff;
+}
+
+.light-mode ion-menu ion-toolbar {
+  --background: linear-gradient(135deg, #e8ebef 0%, #d0d7de 100%);
+}
+
+.light-mode ion-menu ion-item {
+  --background: transparent;
+  --color: #484f58;
+}
+
+.light-mode ion-menu ion-item:hover {
+  --background: rgba(184, 134, 11, 0.1);
+  --color: #b8860b;
+}
+
+.light-mode ion-menu ion-item ion-icon {
+  color: #656d76;
+}
+
+.light-mode ion-menu ion-item:hover ion-icon {
+  color: #b8860b;
+}
+
+.light-mode ion-toast {
+  --background: #ffffff;
+  --color: #24292f;
+  --box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  border: 1px solid #d0d7de;
+}
+
+.light-mode ion-alert {
+  --background: #ffffff;
+  --color: #24292f;
+  --backdrop-opacity: 0.4;
+}
+
+.light-mode ion-loading {
+  --background: #ffffff;
+  --color: #b8860b;
+  --backdrop-opacity: 0.4;
+}
+
+.light-mode ion-modal {
+  --background: #ffffff;
+  --color: #24292f;
+}
+
+.light-mode ion-popover {
+  --background: #ffffff;
+  --color: #24292f;
+  border: 1px solid #d0d7de;
+}
+
+.light-mode ion-content {
+  --background: #ffffff;
+}
+
+.light-mode .login-container {
+  background: linear-gradient(180deg, #ffffff 0%, #f6f8fa 100%);
+}
+
+.light-mode .login-container ion-card {
+  background: #ffffff;
+  border: 1px solid #d0d7de;
+}
+
+.light-mode .text-muted { color: #656d76; }
+.light-mode .text-light { color: #484f58; }
+.light-mode .bg-dark { background: #ffffff; }
+.light-mode .bg-card { background: #ffffff; }
+.light-mode .border-subtle { border: 1px solid #d0d7de; }
+
+/* High contrast overrides for light mode */
+.light-mode.high-contrast {
+  --ion-background-color: #ffffff !important;
+  --ion-color-dark: #000000 !important;
+  --ion-card-background: #ffffff !important;
+  --ion-item-background: #ffffff !important;
+  --ion-toolbar-background: #ffffff !important;
+  --ion-list-background: #ffffff !important;
+  --ion-input-background: #ffffff !important;
+  --ion-text-color: #000000 !important;
+  --ion-text-color-secondary: #333333 !important;
+}
+
+.light-mode.high-contrast ion-card,
+.light-mode.high-contrast ion-item,
+.light-mode.high-contrast ion-button,
+.light-mode.high-contrast ion-input,
+.light-mode.high-contrast ion-select,
+.light-mode.high-contrast ion-textarea {
+  border-color: #000000 !important;
+}
+
+.light-mode.high-contrast ion-button[color="primary"] {
+  --background: #000000 !important;
+  --color: #ffffff !important;
+}

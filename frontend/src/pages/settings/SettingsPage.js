@@ -89,13 +89,13 @@ class SettingsPage extends HTMLElement {
               <ion-card-content>
                 <div class="settings-item">
                   <div class="settings-item-left">
-                    <ion-icon name="moon-outline"></ion-icon>
+                    <ion-icon name="sunny-outline"></ion-icon>
                     <div class="settings-item-text">
-                      <h3>Modo Escuro</h3>
-                      <p>Tema escuro (padrao)</p>
+                      <h3>Modo Claro</h3>
+                      <p>Tema claro (padrao e escuro)</p>
                     </div>
                   </div>
-                  <ion-toggle id="toggle-dark-mode" checked="${this.settings.darkMode}"></ion-toggle>
+                  <ion-toggle id="toggle-light-mode" checked="${this.settings.lightMode}"></ion-toggle>
                 </div>
               </ion-card-content>
             </ion-card>
@@ -212,7 +212,7 @@ class SettingsPage extends HTMLElement {
       fontSize: 100,
       highContrast: false,
       reduceMotion: false,
-      darkMode: true,
+      lightMode: false,
       notifications: true,
       sounds: true,
       language: 'pt-BR',
@@ -254,8 +254,8 @@ class SettingsPage extends HTMLElement {
       this.applySettings();
     });
 
-    this.querySelector('#toggle-dark-mode').addEventListener('ionChange', (e) => {
-      this.settings.darkMode = e.detail.checked;
+    this.querySelector('#toggle-light-mode').addEventListener('ionChange', (e) => {
+      this.settings.lightMode = e.detail.checked;
       this.saveSettings();
       this.applySettings();
     });
@@ -306,6 +306,13 @@ class SettingsPage extends HTMLElement {
     const scale = this.settings.fontSize / 100;
     root.style.setProperty('--app-font-scale', scale);
     root.style.fontSize = `${this.settings.fontSize}%`;
+
+    // Light mode
+    if (this.settings.lightMode) {
+      document.body.classList.add('light-mode');
+    } else {
+      document.body.classList.remove('light-mode');
+    }
 
     // High contrast
     if (this.settings.highContrast) {

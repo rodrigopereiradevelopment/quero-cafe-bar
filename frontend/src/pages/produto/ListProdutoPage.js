@@ -6,8 +6,16 @@ import { isAuthenticated } from '../../shared/auth.js';
 import { showLoading, showAlert, showToast } from '../../shared/overlay.js';
 
 const pageName = 'Produtos';
+const PAGE_SIZE = 20;
 
 class ListProdutoPage extends HTMLElement {
+  constructor() {
+    super();
+    this.currentPage = 0;
+    this.totalItems = 0;
+    this.totalPages = 0;
+  }
+
   async connectedCallback() {
     if (this._initialized) return;
     this._initialized = true;
@@ -41,27 +49,47 @@ class ListProdutoPage extends HTMLElement {
 
   onRouteChange() {
     if (window.location.pathname === '/produtos') {
+      this.currentPage = 0;
       this.fetchProdutos();
     }
   }
 
   async fetchProdutos() {
     const container = this.querySelector('.list-produto-container');
-    const loading = showLoading('Buscando produtos...');
+    this.renderSkeleton(container);
 
     try {
-      const { data: produtos } = await api.getProdutos(0, 100);
-      this.renderProdutos(produtos);
+      const { data: produtos, total } = await api.getProdutos(this.currentPage * PAGE_SIZE, PAGE_SIZE);
+      this.totalItems = total;
+      this.totalPages = Math.ceil(total / PAGE_SIZE);
+      this.renderProdutos(produtos, container);
     } catch (error) {
       console.error('Erro ao buscar produtos:', error);
-      await showAlert({ header: 'Erro', message: 'Nao foi possivel carregar os produtos. Tente novamente mais tarde.' });
-    } finally {
-      await loading.dismiss();
+      container.innerHTML = `<p class="ion-text-center text-danger">Erro ao carregar produtos. Tente novamente.</p>`;
     }
+  }
+
+  renderSkeleton(container) {
+    container.innerHTML = `
+      <ion-list>
+        ${Array(5).fill(0).map(() => `
+          <ion-item class="skeleton-item">
+            <ion-skeleton-text slot="start" style="width: 48px; height: 48px; border-radius: 50%;"></ion-skeleton-text>
+            <ion-label>
+              <ion-skeleton-text style="width: 60%; height: 1.2rem; margin-bottom: 0.5rem;"></ion-skeleton-text>
+              <ion-skeleton-text style="width: 40%; height: 0.9rem;"></ion-skeleton-text>
+            </ion-label>
+            <ion-skeleton-text slot="end" style="width: 80px; height: 2rem;"></ion-skeleton-text>
+          </ion-item>
+        `).join('')}
+      </ion-list>
+    `;
   }
 
   renderFabButton() {
     const content = this.querySelector('ion-content');
+    if (content.querySelector('ion-fab')) return;
+
     const fab = document.createElement('ion-fab');
     fab.vertical = 'bottom';
     fab.horizontal = 'end';
@@ -80,11 +108,10 @@ class ListProdutoPage extends HTMLElement {
     content.appendChild(fab);
   }
 
-
-  renderProdutos(produtos) {
-    const container = this.querySelector('.list-produto-container');
+  renderProdutos(produtos, container) {
     if (produtos.length === 0) {
       container.innerHTML = `<p class="ion-text-center">Nenhum produto encontrado.</p>`;
+      this.renderPagination(container);
       return;
     }
 
@@ -126,7 +153,11 @@ class ListProdutoPage extends HTMLElement {
       <ion-list>${productItems}</ion-list>
     `;
 
-    // Adiciona eventos para os botões de edição
+    this.bindEvents(container);
+    this.renderPagination(container);
+  }
+
+  bindEvents(container) {
     container.querySelectorAll('.btn-edit').forEach(btn => {
       btn.addEventListener('click', () => {
         const id = btn.getAttribute('data-id');
@@ -135,7 +166,6 @@ class ListProdutoPage extends HTMLElement {
       });
     });
 
-    // Adiciona eventos para os botões de exclusão
     container.querySelectorAll('.btn-delete').forEach(btn => {
       btn.addEventListener('click', async () => {
         const id = btn.getAttribute('data-id');
@@ -147,19 +177,49 @@ class ListProdutoPage extends HTMLElement {
             { text: 'Cancelar', role: 'cancel' },
             {
               text: 'Excluir',
-                handler: async () => {
-                  try {
-                    await api.deleteProduto(id);
-                    showToast({ message: 'Produto excluído com sucesso!', color: 'success' });
-                    await this.fetchProdutos();
-                  } catch (error) {
-                    console.error('Erro ao excluir:', error);
-                    showToast({ message: 'Erro ao excluir produto. Tente novamente.', color: 'danger', duration: 3000 });
-                  }
+              handler: async () => {
+                try {
+                  await api.deleteProduto(id);
+                  showToast({ message: 'Produto excluido com sucesso!', color: 'success' });
+                  await this.fetchProdutos();
+                } catch (error) {
+                  console.error('Erro ao excluir:', error);
+                  showToast({ message: 'Erro ao excluir produto. Tente novamente.', color: 'danger', duration: 3000 });
+                }
               }
             }
           ]
         });
+      });
+    });
+  }
+
+  renderPagination(container) {
+    if (this.totalPages <= 1) return;
+
+    const paginationHtml = `
+      <div class="pagination">
+        <ion-button fill="clear" class="btn-page" data-page="${this.currentPage - 1}" ${this.currentPage === 0 ? 'disabled' : ''}>
+          <ion-icon name="chevron-back-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+        <span class="page-info">${this.currentPage + 1} / ${this.totalPages} (${this.totalItems} itens)</span>
+        <ion-button fill="clear" class="btn-page" data-page="${this.currentPage + 1}" ${this.currentPage >= this.totalPages - 1 ? 'disabled' : ''}>
+          <ion-icon name="chevron-forward-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </div>
+    `;
+
+    const paginationEl = document.createElement('div');
+    paginationEl.innerHTML = paginationHtml;
+    container.appendChild(paginationEl);
+
+    paginationEl.querySelectorAll('.btn-page').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const page = parseInt(btn.dataset.page, 10);
+        if (page >= 0 && page < this.totalPages) {
+          this.currentPage = page;
+          this.fetchProdutos();
+        }
       });
     });
   }

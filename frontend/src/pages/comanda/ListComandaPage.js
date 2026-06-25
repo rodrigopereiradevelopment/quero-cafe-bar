@@ -6,8 +6,16 @@ import { isAuthenticated } from '../../shared/auth.js';
 import { showLoading, showAlert, showToast } from '../../shared/overlay.js';
 
 const pageName = 'Comandas';
+const PAGE_SIZE = 20;
 
 class ListComandaPage extends HTMLElement {
+  constructor() {
+    super();
+    this.currentPage = 0;
+    this.totalItems = 0;
+    this.totalPages = 0;
+  }
+
   async connectedCallback() {
     if (this._initialized) return;
     this._initialized = true;
@@ -41,16 +49,20 @@ class ListComandaPage extends HTMLElement {
 
   onRouteChange() {
     if (window.location.pathname === '/comandas') {
+      this.currentPage = 0;
       this.fetchComandas();
     }
   }
 
   async fetchComandas() {
     const container = this.querySelector('.list-comanda-container');
-    const loading = showLoading('Carregando comandas...');
+    this.renderSkeleton(container);
 
     try {
-      const { data: comandas } = await api.getComandas();
+      const { data: comandas, total } = await api.getComandas(this.currentPage * PAGE_SIZE, PAGE_SIZE);
+      this.totalItems = total;
+      this.totalPages = Math.ceil(total / PAGE_SIZE);
+
       const comandasWithDetails = await Promise.all(
         comandas.map(async (comanda) => {
           const itens = await api.getItensComanda(comanda.id);
@@ -61,17 +73,35 @@ class ListComandaPage extends HTMLElement {
           return { ...comanda, qtdItens, valorTotal, todosPagos, todosEntregues };
         })
       );
-      this.renderComandas(comandasWithDetails);
+      this.renderComandas(comandasWithDetails, container);
     } catch (error) {
       console.error('Erro ao buscar comandas:', error);
-      await showAlert({ header: 'Erro', message: 'Não foi possível carregar as comandas. Tente novamente mais tarde.', buttons: ['OK'] });
-    } finally {
-      await loading.dismiss();
+      container.innerHTML = `<p class="ion-text-center text-danger">Erro ao carregar comandas. Tente novamente.</p>`;
     }
+  }
+
+  renderSkeleton(container) {
+    container.innerHTML = `
+      <ion-list>
+        ${Array(5).fill(0).map(() => `
+          <ion-item class="skeleton-item">
+            <ion-skeleton-text slot="start" style="width: 48px; height: 48px; border-radius: 50%;"></ion-skeleton-text>
+            <ion-label>
+              <ion-skeleton-text style="width: 60%; height: 1.2rem; margin-bottom: 0.5rem;"></ion-skeleton-text>
+              <ion-skeleton-text style="width: 40%; height: 0.9rem;"></ion-skeleton-text>
+              <ion-skeleton-text style="width: 80%; height: 0.9rem;"></ion-skeleton-text>
+            </ion-label>
+            <ion-skeleton-text slot="end" style="width: 80px; height: 2rem;"></ion-skeleton-text>
+          </ion-item>
+        `).join('')}
+      </ion-list>
+    `;
   }
 
   renderFabButton() {
     const content = this.querySelector('ion-content');
+    if (content.querySelector('ion-fab')) return;
+
     const fab = document.createElement('ion-fab');
     fab.vertical = 'bottom';
     fab.horizontal = 'end';
@@ -90,10 +120,10 @@ class ListComandaPage extends HTMLElement {
     content.appendChild(fab);
   }
 
-  renderComandas(comandas) {
-    const container = this.querySelector('.list-comanda-container');
+  renderComandas(comandas, container) {
     if (comandas.length === 0) {
       container.innerHTML = `<p class="ion-text-center">Nenhuma comanda encontrada.</p>`;
+      this.renderPagination(container);
       return;
     }
 
@@ -116,9 +146,9 @@ class ListComandaPage extends HTMLElement {
           <p>Itens: ${comanda.qtdItens} | Total: ${formatCurrency(comanda.valorTotal)}</p>
           <p>
             <ion-icon name="${comanda.todosPagos ? 'checkmark-circle' : 'close-circle'}" color="${comanda.todosPagos ? 'success' : 'danger'}"></ion-icon>
-            <span style="margin-left: 4px;">${comanda.todosPagos ? 'Pago' : 'Não Pago'}</span>
+            <span style="margin-left: 4px;">${comanda.todosPagos ? 'Pago' : 'Nao Pago'}</span>
             <ion-icon name="${comanda.todosEntregues ? 'checkmark-circle' : 'close-circle'}" color="${comanda.todosEntregues ? 'success' : 'danger'}" style="margin-left: 12px;"></ion-icon>
-            <span style="margin-left: 4px;">${comanda.todosEntregues ? 'Entregue' : 'Não Entregue'}</span>
+            <span style="margin-left: 4px;">${comanda.todosEntregues ? 'Entregue' : 'Nao Entregue'}</span>
           </p>
         </ion-label>
 
@@ -137,6 +167,11 @@ class ListComandaPage extends HTMLElement {
       <ion-list>${comandaItems}</ion-list>
     `;
 
+    this.bindEvents(container);
+    this.renderPagination(container);
+  }
+
+  bindEvents(container) {
     container.querySelectorAll('.btn-edit').forEach(btn => {
       btn.addEventListener('click', () => {
         const id = btn.getAttribute('data-id');
@@ -159,7 +194,7 @@ class ListComandaPage extends HTMLElement {
               handler: async () => {
                 try {
                   await api.deleteComanda(id);
-                  showToast({ message: 'Comanda excluída com sucesso!', color: 'success', duration: 2000 });
+                  showToast({ message: 'Comanda excluida com sucesso!', color: 'success', duration: 2000 });
                   await this.fetchComandas();
                 } catch (error) {
                   console.error('Erro ao excluir:', error);
@@ -169,6 +204,36 @@ class ListComandaPage extends HTMLElement {
             }
           ]
         });
+      });
+    });
+  }
+
+  renderPagination(container) {
+    if (this.totalPages <= 1) return;
+
+    const paginationHtml = `
+      <div class="pagination">
+        <ion-button fill="clear" class="btn-page" data-page="${this.currentPage - 1}" ${this.currentPage === 0 ? 'disabled' : ''}>
+          <ion-icon name="chevron-back-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+        <span class="page-info">${this.currentPage + 1} / ${this.totalPages} (${this.totalItems} itens)</span>
+        <ion-button fill="clear" class="btn-page" data-page="${this.currentPage + 1}" ${this.currentPage >= this.totalPages - 1 ? 'disabled' : ''}>
+          <ion-icon name="chevron-forward-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </div>
+    `;
+
+    const paginationEl = document.createElement('div');
+    paginationEl.innerHTML = paginationHtml;
+    container.appendChild(paginationEl);
+
+    paginationEl.querySelectorAll('.btn-page').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const page = parseInt(btn.dataset.page, 10);
+        if (page >= 0 && page < this.totalPages) {
+          this.currentPage = page;
+          this.fetchComandas();
+        }
       });
     });
   }

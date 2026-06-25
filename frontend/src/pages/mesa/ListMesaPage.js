@@ -6,8 +6,16 @@ import { isAuthenticated } from '../../shared/auth.js';
 import { showLoading, showAlert, showToast } from '../../shared/overlay.js';
 
 const pageName = 'Mesas';
+const PAGE_SIZE = 20;
 
 class ListMesaPage extends HTMLElement {
+  constructor() {
+    super();
+    this.currentPage = 0;
+    this.totalItems = 0;
+    this.totalPages = 0;
+  }
+
   async connectedCallback() {
     if (this._initialized) return;
     this._initialized = true;
@@ -41,26 +49,47 @@ class ListMesaPage extends HTMLElement {
 
   onRouteChange() {
     if (window.location.pathname === '/mesas') {
+      this.currentPage = 0;
       this.fetchMesas();
     }
   }
 
   async fetchMesas() {
-    const loading = showLoading('Buscando mesas...');
+    const container = this.querySelector('.list-mesa-container');
+    this.renderSkeleton(container);
 
     try {
-      const { data: mesas } = await api.getMesas();
-      this.renderMesas(mesas);
+      const { data: mesas, total } = await api.getMesas(this.currentPage * PAGE_SIZE, PAGE_SIZE);
+      this.totalItems = total;
+      this.totalPages = Math.ceil(total / PAGE_SIZE);
+      this.renderMesas(mesas, container);
     } catch (error) {
       console.error('Erro ao buscar mesas:', error);
-      await showAlert({ header: 'Erro', message: 'Não foi possível carregar as mesas.' });
-    } finally {
-      await loading.dismiss();
+      container.innerHTML = `<p class="ion-text-center text-danger">Erro ao carregar mesas. Tente novamente.</p>`;
     }
+  }
+
+  renderSkeleton(container) {
+    container.innerHTML = `
+      <ion-list>
+        ${Array(5).fill(0).map(() => `
+          <ion-item class="skeleton-item">
+            <ion-skeleton-text slot="start" style="width: 48px; height: 48px; border-radius: 50%;"></ion-skeleton-text>
+            <ion-label>
+              <ion-skeleton-text style="width: 60%; height: 1.2rem; margin-bottom: 0.5rem;"></ion-skeleton-text>
+              <ion-skeleton-text style="width: 40%; height: 0.9rem;"></ion-skeleton-text>
+            </ion-label>
+            <ion-skeleton-text slot="end" style="width: 80px; height: 2rem;"></ion-skeleton-text>
+          </ion-item>
+        `).join('')}
+      </ion-list>
+    `;
   }
 
   renderFabButton() {
     const content = this.querySelector('ion-content');
+    if (content.querySelector('ion-fab')) return;
+
     const fab = document.createElement('ion-fab');
     fab.vertical = 'bottom';
     fab.horizontal = 'end';
@@ -70,10 +99,10 @@ class ListMesaPage extends HTMLElement {
     content.appendChild(fab);
   }
 
-  renderMesas(mesas) {
-    const container = this.querySelector('.list-mesa-container');
+  renderMesas(mesas, container) {
     if (mesas.length === 0) {
       container.innerHTML = `<p class="ion-text-center">Nenhuma mesa encontrada.</p>`;
+      this.renderPagination(container);
       return;
     }
 
@@ -101,7 +130,11 @@ class ListMesaPage extends HTMLElement {
     `).join('');
 
     container.innerHTML = `<ion-list>${mesaItems}</ion-list>`;
+    this.bindEvents(container);
+    this.renderPagination(container);
+  }
 
+  bindEvents(container) {
     container.querySelectorAll('.btn-edit').forEach(btn => {
       btn.addEventListener('click', () => {
         const id = btn.getAttribute('data-id');
@@ -119,19 +152,49 @@ class ListMesaPage extends HTMLElement {
             { text: 'Cancelar', role: 'cancel' },
             {
               text: 'Excluir',
-                handler: async () => {
-                  try {
-                    await api.deleteMesa(id);
-                    showToast({ message: 'Mesa excluída com sucesso!', color: 'success', duration: 2000 });
-                    await this.fetchMesas();
-                  } catch (error) {
-                    console.error('Erro ao excluir:', error);
-                    showToast({ message: 'Erro ao excluir mesa. Tente novamente.', color: 'danger', duration: 3000 });
-                  }
+              handler: async () => {
+                try {
+                  await api.deleteMesa(id);
+                  showToast({ message: 'Mesa excluida com sucesso!', color: 'success', duration: 2000 });
+                  await this.fetchMesas();
+                } catch (error) {
+                  console.error('Erro ao excluir:', error);
+                  showToast({ message: 'Erro ao excluir mesa. Tente novamente.', color: 'danger', duration: 3000 });
+                }
               }
             }
           ]
         });
+      });
+    });
+  }
+
+  renderPagination(container) {
+    if (this.totalPages <= 1) return;
+
+    const paginationHtml = `
+      <div class="pagination">
+        <ion-button fill="clear" class="btn-page" data-page="${this.currentPage - 1}" ${this.currentPage === 0 ? 'disabled' : ''}>
+          <ion-icon name="chevron-back-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+        <span class="page-info">${this.currentPage + 1} / ${this.totalPages} (${this.totalItems} itens)</span>
+        <ion-button fill="clear" class="btn-page" data-page="${this.currentPage + 1}" ${this.currentPage >= this.totalPages - 1 ? 'disabled' : ''}>
+          <ion-icon name="chevron-forward-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </div>
+    `;
+
+    const paginationEl = document.createElement('div');
+    paginationEl.innerHTML = paginationHtml;
+    container.appendChild(paginationEl);
+
+    paginationEl.querySelectorAll('.btn-page').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const page = parseInt(btn.dataset.page, 10);
+        if (page >= 0 && page < this.totalPages) {
+          this.currentPage = page;
+          this.fetchMesas();
+        }
       });
     });
   }
