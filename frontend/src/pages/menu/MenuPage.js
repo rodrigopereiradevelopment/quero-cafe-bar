@@ -70,7 +70,7 @@ class MenuPage extends HTMLElement {
     const loading = showLoading('Carregando cardápio...')
 
     try {
-      const { data: produtos } = await api.getProdutos(0, 200)
+      const { data: produtos } = await api.getProdutos(0, 100)
       this.renderCategorias(produtos)
       this.renderProdutos(produtos)
       this.setupCategoriaFilters(produtos)
