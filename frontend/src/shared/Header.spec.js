@@ -61,7 +61,7 @@ describe('Header', () => {
       createHeader('Home');
 
       expect(console.error).toHaveBeenCalledWith(
-        '[Header.js] Elemento <ion-nav> não encontrado. O menu lateral não pode ser inicializado.',
+        '[Header.js] Elemento <ion-nav> não encontrado.',
       );
     });
   });

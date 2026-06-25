@@ -2,6 +2,30 @@
  * Cria e injeta o menu lateral na aplicação.
  * A função garante que o menu seja criado apenas uma vez.
  */
+
+function getCurrentPath() {
+    return window.location.hash.replace(/^#/, '') || window.location.pathname;
+}
+
+function highlightCurrentPage(menu) {
+    const currentPath = getCurrentPath();
+    menu.querySelectorAll('.menu-item').forEach(item => {
+        const url = item.dataset.url;
+        const isActive = currentPath === url || currentPath.startsWith(url + '/');
+        const icon = item.querySelector('ion-icon');
+        const label = item.querySelector('ion-label');
+        if (isActive) {
+            item.style.background = 'rgba(226, 183, 20, 0.1)';
+            if (icon) icon.style.color = '#e2b714';
+            if (label) label.style.color = '#e2b714';
+        } else {
+            item.style.background = 'transparent';
+            if (icon) icon.style.color = '#8b949e';
+            if (label) label.style.color = '';
+        }
+    });
+}
+
 const createAndInjectMenu = () => {
     // 1. Evita a criação de múltiplos menus
     if (document.querySelector('ion-menu')) {
@@ -9,13 +33,12 @@ const createAndInjectMenu = () => {
     }
 
     // 2. O <ion-menu> precisa de um `contentId` que aponte para a área de conteúdo principal.
-    //    Vamos encontrar o elemento de saída do roteador (ion-nav) e garantir que ele tenha um ID.
-    const mainContent = document.querySelector('ion-nav'); // O outlet do ion-router em projetos vanilla.
+    const mainContent = document.querySelector('ion-nav');
     const contentId = 'main-content';
 
     if (!mainContent) {
-        console.error('[Header.js] Elemento <ion-nav> não encontrado. O menu lateral não pode ser inicializado.');
-        return; // Aborta a criação do menu se o conteúdo principal não for encontrado.
+        console.error('[Header.js] Elemento <ion-nav> não encontrado.');
+        return;
     }
 
     if (!mainContent.id) {
@@ -36,7 +59,7 @@ const createAndInjectMenu = () => {
         { url: '/mesas',    icon: 'grid-outline',          label: 'Mesas',         profiles: [0, 1] },
         { url: '/comandas', icon: 'receipt-outline',       label: 'Comandas',      profiles: [0, 1] },
         { url: '/mapa',     icon: 'map-outline',           label: 'Mapa',          profiles: [0, 1, 2, 3, 4] },
-        { url: '/menu',     icon: 'book-outline',          label: 'Cardapio',      profiles: [0, 1, 2, 3, 4], highlight: true },
+        { url: '/menu',     icon: 'book-outline',          label: 'Cardapio',      profiles: [0, 1, 2, 3, 4] },
     ];
 
     const filteredItems = menuItems.filter(item => item.profiles.includes(perfil));
@@ -44,8 +67,8 @@ const createAndInjectMenu = () => {
     // 5. Monta o HTML do menu
     const menuHtml = filteredItems.map(item => `
         <ion-item button class="menu-item" data-url="${item.url}" style="--min-height: 48px; border-radius: 8px; margin-bottom: 4px;">
-            <ion-icon name="${item.icon}" slot="start" style="color: ${item.highlight ? '#e2b714' : '#8b949e'}; margin-right: 12px;"></ion-icon>
-            <ion-label style="font-weight: 500; ${item.highlight ? 'color: #e2b714;' : ''}">${item.label}</ion-label>
+            <ion-icon name="${item.icon}" slot="start" style="color: #8b949e; margin-right: 12px;"></ion-icon>
+            <ion-label style="font-weight: 500;">${item.label}</ion-label>
         </ion-item>
     `).join('');
 
@@ -78,20 +101,31 @@ const createAndInjectMenu = () => {
         </ion-content>
     `;
 
-    // 4. Adiciona os eventos de clique para a navegação
+    // 7. Adiciona os eventos de clique para a navegação
     menu.querySelectorAll('.menu-item').forEach(item => {
         item.addEventListener('click', async () => {
             const url = item.dataset.url;
             const router = document.querySelector('ion-router');
-            if (router && window.location.hash.substring(1) !== url) {
+            if (router && getCurrentPath() !== url) {
                 router.push(url, 'root');
             }
-            await menu.close(); // Fecha o menu após a navegação
+            await menu.close();
         });
     });
 
-    // 5. Adiciona o menu ao DOM, no início do <body>
+    // 8. Adiciona o menu ao DOM
     document.body.prepend(menu);
+
+    // 9. Destaca a página atual
+    highlightCurrentPage(menu);
+
+    // 10. Escuta mudanças de rota para atualizar o highlight
+    const router = document.querySelector('ion-router');
+    if (router) {
+        router.addEventListener('ionRouteDidChange', () => {
+            setTimeout(() => highlightCurrentPage(menu), 50);
+        });
+    }
 };
 
 export function createHeader(pageName) {
