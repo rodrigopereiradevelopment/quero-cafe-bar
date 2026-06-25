@@ -138,8 +138,8 @@ class ProfilePage extends HTMLElement {
     this.querySelector('#profile-username').textContent = `@${usuario.usuario}`;
 
     const roleBadge = this.querySelector('#profile-role');
-    const roles = { 0: 'Administrador', 1: 'Atendente', 2: 'Cliente' };
-    const colors = { 0: 'primary', 1: 'secondary', 2: 'success' };
+    const roles = { 0: 'Administrador', 1: 'Atendente', 2: 'Cliente', 3: 'Barista', 4: 'Cozinheiro' };
+    const colors = { 0: 'primary', 1: 'secondary', 2: 'success', 3: 'warning', 4: 'danger' };
     roleBadge.textContent = roles[usuario.perfil] || 'Usuario';
     roleBadge.color = colors[usuario.perfil] || 'medium';
 

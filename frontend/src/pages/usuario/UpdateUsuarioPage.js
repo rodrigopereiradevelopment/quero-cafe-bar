@@ -38,6 +38,8 @@ class UpdateUsuarioPage extends HTMLElement {
                 <ion-select-option value="0">Administrador</ion-select-option>
                 <ion-select-option value="1">Atendente</ion-select-option>
                 <ion-select-option value="2">Cliente</ion-select-option>
+                <ion-select-option value="3">Barista</ion-select-option>
+                <ion-select-option value="4">Cozinheiro</ion-select-option>
               </ion-select>
             </ion-item>
           </ion-list>

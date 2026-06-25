@@ -93,8 +93,8 @@ class ListUsuarioPage extends HTMLElement {
         <ion-label>
           <h2 style="display: flex; align-items: center; gap: 8px;">
             <ion-icon
-              name="${usuario.perfil == 0 ? 'restaurant' : usuario.perfil == 2 ? 'person-circle' : 'person'}"
-              color="${usuario.perfil == 0 ? 'primary' : usuario.perfil == 2 ? 'success' : 'secondary'}"
+              name="${usuario.perfil == 0 ? 'restaurant' : usuario.perfil == 2 ? 'person-circle' : usuario.perfil == 3 ? 'beer' : usuario.perfil == 4 ? 'flame' : 'person'}"
+              color="${usuario.perfil == 0 ? 'primary' : usuario.perfil == 2 ? 'success' : usuario.perfil == 3 ? 'warning' : usuario.perfil == 4 ? 'danger' : 'secondary'}"
               style="flex-shrink: 0;"
             ></ion-icon>
             <span>${usuario.nome}</span>
