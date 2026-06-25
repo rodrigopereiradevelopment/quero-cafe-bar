@@ -1,38 +1,38 @@
 .mapa-container {
-  padding: 16px;
+  padding: 1rem;
 }
 
 .mapa-header {
   text-align: center;
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
 }
 
 .mapa-header h2 {
   font-size: 1.3rem;
   font-weight: 600;
   color: #e2b714;
-  margin: 0 0 12px 0;
+  margin: 0 0 0.75rem 0;
 }
 
 .mapa-legend {
   display: flex;
   justify-content: center;
-  gap: 16px;
+  gap: 1rem;
   flex-wrap: wrap;
 }
 
 .legend-item {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 0.375rem;
   font-size: 0.8rem;
   color: #8b949e;
 }
 
 .legend-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 3px;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 0.1875rem;
 }
 
 .legend-dot.disponivel {
@@ -50,14 +50,16 @@
 .mapa-svg-container {
   position: relative;
   width: 100%;
-  max-width: 600px;
+  max-width: 37.5rem;
   margin: 0 auto;
+  transform-origin: top center;
+  transform: scale(var(--app-font-scale, 1));
 }
 
 .mapa-svg {
   width: 100%;
   height: auto;
-  border-radius: 12px;
+  border-radius: 0.75rem;
   border: 1px solid #30363d;
 }
 
@@ -71,4 +73,10 @@
 
 .mesa-rect {
   transition: fill 0.3s ease, stroke 0.3s ease;
+}
+
+@media (min-width: 768px) {
+  .mapa-svg-container {
+    max-width: 37.5rem;
+  }
 }

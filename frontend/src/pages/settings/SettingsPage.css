@@ -86,18 +86,41 @@
     margin: 2px 0 0;
 }
 
-/* Font size preview */
-.font-size-preview {
+/* Font size presets */
+.font-size-presets {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
+    flex-wrap: wrap;
 }
 
-.font-size-preview span {
-    color: #8b949e;
+.font-preset-btn {
+    --background: transparent;
+    --color: #8b949e;
+    --background-hover: rgba(226, 183, 20, 0.15);
+    --background-activated: rgba(226, 183, 20, 0.25);
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 6px 12px;
+    min-width: 64px;
+    transition: all 0.2s ease;
+}
+
+.font-preset-btn .preset-label {
+    font-size: 0.75rem;
     font-weight: 600;
-    min-width: 28px;
-    text-align: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+.font-preset-btn.active {
+    --background: #e2b714;
+    --color: #0d1117;
+    border-color: #e2b714;
+    box-shadow: 0 2px 8px rgba(226, 183, 20, 0.3);
+}
+
+.font-preset-btn.active .preset-label {
+    color: #0d1117;
 }
 
 /* Range slider */

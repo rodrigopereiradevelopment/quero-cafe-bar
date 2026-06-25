@@ -102,9 +102,9 @@
 }
 
 .item-imagem {
-  width: 60px;
-  height: 60px;
-  border-radius: 8px;
+  width: 3.75rem;
+  height: 3.75rem;
+  border-radius: 0.5rem;
   overflow: hidden;
   flex-shrink: 0;
 }

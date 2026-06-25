@@ -83,14 +83,70 @@
 }
 
 /* --- Global Body --- */
+:root {
+  --app-font-scale: 1;
+}
+
+html {
+  font-size: 16px;
+}
+
 body {
   --background: #0d1117;
   background: #0d1117;
   color: #e6edf3;
+  font-size: 1rem;
 }
 
 ion-app {
   --background: #0d1117;
+}
+
+/* High contrast mode */
+.high-contrast {
+  --ion-background-color: #000000 !important;
+  --ion-color-dark: #000000 !important;
+  --ion-card-background: #000000 !important;
+  --ion-item-background: #000000 !important;
+  --ion-toolbar-background: #000000 !important;
+  --ion-list-background: #000000 !important;
+  --ion-input-background: #000000 !important;
+  --ion-text-color: #ffffff !important;
+  --ion-text-color-secondary: #cccccc !important;
+}
+
+.high-contrast ion-card,
+.high-contrast ion-item,
+.high-contrast ion-button,
+.high-contrast ion-input,
+.high-contrast ion-select,
+.high-contrast ion-textarea {
+  border-color: #ffffff !important;
+}
+
+.high-contrast ion-button[color="primary"] {
+  --background: #ffffff !important;
+  --color: #000000 !important;
+}
+
+.high-contrast ion-button[color="secondary"] {
+  --background: #333333 !important;
+  --color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+.high-contrast ion-icon {
+  color: #ffffff !important;
+}
+
+/* Reduce motion */
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
 }
 
 /* --- Typography --- */

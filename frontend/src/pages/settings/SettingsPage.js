@@ -38,16 +38,21 @@ class SettingsPage extends HTMLElement {
                     <ion-icon name="text-outline"></ion-icon>
                     <div class="settings-item-text">
                       <h3>Tamanho da Fonte</h3>
-                      <p>Ajuste o tamanho do texto</p>
+                      <p>Ajuste o tamanho de tudo (texto, botoes, imagens)</p>
                     </div>
                   </div>
-                  <div class="font-size-preview">
-                    <ion-button fill="clear" size="small" id="btn-font-decrease">
-                      <ion-icon name="remove" slot="icon-only"></ion-icon>
+                  <div class="font-size-presets" id="font-size-presets">
+                    <ion-button fill="clear" size="small" class="font-preset-btn ${this.settings.fontSize === 85 ? 'active' : ''}" data-size="85">
+                      <span class="preset-label">Pequena</span>
                     </ion-button>
-                    <span id="font-size-label">${this.settings.fontSize}%</span>
-                    <ion-button fill="clear" size="small" id="btn-font-increase">
-                      <ion-icon name="add" slot="icon-only"></ion-icon>
+                    <ion-button fill="clear" size="small" class="font-preset-btn ${this.settings.fontSize === 100 ? 'active' : ''}" data-size="100">
+                      <span class="preset-label">Media</span>
+                    </ion-button>
+                    <ion-button fill="clear" size="small" class="font-preset-btn ${this.settings.fontSize === 120 ? 'active' : ''}" data-size="120">
+                      <span class="preset-label">Grande</span>
+                    </ion-button>
+                    <ion-button fill="clear" size="small" class="font-preset-btn ${this.settings.fontSize === 140 ? 'active' : ''}" data-size="140">
+                      <span class="preset-label">Extra</span>
                     </ion-button>
                   </div>
                 </div>
@@ -225,23 +230,15 @@ class SettingsPage extends HTMLElement {
   }
 
   bindEvents() {
-    // Font size
-    this.querySelector('#btn-font-decrease').addEventListener('click', () => {
-      if (this.settings.fontSize > 80) {
-        this.settings.fontSize -= 10;
-        this.querySelector('#font-size-label').textContent = `${this.settings.fontSize}%`;
+    // Font size presets
+    this.querySelectorAll('.font-preset-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const size = parseInt(btn.dataset.size, 10);
+        this.settings.fontSize = size;
         this.saveSettings();
         this.applySettings();
-      }
-    });
-
-    this.querySelector('#btn-font-increase').addEventListener('click', () => {
-      if (this.settings.fontSize < 150) {
-        this.settings.fontSize += 10;
-        this.querySelector('#font-size-label').textContent = `${this.settings.fontSize}%`;
-        this.saveSettings();
-        this.applySettings();
-      }
+        this.updateFontPresetButtons();
+      });
     });
 
     // Toggles
@@ -279,6 +276,8 @@ class SettingsPage extends HTMLElement {
       showToast({ message: `Idioma alterado para ${e.detail.value}`, color: 'success' });
     });
 
+    this.updateFontPresetButtons();
+
     // Profile navigation
     this.querySelector('#btn-profile').addEventListener('click', () => {
       document.querySelector('ion-router').push('/profile', 'root');
@@ -303,17 +302,24 @@ class SettingsPage extends HTMLElement {
   applySettings() {
     const root = document.documentElement;
 
-    // Font size
-    root.style.setProperty('--settings-font-scale', `${this.settings.fontSize / 100}`);
-    document.body.style.fontSize = `${this.settings.fontSize}%`;
+    // Font size - escala global via CSS custom property (afeta rem units)
+    const scale = this.settings.fontSize / 100;
+    root.style.setProperty('--app-font-scale', scale);
+    root.style.fontSize = `${this.settings.fontSize}%`;
 
     // High contrast
     if (this.settings.highContrast) {
       root.style.setProperty('--ion-text-color', '#ffffff');
       root.style.setProperty('--ion-text-color-secondary', '#b0b8c1');
+      root.style.setProperty('--ion-background-color', '#000000');
+      root.style.setProperty('--ion-color-dark', '#000000');
+      document.body.classList.add('high-contrast');
     } else {
       root.style.setProperty('--ion-text-color', '#e6edf3');
       root.style.setProperty('--ion-text-color-secondary', '#8b949e');
+      root.style.setProperty('--ion-background-color', '#0d1117');
+      root.style.setProperty('--ion-color-dark', '#0d1117');
+      document.body.classList.remove('high-contrast');
     }
 
     // Reduce motion
@@ -322,6 +328,17 @@ class SettingsPage extends HTMLElement {
     } else {
       document.body.classList.remove('reduce-motion');
     }
+  }
+
+  updateFontPresetButtons() {
+    this.querySelectorAll('.font-preset-btn').forEach(btn => {
+      const size = parseInt(btn.dataset.size, 10);
+      if (size === this.settings.fontSize) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
   }
 }
 
