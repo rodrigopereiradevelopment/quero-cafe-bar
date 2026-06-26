@@ -1,4 +1,9 @@
+import { audio } from '../services/audio.js';
+
 export function showToast({ message, color = 'success', duration = 2000, position = 'bottom' }) {
+  if (color === 'success') audio.playSuccess();
+  else if (color === 'danger') audio.playError();
+
   const toast = document.createElement('ion-toast');
   toast.message = message;
   toast.color = color;

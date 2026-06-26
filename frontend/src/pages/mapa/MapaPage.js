@@ -2,6 +2,7 @@ import './MapaPage.css';
 import { createHeader } from '../../shared/Header.js';
 import { api } from '../../services/api.js';
 import { showToast, showLoading, showAlert } from '../../shared/overlay.js';
+import { audio } from '../../services/audio.js';
 
 const pageName = 'Mapa';
 
@@ -59,7 +60,7 @@ class MapaPage extends HTMLElement {
     const externa = mesas.filter(m => m.localizacao === 'externa');
 
     const svgWidth = 580;
-    const svgHeight = 520;
+    const svgHeight = 580;
 
     const mesasHtml = mesas.map(mesa => {
       const isReservada = !!mesa.reservado_por;
@@ -94,16 +95,15 @@ class MapaPage extends HTMLElement {
         <!-- Bar/Balcao -->
         <rect x="20" y="15" width="540" height="90" rx="10" fill="#161b22" stroke="#30363d" stroke-width="1"/>
         <text x="290" y="35" text-anchor="middle" fill="#8b949e" font-size="12" font-weight="600">BAR / BALCAO</text>
-        <line x1="40" y1="50" x2="540" y2="50" stroke="#30363d" stroke-width="1"/>
 
         <!-- Salao -->
-        <rect x="20" y="120" width="540" height="200" rx="10" fill="#161b22" stroke="#30363d" stroke-width="1"/>
-        <text x="290" y="140" text-anchor="middle" fill="#8b949e" font-size="12" font-weight="600">SALAO</text>
+        <rect x="20" y="150" width="540" height="230" rx="10" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+        <text x="290" y="172" text-anchor="middle" fill="#8b949e" font-size="12" font-weight="600">SALAO</text>
 
         <!-- Externa -->
-        <rect x="20" y="335" width="540" height="170" rx="10" fill="#161b22" stroke="#30363d" stroke-width="1"/>
-        <text x="290" y="355" text-anchor="middle" fill="#8b949e" font-size="12" font-weight="600">EXTERNA</text>
-        <text x="290" y="500" text-anchor="middle" fill="#4a5568" font-size="10">Rua / Area Externa</text>
+        <rect x="20" y="400" width="540" height="170" rx="10" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+        <text x="290" y="420" text-anchor="middle" fill="#8b949e" font-size="12" font-weight="600">EXTERNA</text>
+        <text x="290" y="558" text-anchor="middle" fill="#4a5568" font-size="10">Rua / Area Externa</text>
 
         <!-- Mesas -->
         ${mesasHtml}
@@ -136,6 +136,7 @@ class MapaPage extends HTMLElement {
             if (confirm === 'confirm') {
               try {
                 await api.liberarMesa(id);
+                audio.playLiberate();
                 await showToast({ message: `Mesa ${mesa.numero} liberada!`, color: 'success' });
                 await this.carregarMapa();
               } catch (error) {
@@ -170,6 +171,7 @@ class MapaPage extends HTMLElement {
         if (confirm === 'confirm') {
           try {
             await api.reservarMesa(id, user.nome);
+            audio.playReserve();
             await showToast({ message: `Mesa ${mesa.numero} reservada para ${user.nome}!`, color: 'success' });
             await this.carregarMapa();
           } catch (error) {

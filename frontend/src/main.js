@@ -46,6 +46,7 @@ import './pages/profile/ProfilePage.js';
 import './pages/settings/SettingsPage.js';
 import './pages/menu/MenuPage.js';
 import './pages/mapa/MapaPage.js';
+import './pages/music/MusicPage.js';
 
 // Route Guard Global — protege todas as rotas autenticadas
 const PUBLIC_ROUTES = ['/login'];
@@ -61,6 +62,7 @@ const ROUTE_PERMISSIONS = {
   '/menu': [0, 1, 2, 3, 4],
   '/profile': [0, 1, 2, 3, 4],
   '/settings': [0, 1, 2, 3, 4],
+  '/music': [0, 1, 2, 3, 4],
 };
 
 function isAuthenticated() {
@@ -115,5 +117,13 @@ window.addEventListener('storage', (e) => {
     if (!PUBLIC_ROUTES.some(r => currentPath.startsWith(r))) {
       window.location.href = '/login';
     }
+  }
+});
+
+// SFX: click global em botoes
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('ion-button, ion-item[button], .menu-item, .music-track, .mesa-group');
+  if (btn) {
+    import('./services/audio.js').then(({ audio }) => audio.playClick());
   }
 });

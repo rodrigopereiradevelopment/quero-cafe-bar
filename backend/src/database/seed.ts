@@ -225,27 +225,27 @@ const usuarios = [
 ];
 
 const mesas = [
-  // === BAR/BALCÃO (6 cadeiras) ===
-  { qtd_cadeiras: 1, numero: 1, localizacao: 'bar', posicao_x: 80, posicao_y: 60 },
-  { qtd_cadeiras: 1, numero: 2, localizacao: 'bar', posicao_x: 160, posicao_y: 60 },
-  { qtd_cadeiras: 1, numero: 3, localizacao: 'bar', posicao_x: 240, posicao_y: 60 },
-  { qtd_cadeiras: 1, numero: 14, localizacao: 'bar', posicao_x: 120, posicao_y: 82 },
-  { qtd_cadeiras: 1, numero: 15, localizacao: 'bar', posicao_x: 190, posicao_y: 82 },
-  { qtd_cadeiras: 1, numero: 16, localizacao: 'bar', posicao_x: 260, posicao_y: 82 },
-  // === SALÃO (8 mesas) ===
-  { qtd_cadeiras: 2, numero: 4, localizacao: 'salao', posicao_x: 80, posicao_y: 180 },
-  { qtd_cadeiras: 2, numero: 5, localizacao: 'salao', posicao_x: 200, posicao_y: 180 },
-  { qtd_cadeiras: 4, numero: 6, localizacao: 'salao', posicao_x: 340, posicao_y: 180 },
-  { qtd_cadeiras: 2, numero: 7, localizacao: 'salao', posicao_x: 80, posicao_y: 280 },
-  { qtd_cadeiras: 3, numero: 8, localizacao: 'salao', posicao_x: 200, posicao_y: 280 },
-  { qtd_cadeiras: 4, numero: 9, localizacao: 'salao', posicao_x: 340, posicao_y: 280 },
-  { qtd_cadeiras: 4, numero: 17, localizacao: 'salao', posicao_x: 100, posicao_y: 270 },
-  { qtd_cadeiras: 4, numero: 18, localizacao: 'salao', posicao_x: 290, posicao_y: 270 },
-  // === EXTERNA (4 mesas) ===
-  { qtd_cadeiras: 2, numero: 10, localizacao: 'externa', posicao_x: 80, posicao_y: 400 },
-  { qtd_cadeiras: 2, numero: 11, localizacao: 'externa', posicao_x: 200, posicao_y: 400 },
-  { qtd_cadeiras: 4, numero: 12, localizacao: 'externa', posicao_x: 340, posicao_y: 400 },
-  { qtd_cadeiras: 4, numero: 13, localizacao: 'externa', posicao_x: 460, posicao_y: 400 },
+  // === BAR/BALCAO (6 cadeiras em linha — 1 row) ===
+  { qtd_cadeiras: 1, numero: 1, localizacao: 'bar', posicao_x: 100, posicao_y: 75 },
+  { qtd_cadeiras: 1, numero: 14, localizacao: 'bar', posicao_x: 176, posicao_y: 75 },
+  { qtd_cadeiras: 1, numero: 2, localizacao: 'bar', posicao_x: 252, posicao_y: 75 },
+  { qtd_cadeiras: 1, numero: 15, localizacao: 'bar', posicao_x: 328, posicao_y: 75 },
+  { qtd_cadeiras: 1, numero: 3, localizacao: 'bar', posicao_x: 404, posicao_y: 75 },
+  { qtd_cadeiras: 1, numero: 16, localizacao: 'bar', posicao_x: 480, posicao_y: 75 },
+  // === SALAO (8 mesas — 2 rows x 4) ===
+  { qtd_cadeiras: 2, numero: 4, localizacao: 'salao', posicao_x: 90, posicao_y: 210 },
+  { qtd_cadeiras: 2, numero: 5, localizacao: 'salao', posicao_x: 220, posicao_y: 210 },
+  { qtd_cadeiras: 4, numero: 6, localizacao: 'salao', posicao_x: 350, posicao_y: 210 },
+  { qtd_cadeiras: 4, numero: 17, localizacao: 'salao', posicao_x: 480, posicao_y: 210 },
+  { qtd_cadeiras: 2, numero: 7, localizacao: 'salao', posicao_x: 90, posicao_y: 290 },
+  { qtd_cadeiras: 3, numero: 8, localizacao: 'salao', posicao_x: 220, posicao_y: 290 },
+  { qtd_cadeiras: 4, numero: 9, localizacao: 'salao', posicao_x: 350, posicao_y: 290 },
+  { qtd_cadeiras: 4, numero: 18, localizacao: 'salao', posicao_x: 480, posicao_y: 290 },
+  // === EXTERNA (4 mesas — 1 row x 4) ===
+  { qtd_cadeiras: 2, numero: 10, localizacao: 'externa', posicao_x: 90, posicao_y: 470 },
+  { qtd_cadeiras: 2, numero: 11, localizacao: 'externa', posicao_x: 220, posicao_y: 470 },
+  { qtd_cadeiras: 4, numero: 12, localizacao: 'externa', posicao_x: 350, posicao_y: 470 },
+  { qtd_cadeiras: 4, numero: 13, localizacao: 'externa', posicao_x: 480, posicao_y: 470 },
 ];
 
 const produtos = [

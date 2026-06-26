@@ -4,9 +4,10 @@
 
 ```bash
 yarn install
-yarn run start:dev      # Development with hot-reload
-yarn run build          # Production build
-yarn run lint           # Fix code style
+yarn start:dev          # Development with hot-reload
+yarn build              # Production build
+yarn lint               # Fix code style
+yarn test               # Jest unit tests
 ```
 
 ## Database & Migrations (TypeORM)
@@ -15,6 +16,8 @@ yarn run lint           # Fix code style
 - **Generate**: `yarn make:migration <name>` (Detects changes in entities)
 - **Run**: `yarn migrate`
 - **Revert**: `yarn migrate:rollback`
+- **Seed**: `yarn seed`
+- **Migrate + Seed**: `yarn seed:run`
 
 ## Architecture
 

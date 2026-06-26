@@ -60,6 +60,7 @@ const createAndInjectMenu = () => {
         { url: '/comandas', icon: 'receipt-outline',       label: 'Comandas',      profiles: [0, 1] },
         { url: '/mapa',     icon: 'map-outline',           label: 'Mapa',          profiles: [0, 1, 2, 3, 4] },
         { url: '/menu',     icon: 'book-outline',          label: 'Cardapio',      profiles: [0, 1, 2, 3, 4] },
+        { url: '/music',    icon: 'musical-notes-outline',  label: 'Musica',        profiles: [0, 1, 2, 3, 4] },
     ];
 
     const filteredItems = menuItems.filter(item => item.profiles.includes(perfil));

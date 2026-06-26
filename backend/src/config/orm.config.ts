@@ -12,6 +12,7 @@ const config: DataSourceOptions = {
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
+  socketPath: process.env.DB_SOCKET || undefined,
   entities: [join(__dirname, '..', '**/*.entity{.ts,.js}')], // Path to your entity files
   migrations: [join(__dirname, '..', 'database/migrations/**/*{.ts,.js}')], // Path to your migration files
   synchronize: false, // Set to false in production to prevent data loss

@@ -11,15 +11,16 @@
 ### Backend (NestJS)
 ```bash
 cd backend
-npm install
-npm run start:dev      # dev server with watch (port 3001)
-npm run build          # production build
-npm run lint           # ESLint + Prettier
-npm run test           # Jest unit tests
-npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --dataSource src/config/orm.config.ts migration:generate src/database/migrations/<name>
-npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --dataSource src/config/orm.config.ts migration:run
-npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --dataSource src/config/orm.config.ts migration:revert
-npx ts-node -r tsconfig-paths/register src/database/seed.ts  # Seed: cria usuarios, mesas, produtos, comanda exemplo
+yarn install
+yarn start:dev          # dev server with watch (port 3001)
+yarn build              # production build
+yarn lint               # ESLint + Prettier
+yarn test               # Jest unit tests
+yarn make:migration <name>  # Generate migration
+yarn migrate            # Run migrations
+yarn migrate:rollback   # Revert last migration
+yarn seed               # Seed: cria usuarios, mesas, produtos, comanda exemplo
+yarn seed:run           # Migrate + Seed
 ```
 
 ### Frontend (Ionic + Vite)
@@ -81,7 +82,7 @@ Custom slash commands configured in `.opencode/commands/`:
 
 ## Important Quirks
 
-- **Package managers**: Both backend and frontend use `npm` (yarn não está disponível)
+- **Package managers differ**: Backend uses `yarn`, frontend uses `npm`
 - **Port configuration**: Frontend calls `localhost:3001`, backend configured in `PORT=3001` in `.env`
 - **DB migrations required**: `synchronize: false` - always use `migration:generate` before `migration:run`
 - **CORS enabled**: Backend allows all origins (`*`) in `main.ts` - configure for production

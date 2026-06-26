@@ -1,0 +1,275 @@
+.music-page {
+  --background: #0d1117;
+  background: #0d1117;
+}
+
+.music-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.music-header {
+  text-align: center;
+  padding: 24px 0 16px;
+}
+
+.music-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #e6edf3;
+  margin: 0 0 4px;
+}
+
+.music-header p {
+  font-size: 0.85rem;
+  color: #8b949e;
+  margin: 0;
+}
+
+/* Player card */
+.music-player-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.music-now-label {
+  font-size: 0.75rem;
+  color: #8b949e;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.music-now-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #e6edf3;
+  margin: 0 0 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.music-now-artist {
+  font-size: 0.85rem;
+  color: #8b949e;
+  margin: 0 0 16px;
+}
+
+/* Progress bar */
+.music-progress-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.music-progress-bar {
+  flex: 1;
+  height: 6px;
+  background: #21262d;
+  border-radius: 3px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.music-progress-fill {
+  height: 100%;
+  background: #e2b714;
+  border-radius: 3px;
+  width: 0%;
+  transition: width 0.3s linear;
+}
+
+.music-time {
+  font-size: 0.75rem;
+  color: #8b949e;
+  min-width: 36px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Controls */
+.music-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.music-ctrl-btn {
+  --background: transparent;
+  --color: #e6edf3;
+  --background-hover: rgba(255,255,255,0.08);
+  --border-radius: 50%;
+  width: 48px;
+  height: 48px;
+}
+
+.music-ctrl-btn.play-btn {
+  --background: #e2b714;
+  --color: #0d1117;
+  width: 56px;
+  height: 56px;
+  --border-radius: 50%;
+  box-shadow: 0 4px 14px rgba(226, 183, 20, 0.35);
+}
+
+.music-ctrl-btn.play-btn ion-icon {
+  font-size: 28px;
+}
+
+/* Volume */
+.music-volume-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #21262d;
+}
+
+.music-volume-row ion-icon {
+  font-size: 20px;
+  color: #8b949e;
+  flex-shrink: 0;
+}
+
+.music-volume-slider {
+  flex: 1;
+  --bar-background: #21262d;
+  --bar-background-active: #e2b714;
+  --knob-background: #e2b714;
+}
+
+/* Playlist */
+.music-playlist-section {
+  margin-top: 8px;
+}
+
+.music-playlist-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #8b949e;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0 4px;
+  margin-bottom: 8px;
+}
+
+.music-track {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 10px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.music-track:hover {
+  background: #1c2333;
+  border-color: #30363d;
+}
+
+.music-track.active {
+  border-color: #e2b714;
+  background: rgba(226, 183, 20, 0.08);
+}
+
+.music-track-num {
+  font-size: 0.8rem;
+  color: #484f58;
+  min-width: 24px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.music-track.active .music-track-num {
+  color: #e2b714;
+}
+
+.music-track-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.music-track-name {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #e6edf3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+
+.music-track.active .music-track-name {
+  color: #e2b714;
+}
+
+.music-track-artist {
+  font-size: 0.78rem;
+  color: #8b949e;
+  margin: 1px 0 0;
+}
+
+.music-track-dur {
+  font-size: 0.78rem;
+  color: #8b949e;
+  font-variant-numeric: tabular-nums;
+}
+
+.music-empty {
+  text-align: center;
+  padding: 48px 16px;
+  color: #484f58;
+}
+
+.music-empty ion-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.music-empty p {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Equalizer animation on active track */
+.music-eq {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 14px;
+  min-width: 16px;
+}
+
+.music-eq span {
+  display: block;
+  width: 3px;
+  background: #e2b714;
+  border-radius: 1px;
+  animation: eqBounce 0.6s ease-in-out infinite alternate;
+}
+
+.music-eq span:nth-child(1) { height: 6px; animation-delay: 0s; }
+.music-eq span:nth-child(2) { height: 10px; animation-delay: 0.15s; }
+.music-eq span:nth-child(3) { height: 4px; animation-delay: 0.3s; }
+
+@keyframes eqBounce {
+  from { height: 4px; }
+  to { height: 14px; }
+}

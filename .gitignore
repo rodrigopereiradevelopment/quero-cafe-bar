@@ -51,3 +51,6 @@ CLAUDE.md
 LOGIN.md
 npx
 quero-cafe-bar-main/
+
+# Audio files (MP3s too large for git — add manually)
+frontend/public/assets/audio/music/*.mp3
