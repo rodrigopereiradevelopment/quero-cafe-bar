@@ -364,6 +364,29 @@ ion-alert {
   --background: #161b22;
   --color: #e6edf3;
   --backdrop-opacity: 0.6;
+  --ion-color-step-550: #e6edf3;
+  --ion-color-step-600: #e6edf3;
+  --ion-color-step-650: #e6edf3;
+}
+
+ion-alert .alert-radio-label,
+ion-alert .alert-checkbox-label,
+ion-alert .alert-tappable,
+ion-alert .alert-radio-icon,
+ion-alert .alert-checkbox-icon {
+  color: #e6edf3 !important;
+}
+
+ion-alert ion-label {
+  color: #e6edf3 !important;
+}
+
+ion-alert ion-radio {
+  --color: #e6edf3;
+}
+
+ion-alert ion-checkbox {
+  --color: #e6edf3;
 }
 
 /* --- Loading --- */
@@ -384,6 +407,14 @@ ion-popover {
   --background: #161b22;
   --color: #e6edf3;
   border: 1px solid #30363d;
+}
+
+ion-popover ion-select-option {
+  color: #e6edf3 !important;
+}
+
+ion-popover ion-label {
+  color: #e6edf3 !important;
 }
 
 /* --- Scrollbar --- */
