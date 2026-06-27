@@ -101,9 +101,7 @@ export class UsuarioController {
   ): Promise<DeleteUsuarioDto> {
     const user = request.user;
     if (user && user.sub === id) {
-      throw new ConflictException(
-        'Voce nao pode excluir seu proprio usuario',
-      );
+      throw new ConflictException('Voce nao pode excluir seu proprio usuario');
     }
     return await this.usuarioService.remove(id);
   }

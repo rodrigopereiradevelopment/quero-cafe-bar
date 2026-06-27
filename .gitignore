@@ -52,5 +52,5 @@ LOGIN.md
 npx
 quero-cafe-bar-main/
 
-# Audio files (MP3s too large for git — add manually)
+# Audio files (MP3s too large — only exclude raw MP3, Opus is fine for git)
 frontend/public/assets/audio/music/*.mp3

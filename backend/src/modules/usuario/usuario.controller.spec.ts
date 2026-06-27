@@ -76,29 +76,77 @@ describe('UsuarioController', () => {
     it('deve listar todos os usuários (Happy Path)', async () => {
       // Arrange
       const usuariosMock = [
-        { id: 1, nome: 'Admin', usuario: 'admin', senha: '123', perfil: 0, telefone: undefined, endereco: undefined, data_nascimento: undefined, cpf: undefined, foto: undefined },
-        { id: 2, nome: 'Garçom', usuario: 'garcom', senha: '456', perfil: 1, telefone: undefined, endereco: undefined, data_nascimento: undefined, cpf: undefined, foto: undefined },
+        {
+          id: 1,
+          nome: 'Admin',
+          usuario: 'admin',
+          senha: '123',
+          perfil: 0,
+          telefone: undefined,
+          endereco: undefined,
+          data_nascimento: undefined,
+          cpf: undefined,
+          foto: undefined,
+        },
+        {
+          id: 2,
+          nome: 'Garçom',
+          usuario: 'garcom',
+          senha: '456',
+          perfil: 1,
+          telefone: undefined,
+          endereco: undefined,
+          data_nascimento: undefined,
+          cpf: undefined,
+          foto: undefined,
+        },
       ];
 
       const listUsuarioDto: ListUsuarioDto = {};
-      service.findAll.mockResolvedValue({ data: usuariosMock, total: 2, skip: 0, take: 20 });
+      service.findAll.mockResolvedValue({
+        data: usuariosMock,
+        total: 2,
+        skip: 0,
+        take: 20,
+      });
 
       // Act
       const result = await controller.findAll(listUsuarioDto);
 
       // Assert
       expect(service.findAll).toHaveBeenCalledWith(listUsuarioDto);
-      expect(result).toEqual({ data: usuariosMock, total: 2, skip: 0, take: 20 });
+      expect(result).toEqual({
+        data: usuariosMock,
+        total: 2,
+        skip: 0,
+        take: 20,
+      });
     });
 
     it('deve filtrar usuários por perfil', async () => {
       // Arrange
       const usuariosMock = [
-        { id: 2, nome: 'Garçom', usuario: 'garcom', senha: '456', perfil: 1, telefone: undefined, endereco: undefined, data_nascimento: undefined, cpf: undefined, foto: undefined },
+        {
+          id: 2,
+          nome: 'Garçom',
+          usuario: 'garcom',
+          senha: '456',
+          perfil: 1,
+          telefone: undefined,
+          endereco: undefined,
+          data_nascimento: undefined,
+          cpf: undefined,
+          foto: undefined,
+        },
       ];
 
       const listUsuarioDto: ListUsuarioDto = { perfil: 1 };
-      service.findAll.mockResolvedValue({ data: usuariosMock, total: 1, skip: 0, take: 20 });
+      service.findAll.mockResolvedValue({
+        data: usuariosMock,
+        total: 1,
+        skip: 0,
+        take: 20,
+      });
 
       // Act
       const result = await controller.findAll(listUsuarioDto);

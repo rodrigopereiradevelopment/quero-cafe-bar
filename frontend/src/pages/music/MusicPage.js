@@ -1,6 +1,8 @@
 import './MusicPage.css';
 import { createHeader } from '../../shared/Header.js';
 import { audio } from '../../services/audio.js';
+import { api } from '../../services/api.js';
+import { showToast, showAlert, showLoading } from '../../shared/overlay.js';
 
 const pageName = 'Musica';
 
@@ -32,7 +34,7 @@ class MusicPage extends HTMLElement {
   }
 
   async _init() {
-    await audio.loadPlaylist();
+    await this._loadPlaylist();
     this._render();
     this._startProgressLoop();
 
@@ -40,22 +42,30 @@ class MusicPage extends HTMLElement {
 
     const refresher = document.createElement('ion-refresher');
     refresher.setAttribute('slot', 'fixed');
-    refresher.id = 'refresher';
     refresher.innerHTML = `
       <ion-refresher-content pulling-icon="chevron-down-circle-outline" refreshing-spinner="crescent">
       </ion-refresher-content>
     `;
     this.querySelector('ion-content').appendChild(refresher);
-    refresher.addEventListener('ionrefresh', async () => {
-      await audio.loadPlaylist();
+    refresher.addEventListener('ionrefresh', async (e) => {
+      await this._loadPlaylist();
       this._render();
-      refresher.complete();
+      e.target.complete();
     });
   }
 
   disconnectedCallback() {
     if (this._interval) clearInterval(this._interval);
     if (this._unsub) this._unsub();
+  }
+
+  async _loadPlaylist() {
+    try {
+      const list = await api.getMusicas();
+      audio.setPlaylist(list);
+    } catch {
+      audio.setPlaylist([]);
+    }
   }
 
   _startProgressLoop() {
@@ -98,7 +108,6 @@ class MusicPage extends HTMLElement {
     const title = track ? track.title : 'Nenhuma musica selecionada';
     const artist = track ? (track.artist || 'Desconhecido') : '';
     const dur = audio.getDuration();
-
     const playIcon = playing ? 'pause' : 'play';
 
     area.innerHTML = `
@@ -135,21 +144,16 @@ class MusicPage extends HTMLElement {
       </div>
     `;
 
-    // Bind events
     this.querySelector('#btn-play').addEventListener('click', (e) => {
-      e.stopPropagation();
-      audio.togglePlay();
+      e.stopPropagation(); audio.togglePlay();
     });
     this.querySelector('#btn-prev').addEventListener('click', (e) => {
-      e.stopPropagation();
-      audio.prevTrack();
+      e.stopPropagation(); audio.prevTrack();
     });
     this.querySelector('#btn-next').addEventListener('click', (e) => {
-      e.stopPropagation();
-      audio.nextTrack();
+      e.stopPropagation(); audio.nextTrack();
     });
 
-    // Progress bar seek
     const bar = this.querySelector('#progress-bar');
     bar.addEventListener('click', (e) => {
       const rect = bar.getBoundingClientRect();
@@ -157,7 +161,6 @@ class MusicPage extends HTMLElement {
       audio.seek(pct * audio.getDuration());
     });
 
-    // Volume
     this.querySelector('#volume-slider').addEventListener('ionInput', (e) => {
       audio.setVolume(parseInt(e.detail.value, 10) / 100);
     });
@@ -174,9 +177,17 @@ class MusicPage extends HTMLElement {
         <div class="music-empty">
           <ion-icon name="musical-notes-outline"></ion-icon>
           <p>Nenhuma musica na playlist</p>
-          <p style="font-size:0.78rem;color:#30363d;margin-top:8px;">Adicione arquivos MP3 em<br><code>public/assets/audio/music/</code><br>e edite <code>playlist.json</code></p>
+          <p style="font-size:0.78rem;color:#30363d;margin-top:8px;">
+            Clique no botao abaixo para adicionar musicas MP3/OGG/WAV
+          </p>
+          <ion-button fill="outline" class="upload-btn" id="btn-upload-empty">
+            <ion-icon name="cloud-upload-outline" slot="start"></ion-icon>
+            Adicionar Musica
+          </ion-button>
+          <input type="file" accept=".mp3,.wav,.flac,.ogg" hidden id="file-input-empty" />
         </div>
       `;
+      this._bindUpload('btn-upload-empty', 'file-input-empty');
       return;
     }
 
@@ -187,30 +198,95 @@ class MusicPage extends HTMLElement {
         <div class="music-track ${isActive ? 'active' : ''}" data-index="${i}">
           <span class="music-track-num">
             ${showEq
-              ? `<span class="music-eq"><span></span><span></span><span></span></span>`
+              ? '<span class="music-eq"><span></span><span></span><span></span></span>'
               : (i + 1)}
           </span>
           <div class="music-track-info">
             <p class="music-track-name">${t.title}</p>
             ${t.artist ? `<p class="music-track-artist">${t.artist}</p>` : ''}
           </div>
-          <span class="music-track-dur">${t.duration || ''}</span>
+          <ion-button fill="clear" size="small" class="music-del-btn" data-filename="${t.filename}" style="--color:#f85149;--padding-start:4px;--padding-end:4px;">
+            <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+          </ion-button>
         </div>
       `;
     }).join('');
 
     area.innerHTML = `
       <div class="music-playlist-section">
-        <p class="music-playlist-title">Playlist</p>
+        <div class="music-playlist-header">
+          <p class="music-playlist-title">Playlist (${playlist.length})</p>
+          <ion-button fill="outline" size="small" class="upload-btn" id="btn-upload">
+            <ion-icon name="cloud-upload-outline" slot="start"></ion-icon>
+            Adicionar
+          </ion-button>
+          <input type="file" accept=".mp3,.wav,.flac,.ogg" hidden id="file-input" />
+        </div>
         ${tracksHtml}
       </div>
     `;
 
+    this._bindUpload('btn-upload', 'file-input');
+
     area.querySelectorAll('.music-track').forEach(el => {
-      el.addEventListener('click', () => {
+      el.addEventListener('click', (e) => {
+        if (e.target.closest('.music-del-btn')) return;
         const idx = parseInt(el.dataset.index, 10);
         audio.playTrack(idx);
       });
+    });
+
+    area.querySelectorAll('.music-del-btn').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const filename = btn.dataset.filename;
+        const result = await showAlert({
+          header: 'Remover Musica',
+          message: `Deseja remover esta musica?`,
+          buttons: ['Cancelar', { text: 'Remover', role: 'confirm' }],
+        });
+        if (result === 'confirm') {
+          const loading = showLoading('Removendo...');
+          try {
+            await api.deleteMusica(filename);
+            await showToast({ message: 'Musica removida!', color: 'success' });
+            await this._loadPlaylist();
+            this._render();
+          } catch (err) {
+            await showAlert({ header: 'Erro', message: err.message || 'Nao foi possivel remover.' });
+          } finally {
+            await loading.dismiss();
+          }
+        }
+      });
+    });
+  }
+
+  _bindUpload(btnId, inputId) {
+    const btn = this.querySelector(`#${btnId}`);
+    const input = this.querySelector(`#${inputId}`);
+    if (!btn || !input) return;
+    btn.addEventListener('click', () => input.click());
+    input.addEventListener('change', async () => {
+      const file = input.files[0];
+      if (!file) return;
+      if (!file.name.match(/\.(mp3|wav|flac|ogg)$/i)) {
+        await showAlert({ header: 'Formato Invalido', message: 'Use MP3, WAV, FLAC ou OGG.' });
+        input.value = '';
+        return;
+      }
+      const loading = showLoading('Convertendo para Opus...');
+      try {
+        const result = await api.uploadMusica(file);
+        await showToast({ message: result.message || 'Musica adicionada!', color: 'success' });
+        await this._loadPlaylist();
+        this._render();
+      } catch (err) {
+        await showAlert({ header: 'Erro', message: err.message || 'Nao foi possivel adicionar.' });
+      } finally {
+        await loading.dismiss();
+        input.value = '';
+      }
     });
   }
 }

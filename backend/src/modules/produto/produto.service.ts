@@ -82,7 +82,9 @@ export class ProdutoService {
   ): Promise<{ images: { url: string; alt: string }[] }> {
     const apiKey = this.configService.get<string>('PEXELS_API_KEY');
     if (!apiKey) {
-      throw new InternalServerErrorException('PEXELS_API_KEY nao configurada no .env');
+      throw new InternalServerErrorException(
+        'PEXELS_API_KEY nao configurada no .env',
+      );
     }
 
     const response = await fetch(
@@ -91,7 +93,9 @@ export class ProdutoService {
     );
 
     if (!response.ok) {
-      throw new InternalServerErrorException('Erro ao buscar imagens no Pexels');
+      throw new InternalServerErrorException(
+        'Erro ao buscar imagens no Pexels',
+      );
     }
 
     const data = await response.json();

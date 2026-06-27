@@ -23,6 +23,8 @@ export class AddMoreMesas1783500000000 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`DELETE FROM mesas WHERE numero IN (14, 15, 16, 17, 18)`);
+    await queryRunner.query(
+      `DELETE FROM mesas WHERE numero IN (14, 15, 16, 17, 18)`,
+    );
   }
 }

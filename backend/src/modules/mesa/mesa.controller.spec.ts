@@ -27,11 +27,17 @@ describe('MesaController', () => {
           useValue: {
             findOne: jest.fn().mockResolvedValue(mockMesa),
             create: jest.fn().mockResolvedValue(mockMesa),
-            update: jest.fn().mockResolvedValue({ ...mockMesa, qtd_cadeiras: 6 }),
+            update: jest
+              .fn()
+              .mockResolvedValue({ ...mockMesa, qtd_cadeiras: 6 }),
             remove: jest.fn().mockResolvedValue({ id: 1 }),
-            findAll: jest.fn().mockResolvedValue({ data: [], total: 0, skip: 0, take: 20 }),
+            findAll: jest
+              .fn()
+              .mockResolvedValue({ data: [], total: 0, skip: 0, take: 20 }),
             findAllForMapa: jest.fn().mockResolvedValue([]),
-            reservar: jest.fn().mockResolvedValue({ ...mockMesa, reservado_por: 'Cliente' }),
+            reservar: jest
+              .fn()
+              .mockResolvedValue({ ...mockMesa, reservado_por: 'Cliente' }),
             liberar: jest.fn().mockResolvedValue(mockMesa),
           },
         },

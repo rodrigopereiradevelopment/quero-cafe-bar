@@ -78,19 +78,22 @@ class AudioService {
 
   // ─── MUSIC (HTML5 Audio — singleton) ───
 
-  async loadPlaylist() {
-    try {
-      const res = await fetch(`${BASE}assets/audio/playlist.json`);
-      if (!res.ok) throw new Error('No playlist');
-      this._playlist = await res.json();
-    } catch {
-      this._playlist = [];
-    }
-    return this._playlist;
-  }
+  // (playlist loaded via api.getMusicas() — see MusicPage)
 
   getPlaylist() {
     return this._playlist;
+  }
+
+  setPlaylist(list) {
+    this._playlist = Array.isArray(list) ? list : [];
+    if (this._currentIndex >= this._playlist.length) {
+      this._currentIndex = -1;
+      if (this._musicAudio) {
+        this._musicAudio.pause();
+        this._isPlaying = false;
+      }
+    }
+    this._notify();
   }
 
   getCurrentIndex() {
@@ -175,6 +178,79 @@ class AudioService {
 
   seek(time) {
     if (this._musicAudio) this._musicAudio.currentTime = time;
+  }
+
+  // ─── STAR WARS THEME (Web Audio API — synth, no files) ───
+
+  playStarWarsTheme() {
+    this.stopStarWarsTheme();
+    const ctx = this._getCtx();
+    const masterGain = ctx.createGain();
+    masterGain.gain.value = 0.12;
+    masterGain.connect(ctx.destination);
+
+    // Pad: A minor drone (detuned saws for warmth)
+    const padFreqs = [109, 110, 219.5, 220.5];
+    const pads = padFreqs.map(f => {
+      const o = ctx.createOscillator();
+      o.type = 'sawtooth';
+      o.frequency.value = f;
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0.025, ctx.currentTime);
+      g.gain.linearRampToValueAtTime(0.015, ctx.currentTime + 6);
+      o.connect(g);
+      g.connect(masterGain);
+      o.start();
+      return { osc: o, gain: g };
+    });
+
+    // Melody notes: [freq, duration, startOffset]
+    const melody = [
+      [220, 1.8, 0],       // A3
+      [262, 1.2, 2.0],     // C4
+      [349, 2.5, 3.5],     // F4
+      [330, 1.5, 6.0],     // E4
+      [262, 0.8, 7.8],     // C4
+      [349, 1.0, 8.8],     // F4
+      [330, 1.8, 10.0],    // E4
+      [392, 0.7, 12.0],    // G4
+      [440, 0.7, 12.8],    // A4
+      [392, 0.7, 13.6],    // G4
+      [349, 1.0, 14.5],    // F4
+      [330, 3.0, 15.8],    // E4 (held)
+    ];
+
+    melody.forEach(([freq, dur, start]) => {
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = 'triangle';
+      o.frequency.value = freq;
+      g.gain.setValueAtTime(0, ctx.currentTime + start);
+      g.gain.linearRampToValueAtTime(0.1, ctx.currentTime + start + 0.15);
+      g.gain.linearRampToValueAtTime(0.01, ctx.currentTime + start + dur);
+      o.connect(g);
+      g.connect(masterGain);
+      o.start(ctx.currentTime + start);
+      o.stop(ctx.currentTime + start + dur + 0.1);
+    });
+
+    // Schedule stop after the melody ends
+    const totalDur = 19;
+    this._swTimeout = setTimeout(() => this.stopStarWarsTheme(), totalDur * 1000);
+
+    this._swNodes = { masterGain, pads };
+  }
+
+  stopStarWarsTheme() {
+    if (this._swTimeout) {
+      clearTimeout(this._swTimeout);
+      this._swTimeout = null;
+    }
+    if (this._swNodes) {
+      try { this._swNodes.pads.forEach(p => { try { p.osc.stop(); p.osc.disconnect(); } catch {} }); } catch {}
+      try { this._swNodes.masterGain.disconnect(); } catch {}
+      this._swNodes = null;
+    }
   }
 
   // ─── Listeners (for MusicPage reactivity) ───

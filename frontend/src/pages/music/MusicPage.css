@@ -153,6 +153,13 @@
   margin-top: 8px;
 }
 
+.music-playlist-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
 .music-playlist-title {
   font-family: 'Poppins', sans-serif;
   font-size: 0.8rem;
@@ -161,7 +168,28 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   padding: 0 4px;
-  margin-bottom: 8px;
+  margin: 0;
+}
+
+.upload-btn {
+  --border-color: #30363d;
+  --color: #e6edf3;
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.upload-btn:hover {
+  --border-color: #e2b714;
+  --color: #e2b714;
+}
+
+.music-del-btn {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.music-track:hover .music-del-btn {
+  opacity: 1;
 }
 
 .music-track {

@@ -96,7 +96,12 @@ describe('ProdutoService', () => {
         skip: undefined,
         take: undefined,
       });
-      expect(result).toEqual({ data: produtosMock, total: 2, skip: 0, take: 20 });
+      expect(result).toEqual({
+        data: produtosMock,
+        total: 2,
+        skip: 0,
+        take: 20,
+      });
     });
 
     it('deve filtrar produtos por id (Edge Case)', async () => {
@@ -106,7 +111,10 @@ describe('ProdutoService', () => {
       ];
 
       const listProdutoDto: ListProdutoDto = { id: 1 };
-      mockProdutoRepository.findAndCount.mockResolvedValue([produtosFiltrados, 1]);
+      mockProdutoRepository.findAndCount.mockResolvedValue([
+        produtosFiltrados,
+        1,
+      ]);
 
       // Act
       const result = await service.findAll(listProdutoDto);

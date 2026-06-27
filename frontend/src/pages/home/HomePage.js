@@ -4,6 +4,7 @@ import { logout } from '../../shared/util.js';
 import { api } from '../../services/api.js';
 import { isAuthenticated } from '../../shared/auth.js';
 import { showLoading, showAlert, showToast } from '../../shared/overlay.js';
+import { audio } from '../../services/audio.js';
 
 const pageName = 'Cozinha';
 
@@ -22,7 +23,23 @@ class HomePage extends HTMLElement {
     `;
 
     this.querySelector('#logout-btn').addEventListener('click', logout);
+    await this._startBackgroundMusic();
     await this.fetchComandas();
+  }
+
+  async _startBackgroundMusic() {
+    if (audio.isPlaying()) return;
+    if (audio.getPlaylist().length === 0) {
+      try {
+        const list = await api.getMusicas();
+        audio.setPlaylist(list);
+      } catch {
+        return;
+      }
+    }
+    if (audio.getPlaylist().length > 0) {
+      audio.playTrack(0);
+    }
   }
 
   async fetchComandas() {

@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Mesa } from './entities/mesa.entity';
@@ -21,7 +25,9 @@ export class MesaService {
     return await this.mesaRepository.save(mesa);
   }
 
-  async findAll(listMesaDto: ListMesaDto): Promise<PaginatedResponse<IMesaOutput>> {
+  async findAll(
+    listMesaDto: ListMesaDto,
+  ): Promise<PaginatedResponse<IMesaOutput>> {
     const { skip, take, ...where } = listMesaDto;
     const [data, total] = await this.mesaRepository.findAndCount({
       where,

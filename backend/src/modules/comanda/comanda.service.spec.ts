@@ -96,7 +96,12 @@ describe('ComandaService', () => {
         skip: undefined,
         take: undefined,
       });
-      expect(result).toEqual({ data: comandasMock, total: 2, skip: 0, take: 20 });
+      expect(result).toEqual({
+        data: comandasMock,
+        total: 2,
+        skip: 0,
+        take: 20,
+      });
     });
   });
 

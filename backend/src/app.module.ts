@@ -9,6 +9,7 @@ import { ProdutoModule } from './modules/produto/produto.module';
 import { ComandaItemModule } from './modules/comanda-item/comanda-item.module';
 import { UsuarioModule } from './modules/usuario/usuario.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { MusicModule } from './modules/music/music.module';
 import ormConfig from './config/orm.config';
 
 @Module({
@@ -30,6 +31,7 @@ import ormConfig from './config/orm.config';
     ComandaItemModule,
     UsuarioModule,
     AuthModule,
+    MusicModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -20,7 +20,9 @@ export class MesaController {
   }
 
   @Get()
-  async findAll(@Query() listMesaDto: ListMesaDto): Promise<PaginatedResponse<IMesaOutput>> {
+  async findAll(
+    @Query() listMesaDto: ListMesaDto,
+  ): Promise<PaginatedResponse<IMesaOutput>> {
     return await this.mesaService.findAll(listMesaDto);
   }
 

@@ -43,6 +43,7 @@ O projeto visa simular um cenário real de desenvolvimento de software, abrangen
 - [x] Tratamento global de exceções
 - [x] Paginação em todos os services
 - [x] Seed: 21 usuários, 18 mesas, 66 produtos
+- [x] Módulo de Música (scan, upload com conversão Opus, delete)
 
 ### Frontend (89 testes, 7 suítes)
 - [x] CRUD de Produtos, Usuários, Mesas, Comandas
@@ -56,7 +57,10 @@ O projeto visa simular um cenário real de desenvolvimento de software, abrangen
 - [x] Paginação (20/página) + skeleton loading
 - [x] Acessibilidade: 4 presets de fonte, alto contraste, reduzir animações
 - [x] Modo Claro toggle
-- [x] Sistema de áudio: SFX (6 sons) + music player com playlist
+- [x] Sistema de áudio: SFX (6 sons) + music player com playlist via API
+- [x] Upload/delete de músicas (conversão MP3→Opus 48kbps via ffmpeg)
+- [x] Tema Star Wars (Force Theme) na tela de login (sintetizado)
+- [x] Música ambiente automática no Home (cozinha)
 - [x] Build para Android (Capacitor)
 
 ## 📂 Estrutura de Pastas
@@ -116,6 +120,7 @@ npm run dev           # Vite na porta 5173
 | cozinha | cozinha | Cozinheiro (4) |
 
 **Perfis:** 0=Admin, 1=Atendente, 2=Cliente, 3=Barista, 4=Cozinheiro
+**Dica:** A senha de todo usuário é o próprio nome de usuário.
 
 ## 🎨 Funcionalidades
 
@@ -144,8 +149,11 @@ npm run dev           # Vite na porta 5173
 
 ### Áudio
 - **SFX**: 6 sons sintéticos (click, sucesso, erro, notificação, reservar, liberar)
-- **Música**: player global com playlist, play/pause, next/prev, volume
-- Adicionar músicas: colocar MP3s em `frontend/public/assets/audio/music/` e editar `playlist.json`
+- **Música**: player global com playlist via API, play/pause, next/prev, volume, progresso
+- **Upload**: arraste ou selecione MP3/WAV/FLAC/OGG → convertido automaticamente para Opus 48kbps (79% menor)
+- **Tema Star Wars**: Force Theme (Binary Sunset) sintetizado na tela de login
+- **Música ambiente**: inicia automaticamente no Home e continua entre páginas
+- **Playlist gerenciada pela API** — `GET /music` escaneia a pasta, `POST /music/upload` converte, `DELETE /music/:filename` remove
 
 ## 🤖 Scripts Disponíveis
 

@@ -28,7 +28,7 @@ class Api {
         }
     }
 
-    async request(endpoint, options = {}) {
+    async request(endpoint, options = {}, isFormData = false) {
         const headers = {
             'Content-Type': 'application/json',
             ...(this.apiUrl.includes('ngrok') ? { 'ngrok-skip-browser-warning': 'true' } : {}),
@@ -37,6 +37,10 @@ class Api {
 
         if (this.token) {
             headers['Authorization'] = `Bearer ${this.token}`;
+        }
+
+        if (isFormData) {
+            delete headers['Content-Type'];
         }
 
         const controller = new AbortController();
@@ -296,6 +300,26 @@ class Api {
 
     async deleteItemComanda(id_comanda, id_produto) {
         return this.request(`/comanda-item/${id_comanda}/${id_produto}`, {
+            method: 'DELETE',
+        });
+    }
+
+    // --- Music ---
+    async getMusicas() {
+        return this.request('/music');
+    }
+
+    async uploadMusica(file) {
+        const formData = new FormData();
+        formData.append('file', file);
+        return this.request('/music/upload', {
+            method: 'POST',
+            body: formData,
+        }, true);
+    }
+
+    async deleteMusica(filename) {
+        return this.request(`/music/${encodeURIComponent(filename)}`, {
             method: 'DELETE',
         });
     }

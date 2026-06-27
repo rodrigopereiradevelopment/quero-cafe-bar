@@ -3,12 +3,15 @@ import { createHeader } from '../../shared/Header.js';
 import { api } from '../../services/api.js';
 import { login as authLogin } from '../../shared/auth.js';
 import { showToast, showLoading } from '../../shared/overlay.js';
+import { audio } from '../../services/audio.js';
 
 const pageName = 'Login';
 
 class LoginPage extends HTMLElement {
   connectedCallback() {
     this.classList.add('ion-page');
+    audio.stopStarWarsTheme();
+    audio.playStarWarsTheme();
     this.innerHTML = `
       ${createHeader(pageName)}
       <ion-content>
@@ -61,7 +64,8 @@ class LoginPage extends HTMLElement {
         authLogin(response.access_token, response.user);
         api.setToken(response.access_token);
 
-        showToast({ message: 'Login realizado com sucesso!', color: 'success' });        
+        showToast({ message: 'Login realizado com sucesso!', color: 'success' });
+        audio.stopStarWarsTheme();
         document.querySelector('ion-router').push('/home', 'forward', 'replace');
       } catch (error) {
         const mensagem =
@@ -86,6 +90,9 @@ class LoginPage extends HTMLElement {
         document.body.appendChild(toast);
         return toast.present();
     }
+  }
+  disconnectedCallback() {
+    audio.stopStarWarsTheme();
   }
 }
 

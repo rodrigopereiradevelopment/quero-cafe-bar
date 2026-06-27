@@ -129,7 +129,12 @@ describe('UsuarioService', () => {
         skip: undefined,
         take: undefined,
       });
-      expect(result).toEqual({ data: usuariosMock, total: 2, skip: 0, take: 20 });
+      expect(result).toEqual({
+        data: usuariosMock,
+        total: 2,
+        skip: 0,
+        take: 20,
+      });
     });
 
     it('deve filtrar usuários por perfil', async () => {

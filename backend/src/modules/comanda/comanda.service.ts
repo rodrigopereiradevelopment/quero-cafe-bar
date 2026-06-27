@@ -21,7 +21,9 @@ export class ComandaService {
     return await this.comandaRepository.save(comanda);
   }
 
-  async findAll(listComandaDto: ListComandaDto): Promise<PaginatedResponse<IComandaOutput>> {
+  async findAll(
+    listComandaDto: ListComandaDto,
+  ): Promise<PaginatedResponse<IComandaOutput>> {
     const { skip, take, ...where } = listComandaDto;
     const [data, total] = await this.comandaRepository.findAndCount({
       where,
