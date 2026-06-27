@@ -331,8 +331,14 @@ const produtos = [
 async function seedUsuarios(usuarioService: UsuarioService) {
   for (const data of usuarios) {
     try {
-      await usuarioService.findByUsuario(data.usuario);
-      console.log(`Usuário ${data.usuario} já existe. Pulando.`);
+      const existing = await usuarioService.findByUsuario(data.usuario);
+      // Atualiza senha se estiver vazia
+      if (!existing.senha || existing.senha.length < 10) {
+        await usuarioService.update(existing.id, { senha: data.senha });
+        console.log(`Usuário ${data.usuario} atualizado com senha!`);
+      } else {
+        console.log(`Usuário ${data.usuario} já existe. Pulando.`);
+      }
     } catch {
       await usuarioService.create(data);
       console.log(`Usuário ${data.usuario} criado com sucesso!`);
