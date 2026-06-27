@@ -175,7 +175,7 @@ ion-label {
 
 ion-label[slot="stacked"],
 ion-label[slot="floating"] {
-  color: #8b949e;
+  color: #c9d1d9;
 }
 
 /* --- Toolbar & Header --- */
@@ -313,7 +313,7 @@ ion-select {
 
 ion-select-option {
   --background: #161b22;
-  --color: #e6edf3;
+  color: #e6edf3;
 }
 
 /* --- Menu (side) --- */

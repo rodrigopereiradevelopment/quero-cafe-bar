@@ -196,7 +196,7 @@ class UpdateComandaPage extends HTMLElement {
 
     let produtos, itensAtuais;
     try {
-      ({ data: produtos } = await api.getProdutos());
+      ({ data: produtos } = await api.getProdutos(0, 100));
       itensAtuais = await api.getItensComanda(this.comandaId);
     } catch (error) {
       await loading.dismiss();
